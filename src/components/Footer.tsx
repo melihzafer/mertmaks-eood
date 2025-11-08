@@ -1,6 +1,8 @@
+'use client';
+
 import { MapPin, Phone, Clock } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import { motion } from 'motion/react';
+import Link from 'next/link';
+import { motion } from 'framer-motion';
 
 export function Footer() {
   return (
@@ -32,7 +34,7 @@ export function Footer() {
             <h3 className="text-xl font-semibold text-gray-900 mb-6">Бързи Връзки</h3>
             <div className="flex flex-col space-y-3">
               <Link 
-                to="/grocery" 
+                href="/supermarket" 
                 className="text-gray-600 hover:text-[#E53E3E] transition-colors duration-300 inline-flex items-center group"
               >
                 <motion.span
@@ -41,7 +43,7 @@ export function Footer() {
                 Супермаркет
               </Link>
               <Link 
-                to="/industrial" 
+                href="/industrial" 
                 className="text-gray-600 hover:text-[#D53F8C] transition-colors duration-300 inline-flex items-center group"
               >
                 <motion.span
@@ -50,7 +52,7 @@ export function Footer() {
                 Промишлени Стоки
               </Link>
               <Link 
-                to="/construction" 
+                href="/construction" 
                 className="text-gray-600 hover:text-[#3182CE] transition-colors duration-300 inline-flex items-center group"
               >
                 <motion.span
@@ -59,7 +61,7 @@ export function Footer() {
                 Строителство
               </Link>
               <Link 
-                to="/about" 
+                href="/about" 
                 className="text-gray-600 hover:text-gray-900 transition-colors duration-300 inline-flex items-center group"
               >
                 <motion.span
@@ -68,7 +70,7 @@ export function Footer() {
                 За Нас
               </Link>
               <Link 
-                to="/contact" 
+                href="/contact" 
                 className="text-gray-600 hover:text-gray-900 transition-colors duration-300 inline-flex items-center group"
               >
                 <motion.span

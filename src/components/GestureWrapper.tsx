@@ -1,16 +1,18 @@
+'use client';
+
 import { ReactNode, useEffect, useState } from 'react';
-import { motion, PanInfo, useMotionValue, useTransform } from 'motion/react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { motion, PanInfo, useMotionValue, useTransform } from 'framer-motion';
+import { useRouter, usePathname } from 'next/navigation';
 
 interface GestureWrapperProps {
   children: ReactNode;
 }
 
-const pageOrder = ['/', '/grocery', '/industrial', '/construction', '/about', '/contact'];
+const pageOrder = ['/', '/supermarket', '/industrial', '/construction', '/contact'];
 
 export function GestureWrapper({ children }: GestureWrapperProps) {
-  const navigate = useNavigate();
-  const location = useLocation();
+  const router = useRouter();
+  const pathname = usePathname();
   const [isMobile, setIsMobile] = useState(false);
   
   const x = useMotionValue(0);
@@ -33,19 +35,19 @@ export function GestureWrapper({ children }: GestureWrapperProps) {
     // Only enable gestures on mobile
     if (!isMobile) return;
     
-    const currentIndex = pageOrder.indexOf(location.pathname);
+    const currentIndex = pageOrder.indexOf(pathname);
     
     // Swipe right (go to previous page or home)
     if (info.offset.x > threshold || velocity > 500) {
       if (currentIndex > 0) {
-        navigate(pageOrder[currentIndex - 1]);
+        router.push(pageOrder[currentIndex - 1]);
       }
     }
     
     // Swipe left (go to next page)
     if (info.offset.x < -threshold || velocity < -500) {
       if (currentIndex >= 0 && currentIndex < pageOrder.length - 1) {
-        navigate(pageOrder[currentIndex + 1]);
+        router.push(pageOrder[currentIndex + 1]);
       }
     }
     

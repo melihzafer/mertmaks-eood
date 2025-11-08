@@ -1,4 +1,4 @@
-import { motion, useInView } from 'motion/react';
+import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { Heart, Users, Award, Calendar } from 'lucide-react';
 import { Card } from './ui/card';
@@ -233,7 +233,7 @@ export function SamuilHubPage() {
                       transition={{ duration: 0.3 }}
                     >
                       <p className="text-white font-medium italic leading-relaxed">
-                        "{member.quote}"
+                        &ldquo;{member.quote}&rdquo;
                       </p>
                     </motion.div>
                   </div>

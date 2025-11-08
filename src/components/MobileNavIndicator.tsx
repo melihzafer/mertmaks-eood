@@ -1,18 +1,17 @@
 import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import { motion } from 'motion/react';
+import { usePathname } from 'next/navigation';
+import { motion } from 'framer-motion';
 
 const pages = [
   { path: '/', label: 'Начало' },
-  { path: '/grocery', label: 'Супермаркет', color: '#E53E3E' },
+  { path: '/supermarket', label: 'Супермаркет', color: '#E53E3E' },
   { path: '/industrial', label: 'Промишлени', color: '#D53F8C' },
   { path: '/construction', label: 'Строителство', color: '#3182CE' },
-  { path: '/about', label: 'За Нас' },
   { path: '/contact', label: 'Контакти' },
 ];
 
 export function MobileNavIndicator() {
-  const location = useLocation();
+  const pathname = usePathname();
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -27,7 +26,7 @@ export function MobileNavIndicator() {
 
   if (!isMobile) return null;
 
-  const currentIndex = pages.findIndex(p => p.path === location.pathname);
+  const currentIndex = pages.findIndex(p => p.path === pathname);
   
   return (
     <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-30 pointer-events-none">

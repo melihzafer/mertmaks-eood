@@ -1,29 +1,38 @@
-import { Link } from 'react-router-dom';
-import { motion, useMotionValue, useSpring, useTransform } from 'motion/react';
-import { ArrowRight, LucideIcon } from 'lucide-react';
+'use client';
+
+import Link from 'next/link';
+import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
+import { ArrowRight, ShoppingCart, Building2, HardHat } from 'lucide-react';
 import { useState, useRef } from 'react';
-import { usePerformanceMode } from './PerformanceDetector';
 
 interface DivisionCardProps {
   title: string;
   description: string;
   image: string;
-  to: string;
-  icon: LucideIcon;
-  accentColor: 'red' | 'pink' | 'blue';
+  href: string;
+  iconName: 'ShoppingCart' | 'Building2' | 'HardHat';
+  accentColor: 'grocery' | 'industrial' | 'construction';
 }
 
 export function DivisionCard({
   title,
   description,
   image,
-  to,
-  icon: Icon,
+  href,
+  iconName,
   accentColor,
 }: DivisionCardProps) {
   const [isHovered, setIsHovered] = useState(false);
+  const [performanceMode] = useState<'high' | 'low'>('high'); // Simplified - will implement detection later
   const cardRef = useRef<HTMLDivElement>(null);
-  const performanceMode = usePerformanceMode();
+
+  // Map icon name to component
+  const iconMap = {
+    ShoppingCart,
+    Building2,
+    HardHat,
+  };
+  const Icon = iconMap[iconName];
 
   // Motion values for 3D rotation
   const mouseX = useMotionValue(0);
@@ -40,16 +49,16 @@ export function DivisionCard({
   });
 
   const colorConfig = {
-    red: {
-      solid: '#E53E3E',
+    grocery: {
+      solid: 'var(--color-grocery)',
       gradient: 'radial-gradient(circle at center, rgba(229, 62, 62, 0.15) 0%, transparent 70%)',
     },
-    pink: {
-      solid: '#D53F8C',
+    industrial: {
+      solid: 'var(--color-industrial)',
       gradient: 'radial-gradient(circle at center, rgba(213, 63, 140, 0.15) 0%, transparent 70%)',
     },
-    blue: {
-      solid: '#3182CE',
+    construction: {
+      solid: 'var(--color-construction)',
       gradient: 'radial-gradient(circle at center, rgba(49, 130, 206, 0.15) 0%, transparent 70%)',
     },
   };
@@ -78,7 +87,7 @@ export function DivisionCard({
 
   return (
     <div style={{ perspective: '1000px' }}>
-      <Link to={to} className="block group relative">
+      <Link href={href} className="block group relative">
         {/* Color Bleed Effect - Enhanced with 3D feel */}
         <motion.div
           className="absolute inset-0 -z-10 pointer-events-none"

@@ -1,0 +1,97 @@
+{
+  "stores": [
+    {
+      "id": "supermarket",
+      "name": "Супермаркет САМУИЛ",
+      "type": "grocery",
+      "address": "ул. Христо Ботев 45, 7441 Самуил, България",
+      "city": "Самуил",
+      "region": "Разград",
+      "phone": "+359 XX XXX XXXX",
+      "email": "supermarket@mertmax.bg",
+      "coordinates": {
+        "lat": 43.5167,
+        "lng": 26.7833
+      },
+      "hours": {
+        "monday": { "open": "08:00", "close": "19:00", "closed": false },
+        "tuesday": { "open": "08:00", "close": "19:00", "closed": false },
+        "wednesday": { "open": "08:00", "close": "19:00", "closed": false },
+        "thursday": { "open": "08:00", "close": "19:00", "closed": false },
+        "friday": { "open": "08:00", "close": "19:00", "closed": false },
+        "saturday": { "open": "09:00", "close": "17:00", "closed": false },
+        "sunday": { "open": "09:00", "close": "17:00", "closed": false }
+      },
+      "features": [
+        "Хранителни стоки",
+        "Напитки",
+        "Дом и градина",
+        "Козметика",
+        "Деликатеси",
+        "Замразени продукти"
+      ]
+    },
+    {
+      "id": "industrial",
+      "name": "Индустриална база",
+      "type": "industrial",
+      "address": "Промишлена зона, 7441 Самуил, България",
+      "city": "Самуил",
+      "region": "Разград",
+      "phone": "+359 XX XXX XXXX",
+      "email": "industrial@mertmax.bg",
+      "coordinates": {
+        "lat": 43.5200,
+        "lng": 26.7900
+      },
+      "hours": {
+        "monday": { "open": "08:00", "close": "17:30", "closed": false },
+        "tuesday": { "open": "08:00", "close": "17:30", "closed": false },
+        "wednesday": { "open": "08:00", "close": "17:30", "closed": false },
+        "thursday": { "open": "08:00", "close": "17:30", "closed": false },
+        "friday": { "open": "08:00", "close": "17:30", "closed": false },
+        "saturday": { "open": "00:00", "close": "00:00", "closed": true },
+        "sunday": { "open": "00:00", "close": "00:00", "closed": true }
+      },
+      "features": [
+        "Строителни материали",
+        "Метални изделия",
+        "Едроплощадна търговия",
+        "Транспортни услуги",
+        "Консултации",
+        "Поръчки по проект"
+      ]
+    },
+    {
+      "id": "construction",
+      "name": "Строителен магазин",
+      "type": "construction",
+      "address": "ул. Георги Димитров 12, 7441 Самуил, България",
+      "city": "Самуил",
+      "region": "Разград",
+      "phone": "+359 XX XXX XXXX",
+      "email": "construction@mertmax.bg",
+      "coordinates": {
+        "lat": 43.5180,
+        "lng": 26.7850
+      },
+      "hours": {
+        "monday": { "open": "08:30", "close": "18:00", "closed": false },
+        "tuesday": { "open": "08:30", "close": "18:00", "closed": false },
+        "wednesday": { "open": "08:30", "close": "18:00", "closed": false },
+        "thursday": { "open": "08:30", "close": "18:00", "closed": false },
+        "friday": { "open": "08:30", "close": "18:00", "closed": false },
+        "saturday": { "open": "09:00", "close": "14:00", "closed": false },
+        "sunday": { "open": "00:00", "close": "00:00", "closed": true }
+      },
+      "features": [
+        "Инструменти",
+        "Боядисване",
+        "ВиК материали",
+        "Електроматериали",
+        "Дървен материал",
+        "Крепежни елементи"
+      ]
+    }
+  ]
+}
