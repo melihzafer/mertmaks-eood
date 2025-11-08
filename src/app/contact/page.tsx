@@ -1,10 +1,20 @@
 ﻿"use client";
 
-import { MapPin, Phone, Clock, Mail, ShoppingCart, Wrench, HardHat, Send, Check } from 'lucide-react';
-import { motion, useInView, AnimatePresence } from 'framer-motion';
-import { useRef, useState } from 'react';
-import { Card } from '@/components/ui/card';
-import { WebARButton } from '@/components/WebARButton';
+import {
+  MapPin,
+  Phone,
+  Clock,
+  Mail,
+  ShoppingCart,
+  Wrench,
+  HardHat,
+  Send,
+  Check,
+} from "lucide-react";
+import { motion, useInView, AnimatePresence } from "framer-motion";
+import { useRef, useState } from "react";
+import { Card } from "@/components/ui/card";
+import { WebARButton } from "@/components/interactive/WebARButton";
 
 // Helper function to check store status
 const getStoreStatus = (openTime: number, closeTime: number) => {
@@ -15,49 +25,60 @@ const getStoreStatus = (openTime: number, closeTime: number) => {
   const openTimeInMinutes = openTime * 60;
   const closeTimeInMinutes = closeTime * 60;
 
-  if (currentTimeInMinutes < openTimeInMinutes || currentTimeInMinutes >= closeTimeInMinutes) {
-    return { status: 'Затворено', color: '#EF4444', textColor: 'text-red-600' };
+  if (
+    currentTimeInMinutes < openTimeInMinutes ||
+    currentTimeInMinutes >= closeTimeInMinutes
+  ) {
+    return { status: "Затворено", color: "#EF4444", textColor: "text-red-600" };
   } else if (currentTimeInMinutes >= closeTimeInMinutes - 60) {
-    return { status: 'Затваря скоро', color: '#F59E0B', textColor: 'text-yellow-600' };
+    return {
+      status: "Затваря скоро",
+      color: "#F59E0B",
+      textColor: "text-yellow-600",
+    };
   } else {
-    return { status: 'Отворено', color: '#10B981', textColor: 'text-green-600' };
+    return {
+      status: "Отворено",
+      color: "#10B981",
+      textColor: "text-green-600",
+    };
   }
 };
 
 const stores = [
   {
-    name: 'Супермаркет MERTMAX',
+    name: "Супермаркет MERTMAX",
     icon: ShoppingCart,
-    color: '#E53E3E',
-    address: 'ул. Главна 1, с. Самуил, обл. Разград',
-    phone: '+359 XXX XXX 001',
-    hours: 'Понеделник - Неделя: 8:00 - 20:00',
-    email: 'supermarket@mertmax.bg',
-    position: { top: '40%', left: '35%' },
+    color: "#E53E3E",
+    address: "ул. Главна 1, с. Самуил, обл. Разград",
+    phone: "+359 XXX XXX 001",
+    hours: "Понеделник - Неделя: 8:00 - 20:00",
+    email: "supermarket@mertmax.bg",
+    position: { top: "40%", left: "35%" },
     openTime: 8,
     closeTime: 20,
   },
   {
-    name: 'Промишлени Стоки MERTMAX',
+    name: "Промишлени Стоки MERTMAX",
     icon: Wrench,
-    color: '#D53F8C',
-    address: 'ул. Главна 2, с. Самуил, обл. Разград',
-    phone: '+359 XXX XXX 002',
-    hours: 'Понеделник - Неделя: 8:00 - 20:00',
-    email: 'industrial@mertmax.bg',
-    position: { top: '50%', left: '50%' },
+    color: "#D53F8C",
+    address: "ул. Главна 2, с. Самуил, обл. Разград",
+    phone: "+359 XXX XXX 002",
+    hours: "Понеделник - Неделя: 8:00 - 20:00",
+    email: "industrial@mertmax.bg",
+    position: { top: "50%", left: "50%" },
     openTime: 8,
     closeTime: 20,
   },
   {
-    name: 'Строителство MERTMAX',
+    name: "Строителство MERTMAX",
     icon: HardHat,
-    color: '#3182CE',
-    address: 'ул. Главна 3, с. Самуил, обл. Разград',
-    phone: '+359 XXX XXX 003',
-    hours: 'Понеделник - Неделя: 8:00 - 20:00',
-    email: 'construction@mertmax.bg',
-    position: { top: '45%', left: '65%' },
+    color: "#3182CE",
+    address: "ул. Главна 3, с. Самуил, обл. Разград",
+    phone: "+359 XXX XXX 003",
+    hours: "Понеделник - Неделя: 8:00 - 20:00",
+    email: "construction@mertmax.bg",
+    position: { top: "45%", left: "65%" },
     openTime: 8,
     closeTime: 20,
   },
@@ -71,7 +92,11 @@ export default function ContactPage() {
   const isMapInView = useInView(mapRef, { once: true, margin: "-100px" });
   const isFormInView = useInView(formRef, { once: true, margin: "-100px" });
 
-  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [selectedStore, setSelectedStore] = useState<number | null>(null);
@@ -79,16 +104,16 @@ export default function ContactPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
+
     // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+
     setIsSubmitting(false);
     setIsSuccess(true);
-    
+
     setTimeout(() => {
       setIsSuccess(false);
-      setFormData({ name: '', email: '', message: '' });
+      setFormData({ name: "", email: "", message: "" });
     }, 3000);
   };
 
@@ -117,7 +142,11 @@ export default function ContactPage() {
             <motion.p
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              transition={{
+                duration: 0.8,
+                delay: 0.2,
+                ease: [0.16, 1, 0.3, 1],
+              }}
               className="text-xl text-gray-600"
             >
               Всички наши магазини се намират в с. Самуил, обл. Разград
@@ -131,11 +160,15 @@ export default function ContactPage() {
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
-            animate={isStoresInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+            animate={
+              isStoresInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }
+            }
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">Нашите Магазини</h2>
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+              Нашите Магазини
+            </h2>
             <p className="text-xl text-gray-600">
               Посетете ни на едно от нашите три удобни местоположения
             </p>
@@ -149,14 +182,21 @@ export default function ContactPage() {
                 <motion.div
                   key={store.name}
                   initial={{ opacity: 0, y: 50 }}
-                  animate={isStoresInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-                  transition={{ 
-                    duration: 0.8, 
+                  animate={
+                    isStoresInView
+                      ? { opacity: 1, y: 0 }
+                      : { opacity: 0, y: 50 }
+                  }
+                  transition={{
+                    duration: 0.8,
                     delay: index * 0.15,
-                    ease: [0.16, 1, 0.3, 1]
+                    ease: [0.16, 1, 0.3, 1],
                   }}
                 >
-                  <Card className="p-8 border-2 hover:shadow-xl transition-all duration-300 group" style={{ borderColor: `${store.color}20` }}>
+                  <Card
+                    className="p-8 border-2 hover:shadow-xl transition-all duration-300 group"
+                    style={{ borderColor: `${store.color}20` }}
+                  >
                     <motion.div
                       className="p-5 rounded-2xl mb-6 inline-block"
                       style={{ backgroundColor: store.color }}
@@ -165,46 +205,69 @@ export default function ContactPage() {
                     >
                       <Icon className="text-white" size={36} />
                     </motion.div>
-                    <h3 className="text-2xl font-semibold mb-6" style={{ color: store.color }}>{store.name}</h3>
-                    
+                    <h3
+                      className="text-2xl font-semibold mb-6"
+                      style={{ color: store.color }}
+                    >
+                      {store.name}
+                    </h3>
+
                     <div className="space-y-4">
                       <motion.div
                         className="flex items-start space-x-3"
                         whileHover={{ x: 4 }}
                         transition={{ duration: 0.2 }}
                       >
-                        <MapPin size={20} className="flex-shrink-0 text-gray-400 mt-0.5" />
+                        <MapPin
+                          size={20}
+                          className="flex-shrink-0 text-gray-400 mt-0.5"
+                        />
                         <p className="text-gray-600">{store.address}</p>
                       </motion.div>
-                      
+
                       <motion.div
                         className="flex items-center space-x-3"
                         whileHover={{ x: 4 }}
                         transition={{ duration: 0.2 }}
                       >
-                        <Phone size={20} className="flex-shrink-0 text-gray-400" />
-                        <a href={`tel:${store.phone}`} className="text-gray-600 hover:text-gray-900 transition-colors">
+                        <Phone
+                          size={20}
+                          className="flex-shrink-0 text-gray-400"
+                        />
+                        <a
+                          href={`tel:${store.phone}`}
+                          className="text-gray-600 hover:text-gray-900 transition-colors"
+                        >
                           {store.phone}
                         </a>
                       </motion.div>
-                      
+
                       <motion.div
                         className="flex items-center space-x-3"
                         whileHover={{ x: 4 }}
                         transition={{ duration: 0.2 }}
                       >
-                        <Mail size={20} className="flex-shrink-0 text-gray-400" />
-                        <a href={`mailto:${store.email}`} className="text-gray-600 hover:text-gray-900 transition-colors">
+                        <Mail
+                          size={20}
+                          className="flex-shrink-0 text-gray-400"
+                        />
+                        <a
+                          href={`mailto:${store.email}`}
+                          className="text-gray-600 hover:text-gray-900 transition-colors"
+                        >
                           {store.email}
                         </a>
                       </motion.div>
-                      
+
                       <motion.div
                         className="flex items-start space-x-3"
                         whileHover={{ x: 4 }}
                         transition={{ duration: 0.2 }}
                       >
-                        <Clock size={20} className="flex-shrink-0 text-gray-400 mt-0.5" />
+                        <Clock
+                          size={20}
+                          className="flex-shrink-0 text-gray-400 mt-0.5"
+                        />
                         <p className="text-gray-600">{store.hours}</p>
                       </motion.div>
                     </div>
@@ -222,7 +285,9 @@ export default function ContactPage() {
           <div className="max-w-7xl mx-auto">
             <motion.h2
               initial={{ opacity: 0, y: 50 }}
-              animate={isMapInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+              animate={
+                isMapInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }
+              }
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
               className="text-center text-4xl md:text-5xl font-bold text-gray-900 mb-12"
             >
@@ -231,23 +296,36 @@ export default function ContactPage() {
 
             <motion.div
               initial={{ opacity: 0, y: 50 }}
-              animate={isMapInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-              transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              animate={
+                isMapInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }
+              }
+              transition={{
+                duration: 0.8,
+                delay: 0.2,
+                ease: [0.16, 1, 0.3, 1],
+              }}
               className="bg-gradient-to-br from-blue-100 via-gray-100 to-pink-100 rounded-3xl h-[500px] relative overflow-hidden shadow-2xl"
             >
               {/* Stylized Map Background */}
               <div className="absolute inset-0 opacity-20">
-                <div className="absolute inset-0" style={{
-                  backgroundImage: 'linear-gradient(#E5E5E5 1px, transparent 1px), linear-gradient(90deg, #E5E5E5 1px, transparent 1px)',
-                  backgroundSize: '50px 50px',
-                }} />
+                <div
+                  className="absolute inset-0"
+                  style={{
+                    backgroundImage:
+                      "linear-gradient(#E5E5E5 1px, transparent 1px), linear-gradient(90deg, #E5E5E5 1px, transparent 1px)",
+                    backgroundSize: "50px 50px",
+                  }}
+                />
               </div>
 
               {/* Store Pins */}
               {stores.map((store, index) => {
                 const Icon = store.icon;
                 const isSelected = selectedStore === index;
-                const storeStatus = getStoreStatus(store.openTime, store.closeTime);
+                const storeStatus = getStoreStatus(
+                  store.openTime,
+                  store.closeTime
+                );
 
                 return (
                   <motion.div
@@ -255,11 +333,15 @@ export default function ContactPage() {
                     className="absolute cursor-pointer"
                     style={store.position}
                     initial={{ scale: 0, opacity: 0 }}
-                    animate={isMapInView ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }}
-                    transition={{ 
-                      duration: 0.6, 
+                    animate={
+                      isMapInView
+                        ? { scale: 1, opacity: 1 }
+                        : { scale: 0, opacity: 0 }
+                    }
+                    transition={{
+                      duration: 0.6,
                       delay: 0.4 + index * 0.2,
-                      ease: [0.16, 1, 0.3, 1]
+                      ease: [0.16, 1, 0.3, 1],
                     }}
                     whileHover={{ scale: 1.2 }}
                     onClick={() => setSelectedStore(isSelected ? null : index)}
@@ -267,14 +349,17 @@ export default function ContactPage() {
                     <motion.div
                       className="relative"
                       animate={isSelected ? { y: [0, -10, 0] } : {}}
-                      transition={{ duration: 0.6, repeat: isSelected ? Infinity : 0 }}
+                      transition={{
+                        duration: 0.6,
+                        repeat: isSelected ? Infinity : 0,
+                      }}
                     >
                       <div
                         className="w-16 h-16 rounded-full flex items-center justify-center shadow-2xl relative"
                         style={{ backgroundColor: store.color }}
                       >
                         <Icon className="text-white" size={28} />
-                        
+
                         {/* Status Indicator */}
                         <motion.div
                           className="absolute -top-1 -right-1 w-5 h-5 rounded-full border-2 border-white shadow-lg"
@@ -283,15 +368,16 @@ export default function ContactPage() {
                           transition={{ duration: 2, repeat: Infinity }}
                         />
                       </div>
-                      
+
                       {/* Pin pointer */}
                       <div
                         className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0"
                         style={{
-                          borderLeft: '8px solid transparent',
-                          borderRight: '8px solid transparent',
+                          borderLeft: "8px solid transparent",
+                          borderRight: "8px solid transparent",
                           borderTop: `12px solid ${store.color}`,
-                        }} />
+                        }}
+                      />
 
                       {/* Info Popup */}
                       {isSelected && (
@@ -302,12 +388,22 @@ export default function ContactPage() {
                           style={{ borderTop: `4px solid ${store.color}` }}
                         >
                           <div className="flex items-center justify-between mb-2">
-                            <h4 className="font-semibold" style={{ color: store.color }}>{store.name}</h4>
-                            <span className={`text-xs font-semibold px-2 py-1 rounded-full ${storeStatus.textColor} bg-opacity-10`} style={{ backgroundColor: storeStatus.color }}>
+                            <h4
+                              className="font-semibold"
+                              style={{ color: store.color }}
+                            >
+                              {store.name}
+                            </h4>
+                            <span
+                              className={`text-xs font-semibold px-2 py-1 rounded-full ${storeStatus.textColor} bg-opacity-10`}
+                              style={{ backgroundColor: storeStatus.color }}
+                            >
                               {storeStatus.status}
                             </span>
                           </div>
-                          <p className="text-sm text-gray-600 mb-3">{store.address}</p>
+                          <p className="text-sm text-gray-600 mb-3">
+                            {store.address}
+                          </p>
                           <a
                             href={`https://www.google.com/maps/search/${encodeURIComponent(store.address)}`}
                             target="_blank"
@@ -328,7 +424,9 @@ export default function ContactPage() {
               <div className="absolute bottom-8 left-1/2 -translate-x-1/2 bg-white/95 backdrop-blur px-6 py-3 rounded-full shadow-lg">
                 <div className="flex items-center space-x-2">
                   <MapPin size={20} className="text-gray-600" />
-                  <span className="font-semibold text-gray-900">с. Самуил, обл. Разград</span>
+                  <span className="font-semibold text-gray-900">
+                    с. Самуил, обл. Разград
+                  </span>
                 </div>
               </div>
             </motion.div>
@@ -341,11 +439,15 @@ export default function ContactPage() {
         <div className="max-w-2xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
-            animate={isFormInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+            animate={
+              isFormInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }
+            }
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="text-center mb-12"
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">Имате Въпроси?</h2>
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+              Имате Въпроси?
+            </h2>
             <p className="text-xl text-gray-600">
               Изпратете ни съобщение и ние ще се свържем с вас
             </p>
@@ -353,7 +455,9 @@ export default function ContactPage() {
 
           <motion.form
             initial={{ opacity: 0, y: 50 }}
-            animate={isFormInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+            animate={
+              isFormInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }
+            }
             transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
             onSubmit={handleSubmit}
             className="space-y-6"
@@ -363,7 +467,9 @@ export default function ContactPage() {
                 type="text"
                 id="name"
                 value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, name: e.target.value })
+                }
                 required
                 className="peer w-full px-6 py-4 bg-white border-2 border-gray-200 rounded-2xl focus:border-gray-900 focus:outline-none transition-colors"
                 placeholder=" "
@@ -381,7 +487,9 @@ export default function ContactPage() {
                 type="email"
                 id="email"
                 value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, email: e.target.value })
+                }
                 required
                 className="peer w-full px-6 py-4 bg-white border-2 border-gray-200 rounded-2xl focus:border-gray-900 focus:outline-none transition-colors"
                 placeholder=" "
@@ -398,7 +506,9 @@ export default function ContactPage() {
               <textarea
                 id="message"
                 value={formData.message}
-                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, message: e.target.value })
+                }
                 required
                 rows={5}
                 className="peer w-full px-6 py-4 bg-white border-2 border-gray-200 rounded-2xl focus:border-gray-900 focus:outline-none transition-colors resize-none"
@@ -417,8 +527,8 @@ export default function ContactPage() {
               disabled={isSubmitting || isSuccess}
               className="w-full py-4 rounded-full font-semibold text-lg shadow-xl transition-all duration-300 overflow-hidden relative"
               style={{
-                backgroundColor: isSuccess ? '#10B981' : '#1A1A1A',
-                color: 'white',
+                backgroundColor: isSuccess ? "#10B981" : "#1A1A1A",
+                color: "white",
               }}
               whileHover={{ scale: isSuccess ? 1 : 1.02 }}
               whileTap={{ scale: isSuccess ? 1 : 0.98 }}
@@ -434,7 +544,11 @@ export default function ContactPage() {
                   >
                     <motion.div
                       animate={{ rotate: 360 }}
-                      transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                      transition={{
+                        duration: 1,
+                        repeat: Infinity,
+                        ease: "linear",
+                      }}
                       className="w-6 h-6 border-2 border-white border-t-transparent rounded-full"
                     />
                   </motion.div>

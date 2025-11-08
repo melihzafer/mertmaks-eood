@@ -2,25 +2,25 @@
   "stores": [
     {
       "id": "supermarket",
-      "name": "Супермаркет САМУИЛ",
+      "name": "Супермаркет МЕРТМАКС ЕООД",
       "type": "grocery",
-      "address": "ул. Христо Ботев 45, 7441 Самуил, България",
+      "address": "ул. Хаджи Димитър 6, 7454 Самуил, България",
       "city": "Самуил",
       "region": "Разград",
       "phone": "+359 XX XXX XXXX",
       "email": "supermarket@mertmax.bg",
       "coordinates": {
-        "lat": 43.5167,
-        "lng": 26.7833
+        "lat": 43.513983,
+        "lng": 26.741417
       },
       "hours": {
-        "monday": { "open": "08:00", "close": "19:00", "closed": false },
-        "tuesday": { "open": "08:00", "close": "19:00", "closed": false },
-        "wednesday": { "open": "08:00", "close": "19:00", "closed": false },
-        "thursday": { "open": "08:00", "close": "19:00", "closed": false },
-        "friday": { "open": "08:00", "close": "19:00", "closed": false },
-        "saturday": { "open": "09:00", "close": "17:00", "closed": false },
-        "sunday": { "open": "09:00", "close": "17:00", "closed": false }
+        "monday": { "open": "07:00", "close": "21:00", "closed": false },
+        "tuesday": { "open": "07:00", "close": "21:00", "closed": false },
+        "wednesday": { "open": "07:00", "close": "21:00", "closed": false },
+        "thursday": { "open": "07:00", "close": "21:00", "closed": false },
+        "friday": { "open": "07:00", "close": "21:00", "closed": false },
+        "saturday": { "open": "07:00", "close": "21:00", "closed": false },
+        "sunday": { "open": "07:00", "close": "21:00", "closed": false }
       },
       "features": [
         "Хранителни стоки",
@@ -33,16 +33,16 @@
     },
     {
       "id": "industrial",
-      "name": "Индустриална база",
+      "name": "Промишлени стоки",
       "type": "industrial",
-      "address": "Промишлена зона, 7441 Самуил, България",
+      "address": "ул. Хаджи Димитър 6, 7454 Самуил, България",
       "city": "Самуил",
       "region": "Разград",
       "phone": "+359 XX XXX XXXX",
       "email": "industrial@mertmax.bg",
       "coordinates": {
-        "lat": 43.5200,
-        "lng": 26.7900
+        "lat": 43.514034,
+        "lng": 26.741038
       },
       "hours": {
         "monday": { "open": "08:00", "close": "17:30", "closed": false },
@@ -50,16 +50,16 @@
         "wednesday": { "open": "08:00", "close": "17:30", "closed": false },
         "thursday": { "open": "08:00", "close": "17:30", "closed": false },
         "friday": { "open": "08:00", "close": "17:30", "closed": false },
-        "saturday": { "open": "00:00", "close": "00:00", "closed": true },
-        "sunday": { "open": "00:00", "close": "00:00", "closed": true }
+        "saturday": { "open": "08:00", "close": "17:30", "closed": false },
+        "sunday": { "open": "08:00", "close": "17:30", "closed": false }
       },
       "features": [
-        "Строителни материали",
-        "Метални изделия",
-        "Едроплощадна търговия",
-        "Транспортни услуги",
-        "Консултации",
-        "Поръчки по проект"
+        "Всичко за дома",
+        "Кухненски прибори и посуда",
+        "Текстил за дома (спално бельо, кърпи, завеси)",
+        "Декоративни аксесоари и интериор",
+        "Чистящи препарати и аксесоари",
+        "Градински и домакински инструменти"
       ]
     },
     {
@@ -72,8 +72,8 @@
       "phone": "+359 XX XXX XXXX",
       "email": "construction@mertmax.bg",
       "coordinates": {
-        "lat": 43.5180,
-        "lng": 26.7850
+        "lat": 43.515570079061035,
+        "lng": 26.731727002235274
       },
       "hours": {
         "monday": { "open": "08:30", "close": "18:00", "closed": false },
