@@ -1,33 +1,39 @@
-import { Tag, TrendingDown } from 'lucide-react';
-import { motion, useInView } from 'framer-motion';
-import { useRef } from 'react';
-import { DivisionCard } from './DivisionCard';
-import { Card } from './ui/card';
+import { Tag, TrendingDown } from "lucide-react";
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
+import { DivisionCard } from "../interactive/DivisionCard";
+import { Card } from "../ui/card";
 
 const divisions = [
   {
-    title: 'Супермаркет',
-    description: 'Свежи хранителни продукти, месо, млечни продукти и всичко необходимо за вашето ежедневие.',
-    image: 'https://images.unsplash.com/photo-1714224247661-ee250f55a842?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxncm9jZXJ5JTIwc3VwZXJtYXJrZXQlMjBmcmVzaCUyMHByb2R1Y2V8ZW58MXx8fHwxNzYyNTQwMDAwfDA&ixlib=rb-4.1.0&q=80&w=1080',
-    href: '/supermarket',
-    iconName: 'ShoppingCart' as const,
-    accentColor: 'grocery' as const,
+    title: "Супермаркет",
+    description:
+      "Свежи хранителни продукти, месо, млечни продукти и всичко необходимо за вашето ежедневие.",
+    image:
+      "https://images.unsplash.com/photo-1714224247661-ee250f55a842?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxncm9jZXJ5JTIwc3VwZXJtYXJrZXQlMjBmcmVzaCUyMHByb2R1Y2V8ZW58MXx8fHwxNzYyNTQwMDAwfDA&ixlib=rb-4.1.0&q=80&w=1080",
+    href: "/supermarket",
+    iconName: "ShoppingCart" as const,
+    accentColor: "grocery" as const,
   },
   {
-    title: 'Промишлени Стоки',
-    description: 'Широка гама от промишлени продукти, инструменти и битови стоки за всеки вкус.',
-    image: 'https://images.unsplash.com/photo-1613489763341-1a3603e11d61?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxpbmR1c3RyaWFsJTIwZ29vZHMlMjBoYXJkd2FyZSUyMHN0b3JlfGVufDF8fHx8MTc2MjU0MDAwMXww&ixlib=rb-4.1.0&q=80&w=1080',
-    href: '/industrial',
-    iconName: 'Building2' as const,
-    accentColor: 'industrial' as const,
+    title: "Промишлени Стоки",
+    description:
+      "Широка гама от промишлени продукти, инструменти и битови стоки за всеки вкус.",
+    image:
+      "https://images.unsplash.com/photo-1613489763341-1a3603e11d61?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxpbmR1c3RyaWFsJTIwZ29vZHMlMjBoYXJkd2FyZSUyMHN0b3JlfGVufDF8fHx8MTc2MjU0MDAwMXww&ixlib=rb-4.1.0&q=80&w=1080",
+    href: "/industrial",
+    iconName: "Building2" as const,
+    accentColor: "industrial" as const,
   },
   {
-    title: 'Строителство',
-    description: 'Професионални строителни материали, инструменти и решения за всеки проект.',
-    image: 'https://images.unsplash.com/photo-1758609554573-81474880be44?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb25zdHJ1Y3Rpb24lMjBtYXRlcmlhbHMlMjBidWlsZGluZyUyMHN1cHBsaWVzfGVufDF8fHx8MTc2MjU0MDAwMXww&ixlib=rb-4.1.0&q=80&w=1080',
-    href: '/construction',
-    iconName: 'HardHat' as const,
-    accentColor: 'construction' as const,
+    title: "Строителство",
+    description:
+      "Професионални строителни материали, инструменти и решения за всеки проект.",
+    image:
+      "https://images.unsplash.com/photo-1758609554573-81474880be44?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb25zdHJ1Y3Rpb24lMjBtYXRlcmlhbHMlMjBidWlsZGluZyUyMHN1cHBsaWVzfGVufDF8fHx8MTc2MjU0MDAwMXww&ixlib=rb-4.1.0&q=80&w=1080",
+    href: "/construction",
+    iconName: "HardHat" as const,
+    accentColor: "construction" as const,
   },
 ];
 
@@ -35,33 +41,36 @@ const divisions = [
 const promotions = [
   {
     id: 1,
-    title: 'Свежи Плодове',
-    description: '20% отстъпка на сезонни плодове',
-    price: '2.99 лв/кг',
-    originalPrice: '3.99 лв/кг',
-    image: 'https://images.unsplash.com/photo-1610832958506-aa56368176cf?w=400&h=300&fit=crop',
-    color: '#E53E3E',
-    store: 'Супермаркет',
+    title: "Свежи Плодове",
+    description: "20% отстъпка на сезонни плодове",
+    price: "2.99 лв/кг",
+    originalPrice: "3.99 лв/кг",
+    image:
+      "https://images.unsplash.com/photo-1610832958506-aa56368176cf?w=400&h=300&fit=crop",
+    color: "#E53E3E",
+    store: "Супермаркет",
   },
   {
     id: 2,
-    title: 'Електроинструменти',
-    description: 'Специална цена на бормашини',
-    price: '79.99 лв',
-    originalPrice: '99.99 лв',
-    image: 'https://images.unsplash.com/photo-1504148455328-c376907d081c?w=400&h=300&fit=crop',
-    color: '#D53F8C',
-    store: 'Промишлени Стоки',
+    title: "Електроинструменти",
+    description: "Специална цена на бормашини",
+    price: "79.99 лв",
+    originalPrice: "99.99 лв",
+    image:
+      "https://images.unsplash.com/photo-1504148455328-c376907d081c?w=400&h=300&fit=crop",
+    color: "#D53F8C",
+    store: "Промишлени Стоки",
   },
   {
     id: 3,
-    title: 'Боя за Стени',
-    description: '15% отстъпка на всички интериорни бои',
-    price: '12.99 лв/л',
-    originalPrice: '14.99 лв/л',
-    image: 'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=400&h=300&fit=crop',
-    color: '#3182CE',
-    store: 'Строителство',
+    title: "Боя за Стени",
+    description: "15% отстъпка на всички интериорни бои",
+    price: "12.99 лв/л",
+    originalPrice: "14.99 лв/л",
+    image:
+      "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=400&h=300&fit=crop",
+    color: "#3182CE",
+    store: "Строителство",
   },
 ];
 
@@ -69,8 +78,14 @@ export function HomePage() {
   const divisionsRef = useRef(null);
   const promotionsRef = useRef(null);
   const ctaRef = useRef(null);
-  const isDivisionsInView = useInView(divisionsRef, { once: true, margin: "-100px" });
-  const isPromotionsInView = useInView(promotionsRef, { once: true, margin: "-100px" });
+  const isDivisionsInView = useInView(divisionsRef, {
+    once: true,
+    margin: "-100px",
+  });
+  const isPromotionsInView = useInView(promotionsRef, {
+    once: true,
+    margin: "-100px",
+  });
   const isCtaInView = useInView(ctaRef, { once: true, margin: "-100px" });
 
   return (
@@ -93,7 +108,8 @@ export function HomePage() {
           <div
             className="absolute inset-0 bg-cover bg-center"
             style={{
-              backgroundImage: 'url(https://images.unsplash.com/photo-1762439181518-15f8e01012a6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjByZXRhaWwlMjBzdG9yZSUyMGV4dGVyaW9yfGVufDF8fHx8MTc2MjU0MDAwMnww&ixlib=rb-4.1.0&q=80&w=1080)',
+              backgroundImage:
+                "url(https://images.unsplash.com/photo-1762439181518-15f8e01012a6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjByZXRhaWwlMjBzdG9yZSUyMGV4dGVyaW9yfGVufDF8fHx8MTc2MjU0MDAwMnww&ixlib=rb-4.1.0&q=80&w=1080)",
             }}
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/70" />
@@ -140,7 +156,8 @@ export function HomePage() {
             transition={{ duration: 0.8, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="text-lg text-white/80 max-w-2xl mx-auto"
           >
-            Три магазина под един покрив - хранителни стоки, промишлени продукти и строителни материали
+            Три магазина под един покрив - хранителни стоки, промишлени продукти
+            и строителни материали
           </motion.p>
 
           <motion.div
@@ -181,14 +198,22 @@ export function HomePage() {
       </section>
 
       {/* Divisions Section - "Prism Cards" */}
-      <section id="divisions" className="py-24 container mx-auto px-4" ref={divisionsRef}>
+      <section
+        id="divisions"
+        className="py-24 container mx-auto px-4"
+        ref={divisionsRef}
+      >
         <motion.div
           initial={{ opacity: 0, y: 50 }}
-          animate={isDivisionsInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+          animate={
+            isDivisionsInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }
+          }
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">Нашите Магазини</h2>
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+            Нашите Магазини
+          </h2>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
             Изберете магазина, който отговаря на вашите нужди
           </p>
@@ -199,11 +224,13 @@ export function HomePage() {
             <motion.div
               key={division.href}
               initial={{ opacity: 0, y: 50 }}
-              animate={isDivisionsInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-              transition={{ 
-                duration: 0.8, 
+              animate={
+                isDivisionsInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }
+              }
+              transition={{
+                duration: 0.8,
                 delay: index * 0.2,
-                ease: [0.16, 1, 0.3, 1]
+                ease: [0.16, 1, 0.3, 1],
               }}
             >
               <DivisionCard {...division} />
@@ -213,17 +240,24 @@ export function HomePage() {
       </section>
 
       {/* Live Promotions Feed */}
-      <section className="py-24 bg-gradient-to-br from-gray-50 to-white" ref={promotionsRef}>
+      <section
+        className="py-24 bg-gradient-to-br from-gray-50 to-white"
+        ref={promotionsRef}
+      >
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
-            animate={isPromotionsInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+            animate={
+              isPromotionsInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }
+            }
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="text-center mb-16"
           >
             <div className="flex items-center justify-center space-x-3 mb-6">
               <Tag className="text-red-600" size={32} />
-              <h2 className="text-4xl md:text-5xl font-bold text-gray-900">Седмични Промоции</h2>
+              <h2 className="text-4xl md:text-5xl font-bold text-gray-900">
+                Седмични Промоции
+              </h2>
             </div>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
               Не пропускайте специалните ни оферти тази седмица
@@ -235,14 +269,21 @@ export function HomePage() {
               <motion.div
                 key={promo.id}
                 initial={{ opacity: 0, y: 50 }}
-                animate={isPromotionsInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-                transition={{ 
-                  duration: 0.8, 
+                animate={
+                  isPromotionsInView
+                    ? { opacity: 1, y: 0 }
+                    : { opacity: 0, y: 50 }
+                }
+                transition={{
+                  duration: 0.8,
                   delay: index * 0.15,
-                  ease: [0.16, 1, 0.3, 1]
+                  ease: [0.16, 1, 0.3, 1],
                 }}
               >
-                <Card className="overflow-hidden border-2 hover:shadow-2xl transition-all duration-300 group" style={{ borderColor: `${promo.color}20` }}>
+                <Card
+                  className="overflow-hidden border-2 hover:shadow-2xl transition-all duration-300 group"
+                  style={{ borderColor: `${promo.color}20` }}
+                >
                   <div className="relative h-48 overflow-hidden">
                     <motion.img
                       src={promo.image}
@@ -253,20 +294,40 @@ export function HomePage() {
                     />
                     <div className="absolute top-4 right-4 bg-white px-3 py-1 rounded-full shadow-lg">
                       <div className="flex items-center space-x-1">
-                        <TrendingDown size={16} style={{ color: promo.color }} />
-                        <span className="font-semibold text-sm" style={{ color: promo.color }}>ПРОМО</span>
+                        <TrendingDown
+                          size={16}
+                          style={{ color: promo.color }}
+                        />
+                        <span
+                          className="font-semibold text-sm"
+                          style={{ color: promo.color }}
+                        >
+                          ПРОМО
+                        </span>
                       </div>
                     </div>
                   </div>
                   <div className="p-6">
-                    <div className="text-xs font-medium mb-2" style={{ color: promo.color }}>
+                    <div
+                      className="text-xs font-medium mb-2"
+                      style={{ color: promo.color }}
+                    >
                       {promo.store}
                     </div>
-                    <h3 className="text-xl font-semibold text-gray-900 mb-2">{promo.title}</h3>
+                    <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                      {promo.title}
+                    </h3>
                     <p className="text-gray-600 mb-4">{promo.description}</p>
                     <div className="flex items-baseline space-x-2">
-                      <span className="text-2xl font-bold" style={{ color: promo.color }}>{promo.price}</span>
-                      <span className="text-sm text-gray-400 line-through">{promo.originalPrice}</span>
+                      <span
+                        className="text-2xl font-bold"
+                        style={{ color: promo.color }}
+                      >
+                        {promo.price}
+                      </span>
+                      <span className="text-sm text-gray-400 line-through">
+                        {promo.originalPrice}
+                      </span>
                     </div>
                   </div>
                 </Card>
@@ -293,7 +354,8 @@ export function HomePage() {
             transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
             className="text-xl text-gray-300 mb-10 max-w-2xl mx-auto"
           >
-            Всички наши магазини се намират в с. Самуил, обл. Разград. Очакваме ви всеки ден от 8:00 до 20:00.
+            Всички наши магазини се намират в с. Самуил, обл. Разград. Очакваме
+            ви всеки ден от 8:00 до 20:00.
           </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 50 }}

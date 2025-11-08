@@ -1,71 +1,81 @@
-import { motion, useInView } from 'framer-motion';
-import { useRef } from 'react';
-import { Heart, Users, Award, Calendar } from 'lucide-react';
-import { Card } from './ui/card';
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
+import { Heart, Users, Award, Calendar } from "lucide-react";
+import { Card } from "../ui/card";
 
 // Mock timeline data
 const timeline = [
   {
-    year: '2005',
-    title: 'Началото',
-    description: 'Откриване на първия магазин в Самуил - хранителна търговия',
-    image: 'https://images.unsplash.com/photo-1604719312566-8912e9227c6a?w=600&h=400&fit=crop',
+    year: "2005",
+    title: "Началото",
+    description: "Откриване на първия магазин в Самуил - хранителна търговия",
+    image:
+      "https://images.unsplash.com/photo-1604719312566-8912e9227c6a?w=600&h=400&fit=crop",
   },
   {
-    year: '2010',
-    title: 'Разширение',
-    description: 'Отваряме втори магазин за промишлени стоки',
-    image: 'https://images.unsplash.com/photo-1528698827591-e19ccd7bc23d?w=600&h=400&fit=crop',
+    year: "2010",
+    title: "Разширение",
+    description: "Отваряме втори магазин за промишлени стоки",
+    image:
+      "https://images.unsplash.com/photo-1528698827591-e19ccd7bc23d?w=600&h=400&fit=crop",
   },
   {
-    year: '2015',
-    title: 'Строителни Материали',
-    description: 'Навлизаме в сектора на строителството с нов специализиран магазин',
-    image: 'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=600&h=400&fit=crop',
+    year: "2015",
+    title: "Строителни Материали",
+    description:
+      "Навлизаме в сектора на строителството с нов специализиран магазин",
+    image:
+      "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=600&h=400&fit=crop",
   },
   {
-    year: '2020',
-    title: 'Модернизация',
-    description: 'Обновяваме всички магазини с модерно оборудване',
-    image: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600&h=400&fit=crop',
+    year: "2020",
+    title: "Модернизация",
+    description: "Обновяваме всички магазини с модерно оборудване",
+    image:
+      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600&h=400&fit=crop",
   },
   {
-    year: '2024',
-    title: 'Дигитална Трансформация',
-    description: 'Стартираме новия ни онлайн портал за по-добро обслужване',
-    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop',
+    year: "2024",
+    title: "Дигитална Трансформация",
+    description: "Стартираме новия ни онлайн портал за по-добро обслужване",
+    image:
+      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop",
   },
 ];
 
 // Mock team data
 const team = [
   {
-    name: 'Мери Тодорова',
-    role: 'Управител',
-    quote: 'Нашата мисия е да обслужваме общността с качество и сърце.',
-    image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300&h=300&fit=crop',
-    color: '#E53E3E',
+    name: "Мери Тодорова",
+    role: "Управител",
+    quote: "Нашата мисия е да обслужваме общността с качество и сърце.",
+    image:
+      "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300&h=300&fit=crop",
+    color: "#E53E3E",
   },
   {
-    name: 'Максим Петров',
-    role: 'Мениджър Строителство',
-    quote: 'Всеки проект заслужава най-добрите материали.',
-    image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&h=300&fit=crop',
-    color: '#3182CE',
+    name: "Максим Петров",
+    role: "Мениджър Строителство",
+    quote: "Всеки проект заслужава най-добрите материали.",
+    image:
+      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&h=300&fit=crop",
+    color: "#3182CE",
   },
   {
-    name: 'Татяна Георгиева',
-    role: 'Мениджър Супермаркет',
-    quote: 'Свежестта и качеството са нашият приоритет.',
-    image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=300&h=300&fit=crop',
-    color: '#E53E3E',
+    name: "Татяна Георгиева",
+    role: "Мениджър Супермаркет",
+    quote: "Свежестта и качеството са нашият приоритет.",
+    image:
+      "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=300&h=300&fit=crop",
+    color: "#E53E3E",
   },
   {
-    name: 'Максим Иванов',
-    role: 'Мениджър Промишлени Стоки',
-    quote: 'Разнообразието и достъпността правят разликата.',
-    image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&h=300&fit=crop',
-    color: '#D53F8C',
+    name: "Максим Иванов",
+    role: "Мениджър Промишлени Стоки",
+    quote: "Разнообразието и достъпността правят разликата.",
+    image:
+      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&h=300&fit=crop",
+    color: "#D53F8C",
   },
 ];
 
@@ -76,7 +86,10 @@ export function SamuilHubPage() {
   const valuesRef = useRef(null);
 
   const isHeroInView = useInView(heroRef, { once: true });
-  const isTimelineInView = useInView(timelineRef, { once: true, margin: "-100px" });
+  const isTimelineInView = useInView(timelineRef, {
+    once: true,
+    margin: "-100px",
+  });
   const isTeamInView = useInView(teamRef, { once: true, margin: "-100px" });
   const isValuesInView = useInView(valuesRef, { once: true, margin: "-100px" });
 
@@ -89,12 +102,19 @@ export function SamuilHubPage() {
       className="min-h-[calc(100vh-4rem)]"
     >
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-blue-50 via-pink-50 to-red-50 py-24 overflow-hidden" ref={heroRef}>
+      <section
+        className="relative bg-gradient-to-br from-blue-50 via-pink-50 to-red-50 py-24 overflow-hidden"
+        ref={heroRef}
+      >
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
-              animate={isHeroInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
+              animate={
+                isHeroInView
+                  ? { opacity: 1, scale: 1 }
+                  : { opacity: 0, scale: 0.8 }
+              }
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
               className="flex justify-center mb-8"
             >
@@ -105,8 +125,14 @@ export function SamuilHubPage() {
 
             <motion.h1
               initial={{ opacity: 0, y: 30 }}
-              animate={isHeroInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-              transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              animate={
+                isHeroInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }
+              }
+              transition={{
+                duration: 0.8,
+                delay: 0.2,
+                ease: [0.16, 1, 0.3, 1],
+              }}
               className="text-5xl md:text-6xl font-bold text-gray-900 mb-6"
             >
               Сърцето на Самуил
@@ -114,13 +140,19 @@ export function SamuilHubPage() {
 
             <motion.p
               initial={{ opacity: 0, y: 30 }}
-              animate={isHeroInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-              transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              animate={
+                isHeroInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }
+              }
+              transition={{
+                duration: 0.8,
+                delay: 0.4,
+                ease: [0.16, 1, 0.3, 1],
+              }}
               className="text-xl text-gray-600 leading-relaxed"
             >
-              От близо 20 години MERTMAX е неразделна част от общността в Самуил. 
-              Нашата мисия е да обслужваме местните семейства и бизнеси с качество, 
-              надеждност и топло отношение.
+              От близо 20 години MERTMAX е неразделна част от общността в
+              Самуил. Нашата мисия е да обслужваме местните семейства и бизнеси
+              с качество, надеждност и топло отношение.
             </motion.p>
           </div>
         </div>
@@ -131,13 +163,17 @@ export function SamuilHubPage() {
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
-            animate={isTimelineInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+            animate={
+              isTimelineInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }
+            }
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="text-center mb-16"
           >
             <div className="flex items-center justify-center space-x-3 mb-6">
               <Calendar className="text-blue-600" size={32} />
-              <h2 className="text-4xl md:text-5xl font-bold text-gray-900">Нашата История</h2>
+              <h2 className="text-4xl md:text-5xl font-bold text-gray-900">
+                Нашата История
+              </h2>
             </div>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
               Проследете пътуването на MERTMAX през годините
@@ -151,11 +187,15 @@ export function SamuilHubPage() {
                 <motion.div
                   key={event.year}
                   initial={{ opacity: 0, x: 50 }}
-                  animate={isTimelineInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 50 }}
-                  transition={{ 
-                    duration: 0.8, 
+                  animate={
+                    isTimelineInView
+                      ? { opacity: 1, x: 0 }
+                      : { opacity: 0, x: 50 }
+                  }
+                  transition={{
+                    duration: 0.8,
                     delay: index * 0.15,
-                    ease: [0.16, 1, 0.3, 1]
+                    ease: [0.16, 1, 0.3, 1],
                   }}
                   className="flex-shrink-0 w-80 snap-center"
                 >
@@ -173,8 +213,12 @@ export function SamuilHubPage() {
                       </div>
                     </div>
                     <div className="p-6">
-                      <h3 className="text-2xl font-bold text-gray-900 mb-3">{event.title}</h3>
-                      <p className="text-gray-600 leading-relaxed">{event.description}</p>
+                      <h3 className="text-2xl font-bold text-gray-900 mb-3">
+                        {event.title}
+                      </h3>
+                      <p className="text-gray-600 leading-relaxed">
+                        {event.description}
+                      </p>
                     </div>
                   </Card>
                 </motion.div>
@@ -185,17 +229,24 @@ export function SamuilHubPage() {
       </section>
 
       {/* Team Gallery */}
-      <section className="py-24 bg-gradient-to-br from-gray-50 to-white" ref={teamRef}>
+      <section
+        className="py-24 bg-gradient-to-br from-gray-50 to-white"
+        ref={teamRef}
+      >
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
-            animate={isTeamInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+            animate={
+              isTeamInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }
+            }
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="text-center mb-16"
           >
             <div className="flex items-center justify-center space-x-3 mb-6">
               <Users className="text-pink-600" size={32} />
-              <h2 className="text-4xl md:text-5xl font-bold text-gray-900">Нашият Екип</h2>
+              <h2 className="text-4xl md:text-5xl font-bold text-gray-900">
+                Нашият Екип
+              </h2>
             </div>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
               Запознайте се с хората, които правят MERTMAX специално място
@@ -207,11 +258,13 @@ export function SamuilHubPage() {
               <motion.div
                 key={member.name}
                 initial={{ opacity: 0, y: 50 }}
-                animate={isTeamInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-                transition={{ 
-                  duration: 0.8, 
+                animate={
+                  isTeamInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }
+                }
+                transition={{
+                  duration: 0.8,
                   delay: index * 0.1,
-                  ease: [0.16, 1, 0.3, 1]
+                  ease: [0.16, 1, 0.3, 1],
                 }}
                 className="group"
               >
@@ -238,7 +291,9 @@ export function SamuilHubPage() {
                     </motion.div>
                   </div>
                   <div className="p-6 text-center">
-                    <h3 className="text-xl font-bold text-gray-900 mb-1">{member.name}</h3>
+                    <h3 className="text-xl font-bold text-gray-900 mb-1">
+                      {member.name}
+                    </h3>
                     <p className="font-medium" style={{ color: member.color }}>
                       {member.role}
                     </p>
@@ -255,13 +310,17 @@ export function SamuilHubPage() {
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
-            animate={isValuesInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+            animate={
+              isValuesInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }
+            }
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="text-center mb-16"
           >
             <div className="flex items-center justify-center space-x-3 mb-6">
               <Award className="text-yellow-400" size={32} />
-              <h2 className="text-4xl md:text-5xl font-bold text-white">Нашите Ценности</h2>
+              <h2 className="text-4xl md:text-5xl font-bold text-white">
+                Нашите Ценности
+              </h2>
             </div>
             <p className="text-xl text-gray-300 max-w-2xl mx-auto">
               Принципите, които ни водят всеки ден
@@ -270,30 +329,32 @@ export function SamuilHubPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-6xl mx-auto">
             {[
-              { 
-                icon: '🤝', 
-                title: 'Общност', 
-                desc: 'Ние сме част от Самуил и работим за благото на нашата общност' 
+              {
+                icon: "🤝",
+                title: "Общност",
+                desc: "Ние сме част от Самуил и работим за благото на нашата общност",
               },
-              { 
-                icon: '✨', 
-                title: 'Качество', 
-                desc: 'Предлагаме само продукти, които бихме използвали в собствените си домове' 
+              {
+                icon: "✨",
+                title: "Качество",
+                desc: "Предлагаме само продукти, които бихме използвали в собствените си домове",
               },
-              { 
-                icon: '💚', 
-                title: 'Доверие', 
-                desc: 'Изграждаме дългосрочни отношения, базирани на честност и надеждност' 
+              {
+                icon: "💚",
+                title: "Доверие",
+                desc: "Изграждаме дългосрочни отношения, базирани на честност и надеждност",
               },
             ].map((value, index) => (
               <motion.div
                 key={value.title}
                 initial={{ opacity: 0, y: 50 }}
-                animate={isValuesInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-                transition={{ 
-                  duration: 0.8, 
+                animate={
+                  isValuesInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }
+                }
+                transition={{
+                  duration: 0.8,
                   delay: index * 0.2,
-                  ease: [0.16, 1, 0.3, 1]
+                  ease: [0.16, 1, 0.3, 1],
                 }}
                 className="text-center"
               >
@@ -304,8 +365,12 @@ export function SamuilHubPage() {
                 >
                   <span className="text-4xl">{value.icon}</span>
                 </motion.div>
-                <h3 className="text-2xl font-bold mb-4 text-white">{value.title}</h3>
-                <p className="text-lg text-gray-300 leading-relaxed">{value.desc}</p>
+                <h3 className="text-2xl font-bold mb-4 text-white">
+                  {value.title}
+                </h3>
+                <p className="text-lg text-gray-300 leading-relaxed">
+                  {value.desc}
+                </p>
               </motion.div>
             ))}
           </div>

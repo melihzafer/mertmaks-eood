@@ -1,46 +1,60 @@
-import { ShoppingCart, Apple, Beef, Milk, Sandwich, Coffee, Package } from 'lucide-react';
-import { motion, useInView } from 'framer-motion';
-import { useRef } from 'react';
-import { Card } from './ui/card';
+import {
+  ShoppingCart,
+  Apple,
+  Beef,
+  Milk,
+  Sandwich,
+  Coffee,
+  Package,
+} from "lucide-react";
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
+import { Card } from "../ui/card";
 
 const categories = [
   {
-    name: 'Плодове и Зеленчуци',
+    name: "Плодове и Зеленчуци",
     icon: Apple,
-    items: ['Свежи плодове', 'Сезонни зеленчуци', 'Салати', 'Гъби'],
+    items: ["Свежи плодове", "Сезонни зеленчуци", "Салати", "Гъби"],
   },
   {
-    name: 'Месо и Месни Продукти',
+    name: "Месо и Месни Продукти",
     icon: Beef,
-    items: ['Свинско месо', 'Пилешко месо', 'Телешко месо', 'Колбаси'],
+    items: ["Свинско месо", "Пилешко месо", "Телешко месо", "Колбаси"],
   },
   {
-    name: 'Млечни Продукти',
+    name: "Млечни Продукти",
     icon: Milk,
-    items: ['Мляко', 'Кисело мляко', 'Сирене', 'Кашкавал'],
+    items: ["Мляко", "Кисело мляко", "Сирене", "Кашкавал"],
   },
   {
-    name: 'Хлебни Изделия',
+    name: "Хлебни Изделия",
     icon: Sandwich,
-    items: ['Хляб', 'Питки', 'Кифли', 'Козунаци'],
+    items: ["Хляб", "Питки", "Кифли", "Козунаци"],
   },
   {
-    name: 'Напитки',
+    name: "Напитки",
     icon: Coffee,
-    items: ['Безалкохолни напитки', 'Сокове', 'Вода', 'Алкохол'],
+    items: ["Безалкохолни напитки", "Сокове", "Вода", "Алкохол"],
   },
   {
-    name: 'Консервирани Продукти',
+    name: "Консервирани Продукти",
     icon: Package,
-    items: ['Консерви', 'Сосове', 'Подправки', 'Макаронени изделия'],
+    items: ["Консерви", "Сосове", "Подправки", "Макаронени изделия"],
   },
 ];
 
 export function GroceryPage() {
   const categoriesRef = useRef(null);
   const featuresRef = useRef(null);
-  const isCategoriesInView = useInView(categoriesRef, { once: true, margin: "-100px" });
-  const isFeaturesInView = useInView(featuresRef, { once: true, margin: "-100px" });
+  const isCategoriesInView = useInView(categoriesRef, {
+    once: true,
+    margin: "-100px",
+  });
+  const isFeaturesInView = useInView(featuresRef, {
+    once: true,
+    margin: "-100px",
+  });
 
   return (
     <>
@@ -51,9 +65,9 @@ export function GroceryPage() {
         animate={{ scaleX: 0 }}
         exit={{ scaleX: 1 }}
         transition={{ duration: 0.6, ease: [0.76, 0, 0.24, 1] }}
-        style={{ 
-          backgroundColor: '#E53E3E',
-          transformOrigin: 'left',
+        style={{
+          backgroundColor: "#E53E3E",
+          transformOrigin: "left",
         }}
       />
 
@@ -69,16 +83,17 @@ export function GroceryPage() {
           <motion.div
             className="absolute inset-0 opacity-10"
             animate={{
-              backgroundPosition: ['0% 0%', '100% 100%'],
+              backgroundPosition: ["0% 0%", "100% 100%"],
             }}
             transition={{
               duration: 20,
               repeat: Infinity,
-              repeatType: 'reverse',
+              repeatType: "reverse",
             }}
             style={{
-              backgroundImage: 'radial-gradient(circle, #E53E3E 1px, transparent 1px)',
-              backgroundSize: '50px 50px',
+              backgroundImage:
+                "radial-gradient(circle, #E53E3E 1px, transparent 1px)",
+              backgroundSize: "50px 50px",
             }}
           />
 
@@ -98,7 +113,11 @@ export function GroceryPage() {
               <motion.h1
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                transition={{
+                  duration: 0.8,
+                  delay: 0.2,
+                  ease: [0.16, 1, 0.3, 1],
+                }}
                 className="text-5xl md:text-6xl font-bold text-[#E53E3E] mb-6"
               >
                 Супермаркет MERTMAX
@@ -107,7 +126,11 @@ export function GroceryPage() {
               <motion.p
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                transition={{
+                  duration: 0.8,
+                  delay: 0.4,
+                  ease: [0.16, 1, 0.3, 1],
+                }}
                 className="text-2xl text-red-800 mb-4"
               >
                 Свежи и качествени продукти за вашето семейство
@@ -116,10 +139,15 @@ export function GroceryPage() {
               <motion.p
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                transition={{
+                  duration: 0.8,
+                  delay: 0.6,
+                  ease: [0.16, 1, 0.3, 1],
+                }}
                 className="text-lg text-red-700"
               >
-                Ежедневни доставки на свежи хранителни стоки, месо, млечни продукти и много други
+                Ежедневни доставки на свежи хранителни стоки, месо, млечни
+                продукти и много други
               </motion.p>
             </div>
           </div>
@@ -129,11 +157,15 @@ export function GroceryPage() {
         <section className="py-24 container mx-auto px-4" ref={categoriesRef}>
           <motion.div
             initial={{ opacity: 0, y: 50 }}
-            animate={isCategoriesInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+            animate={
+              isCategoriesInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }
+            }
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">Категории Продукти</h2>
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+              Категории Продукти
+            </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
               Открийте нашата широка гама от качествени хранителни продукти
             </p>
@@ -144,11 +176,15 @@ export function GroceryPage() {
               <motion.div
                 key={category.name}
                 initial={{ opacity: 0, y: 50 }}
-                animate={isCategoriesInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-                transition={{ 
-                  duration: 0.8, 
+                animate={
+                  isCategoriesInView
+                    ? { opacity: 1, y: 0 }
+                    : { opacity: 0, y: 50 }
+                }
+                transition={{
+                  duration: 0.8,
                   delay: index * 0.1,
-                  ease: [0.16, 1, 0.3, 1]
+                  ease: [0.16, 1, 0.3, 1],
                 }}
               >
                 <Card className="p-8 border-2 border-red-100 hover:border-[#E53E3E] transition-all duration-300 hover:shadow-xl group">
@@ -158,9 +194,14 @@ export function GroceryPage() {
                       whileHover={{ rotate: 5 }}
                       transition={{ duration: 0.3 }}
                     >
-                      <category.icon className="text-[#E53E3E] group-hover:text-white transition-colors duration-300" size={28} />
+                      <category.icon
+                        className="text-[#E53E3E] group-hover:text-white transition-colors duration-300"
+                        size={28}
+                      />
                     </motion.div>
-                    <h3 className="text-xl font-semibold text-[#E53E3E]">{category.name}</h3>
+                    <h3 className="text-xl font-semibold text-[#E53E3E]">
+                      {category.name}
+                    </h3>
                   </div>
                   <ul className="space-y-3">
                     {category.items.map((item) => (
@@ -182,12 +223,19 @@ export function GroceryPage() {
         </section>
 
         {/* Features Section */}
-        <section className="bg-gradient-to-br from-red-50 to-orange-50 py-24" ref={featuresRef}>
+        <section
+          className="bg-gradient-to-br from-red-50 to-orange-50 py-24"
+          ref={featuresRef}
+        >
           <div className="container mx-auto px-4">
             <div className="max-w-6xl mx-auto">
               <motion.h2
                 initial={{ opacity: 0, y: 50 }}
-                animate={isFeaturesInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+                animate={
+                  isFeaturesInView
+                    ? { opacity: 1, y: 0 }
+                    : { opacity: 0, y: 50 }
+                }
                 transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                 className="text-center text-4xl md:text-5xl font-bold text-[#E53E3E] mb-16"
               >
@@ -196,18 +244,34 @@ export function GroceryPage() {
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
                 {[
-                  { icon: '✓', title: 'Свежи Продукти', desc: 'Ежедневни доставки на свежи плодове, зеленчуци и месо' },
-                  { icon: '€', title: 'Конкурентни Цени', desc: 'Отлично съотношение качество-цена' },
-                  { icon: '♥', title: 'Любезно Обслужване', desc: 'Нашият екип винаги е готов да ви помогне' },
+                  {
+                    icon: "✓",
+                    title: "Свежи Продукти",
+                    desc: "Ежедневни доставки на свежи плодове, зеленчуци и месо",
+                  },
+                  {
+                    icon: "€",
+                    title: "Конкурентни Цени",
+                    desc: "Отлично съотношение качество-цена",
+                  },
+                  {
+                    icon: "♥",
+                    title: "Любезно Обслужване",
+                    desc: "Нашият екип винаги е готов да ви помогне",
+                  },
                 ].map((feature, index) => (
                   <motion.div
                     key={feature.title}
                     initial={{ opacity: 0, y: 50 }}
-                    animate={isFeaturesInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-                    transition={{ 
-                      duration: 0.8, 
+                    animate={
+                      isFeaturesInView
+                        ? { opacity: 1, y: 0 }
+                        : { opacity: 0, y: 50 }
+                    }
+                    transition={{
+                      duration: 0.8,
                       delay: index * 0.2,
-                      ease: [0.16, 1, 0.3, 1]
+                      ease: [0.16, 1, 0.3, 1],
                     }}
                     className="text-center"
                   >
@@ -216,10 +280,16 @@ export function GroceryPage() {
                       whileHover={{ scale: 1.1, rotate: 5 }}
                       transition={{ duration: 0.3 }}
                     >
-                      <span className="text-4xl text-white">{feature.icon}</span>
+                      <span className="text-4xl text-white">
+                        {feature.icon}
+                      </span>
                     </motion.div>
-                    <h3 className="text-2xl font-semibold mb-4 text-[#E53E3E]">{feature.title}</h3>
-                    <p className="text-lg text-gray-600 leading-relaxed">{feature.desc}</p>
+                    <h3 className="text-2xl font-semibold mb-4 text-[#E53E3E]">
+                      {feature.title}
+                    </h3>
+                    <p className="text-lg text-gray-600 leading-relaxed">
+                      {feature.desc}
+                    </p>
                   </motion.div>
                 ))}
               </div>
