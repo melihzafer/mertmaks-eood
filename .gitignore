@@ -1,1 +1,21 @@
 node_modules
+
+# Next.js build output
+.next
+out
+
+# Compiled CSS from SCSS
+src/styles/utilities/compiled.css
+
+# Environment variables
+.env.local
+.env*.local
+
+# IDE
+.vscode/*
+!.vscode/settings.json
+.idea
+
+# OS
+.DS_Store
+Thumbs.db
