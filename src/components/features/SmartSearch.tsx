@@ -1,4 +1,4 @@
-п»ї'use client';
+'use client';
 
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -108,7 +108,7 @@ export function SmartSearch() {
                 type='text'
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder='РўСЉСЂСЃРµС‚Рµ РїСЂРѕРґСѓРєС‚Рё, СѓСЃР»СѓРіРё, FAQ...'
+                placeholder='Търсете продукти, услуги, FAQ...'
                 className='flex-1 outline-none text-lg'
               />
               {query && (
@@ -144,14 +144,14 @@ export function SmartSearch() {
 
             {query.length > 1 && results.length === 0 && (
               <div className='px-4 py-8 text-center text-gray-500'>
-                РќСЏРјР° СЂРµР·СѓР»С‚Р°С‚Рё Р·Р° &quot;{query}&quot;
+                Няма резултати за &quot;{query}&quot;
               </div>
             )}
 
             <div className='px-4 py-2 border-t bg-gray-50 text-xs text-gray-500 flex items-center justify-between'>
-              <span>РР·РїРѕР»Р·РІР°Р№С‚Рµ в†‘в†“ Р·Р° РЅР°РІРёРіР°С†РёСЏ</span>
+              <span>Използвайте ^v за навигация</span>
               <span>
-                <kbd className='px-2 py-1 bg-white rounded border'>ESC</kbd> Р·Р° Р·Р°С‚РІР°СЂСЏРЅРµ
+                <kbd className='px-2 py-1 bg-white rounded border'>ESC</kbd> за затваряне
               </span>
             </div>
           </motion.div>
@@ -160,3 +160,4 @@ export function SmartSearch() {
     </AnimatePresence>
   );
 }
+

@@ -1,4 +1,4 @@
-п»ї'use client';
+'use client';
 
 import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
@@ -47,21 +47,21 @@ export function StoreMap({ stores, height = '500px' }: StoreMapProps) {
             
             <div className='space-y-2 text-sm text-gray-600'>
               <div className='flex items-start gap-2'>
-                <MapPin className='w-4 h-4 mt-0.5 flex-shrink-0' />
+                <MapPin className='w-4 h-4 mt-0.5 shrink-0' />
                 <span>{store.address}, {store.city}</span>
               </div>
               
               <div className='flex items-center gap-2'>
-                <Phone className='w-4 h-4 flex-shrink-0' />
+                <Phone className='w-4 h-4 shrink-0' />
                 <a href={'tel:' + store.phone} className='hover:text-red-600 transition-colors'>
                   {store.phone}
                 </a>
               </div>
               
               <div className='flex items-start gap-2'>
-                <Clock className='w-4 h-4 mt-0.5 flex-shrink-0' />
+                <Clock className='w-4 h-4 mt-0.5 shrink-0' />
                 <span>
-                  РџРѕРЅ-РќРµРґ: {store.hours.monday.open} - {store.hours.monday.close}
+                  Пон-Нед: {store.hours.monday.open} - {store.hours.monday.close}
                 </span>
               </div>
             </div>
@@ -72,7 +72,7 @@ export function StoreMap({ stores, height = '500px' }: StoreMapProps) {
               rel='noopener noreferrer'
               className='mt-4 inline-block text-sm text-red-600 hover:text-red-700 font-medium'
             >
-              РџРѕР»СѓС‡Рё СѓРєР°Р·Р°РЅРёСЏ в†’
+              Получи указания >
             </a>
           </div>
         ))}
@@ -80,3 +80,4 @@ export function StoreMap({ stores, height = '500px' }: StoreMapProps) {
     </div>
   );
 }
+

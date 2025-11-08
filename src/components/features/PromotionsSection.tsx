@@ -18,7 +18,7 @@ export async function PromotionsSection() {
 
   if (promotions.length === 0) {
     return (
-      <section className="py-24 bg-gradient-to-br from-gray-50 to-white">
+      <section className="py-24 bg-linear-to-br from-gray-50 to-white">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-4xl font-bold mb-8">Текущи промоции</h2>
           <p className="text-xl text-gray-600">Очаквайте скоро...</p>
@@ -28,7 +28,7 @@ export async function PromotionsSection() {
   }
 
   return (
-    <section className="py-24 bg-gradient-to-br from-gray-50 to-white">
+    <section className="py-24 bg-linear-to-br from-gray-50 to-white">
       <div className="container mx-auto px-4">
         <h2 className="text-4xl md:text-5xl font-bold text-center mb-4">
           Текущи <span className="text-red-600">промоции</span>
@@ -125,3 +125,4 @@ export async function PromotionsSection() {
     </section>
   );
 }
+

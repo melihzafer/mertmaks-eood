@@ -81,7 +81,7 @@ export function IndustrialPage() {
         className="min-h-[calc(100vh-4rem)]"
       >
         {/* Hero Section */}
-        <section className="relative bg-gradient-to-br from-pink-50 via-pink-100 to-purple-50 py-24 overflow-hidden">
+        <section className="relative bg-linear-to-br from-pink-50 via-pink-100 to-purple-50 py-24 overflow-hidden">
           <motion.div
             className="absolute inset-0 opacity-10"
             animate={{
@@ -226,7 +226,7 @@ export function IndustrialPage() {
 
         {/* Features Section */}
         <section
-          className="bg-gradient-to-br from-pink-50 to-purple-50 py-24"
+          className="bg-linear-to-br from-pink-50 to-purple-50 py-24"
           ref={featuresRef}
         >
           <div className="container mx-auto px-4">
@@ -302,3 +302,4 @@ export function IndustrialPage() {
     </>
   );
 }
+

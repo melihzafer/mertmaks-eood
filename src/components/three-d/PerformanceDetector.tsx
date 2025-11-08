@@ -81,3 +81,4 @@ export function usePerformanceMode() {
 
   return mode;
 }
+

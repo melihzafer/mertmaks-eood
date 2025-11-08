@@ -114,7 +114,7 @@ export default function HomePage() {
                 "url(https://images.unsplash.com/photo-1762439181518-15f8e01012a6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjByZXRhaWwlMjBzdG9yZSUyMGV4dGVyaW9yfGVufDF8fHx8MTc2MjU0MDAwMnww&ixlib=rb-4.1.0&q=80&w=1080)",
             }}
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/70" />
+          <div className="absolute inset-0 bg-linear-to-b from-black/60 via-black/50 to-black/70" />
         </motion.div>
 
         {/* Hero Content */}
@@ -126,7 +126,7 @@ export default function HomePage() {
             className="flex justify-center mb-8"
           >
             <motion.div
-              className="flex h-24 w-24 items-center justify-center rounded-3xl bg-gradient-to-br from-blue-600 via-pink-500 to-red-600 shadow-2xl"
+              className="flex h-24 w-24 items-center justify-center rounded-3xl bg-linear-to-br from-blue-600 via-pink-500 to-red-600 shadow-2xl"
               whileHover={{ rotate: 5, scale: 1.1 }}
               transition={{ duration: 0.3 }}
             >
@@ -243,7 +243,7 @@ export default function HomePage() {
 
       {/* Live Promotions Feed */}
       <section
-        className="py-24 bg-gradient-to-br from-gray-50 to-white"
+        className="py-24 bg-linear-to-br from-gray-50 to-white"
         ref={promotionsRef}
       >
         <div className="container mx-auto px-4">
@@ -378,3 +378,4 @@ export default function HomePage() {
     </motion.div>
   );
 }
+

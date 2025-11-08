@@ -1,278 +1,187 @@
-# MERTMAX ЕООД - Modern Digital Flagship
+<div align="center">
 
-A production-lean, modern web platform for MERTMAX ЕООД's three retail divisions in Samuil, Bulgaria: Grocery (Хранителен), Industrial (Индустриален), and Construction (Строителен).
+  <h1>    <a href="https://github.com/your-username/mertmaks-v6"> MERTMAKS V6
 
-## 🚀 Tech Stack
+    </a>
 
-- **Framework**: Next.js 15.5.6 (App Router + Turbopack)
-- **React**: 19.0.0 (Server Components by default)
-- **TypeScript**: 5.8.3 (Strict mode)
-- **Styling**: Tailwind CSS 4.1.3 + SCSS Modules 1.83.4
-- **3D & Motion**: React Three Fiber 9.4.0 + Drei 10.7.6 + Framer Motion 11.15.0
-- **Maps**: Leaflet 1.9.4 + react-leaflet 5.0.0
-- **Search**: Fuse.js 7.0.0 (Fuzzy search)
-- **Forms**: Zod 3.24.1 (Validation)
-- **UI Components**: shadcn/ui (Radix UI primitives)
+  </h1>
 
-## 📋 Prerequisites
+  <p>
 
-- **Node.js**: 18.x or 20.x recommended
-- **npm**: 8.x or higher (or pnpm/yarn)
-- **Git**: For version control
+    The sixth version of the MERTMAKS website. A Next.js 15 application utilizing App Router with Server Components, Static Data, and Hybrid Styling.
 
-## 🛠️ Installation
+  </p>
 
-1. Clone the repository:
-```bash
-git clone <repository-url>
-cd mertmaks-eood
-```
+  
 
-2. Install dependencies:
-```bash
+  <br>
+
+  <p align="center">    <img src="https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=nextdotjs&logoColor=white" alt="Next.js 15" />
+
+    <img src="https://img.shields.io/badge/React-19-black?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React 19" />
+
+    <img src="https://img.shields.io/badge/TypeScript-black?style=for-the-badge&logo=typescript&logoColor=3178C6" alt="TypeScript" />
+
+    <img src="https://img.shields.io/badge/Tailwind_CSS-black?style=for-the-badge&logo=tailwindcss&logoColor=06B6D4" alt="Tailwind CSS" />
+
+    <img src="https://img.shields.io/badge/SCSS-black?style=for-the-badge&logo=sass&logoColor=CC6699" alt="SCSS" />
+
+    <img src="https://img.shields.io/badge/Three.js-black?style=for-the-badge&logo=threedotjs&logoColor=white" alt="Three.js" />
+
+    <img src="https://img.shields.io/badge/Radix_UI-black?style=for-the-badge&logo=radixui&logoColor=white" alt="Radix UI" />
+
+    <img src="https://img.shields.io/badge/Leaflet-black?style=for-the-badge&logo=leaflet&logoColor=78A800" alt="Leaflet" />
+
+  </p>
+
+</div>
+
+---## 🚀 Key Features* **Modern Tech Stack:** Built with Next.js 15, React 19, and TypeScript.* **Server Components:** Leverages React Server Components for improved performance and data fetching.* **Static Data:** Utilizes static data for content that doesn't change often.* **Hybrid Styling:** Combines global CSS, SCSS modules, and Tailwind CSS.* **Component-Based Architecture:** Organized into a clear and modular component structure.* **Interactive Maps:** Includes Leaflet maps for store locations.* **3D Showcase:** Features a 3D product showcase using Three.js and React Three Fiber.* **Comprehensive UI Library:** A rich set of UI components built with Radix UI.## ⚡ Getting Started<details open>
+
+  <summary><strong>Click to view Installation and Setup</strong></summary>
+
+  <br>
+
+  
+
+  ### Prerequisites  * Node.js >= 20.0.0  * npm >= 10.0.0
+
+
+
+  ### 1. Clone the repository
+
+  ```bash
+
+  git clone [https://github.com/your-username/mertmaks-v6.git](https://github.com/your-username/mertmaks-v6.git)
+
+2. Navigate to the project directory
+
+Bash
+
+
+
+cd mertmaks-v6
+
+3. Install the dependencies
+
+Bash
+
+
+
 npm install
-```
 
-3. Set up environment variables:
-```bash
-cp .env.example .env.local
-```
+4. Run the Development Server
 
-Edit `.env.local` with your email configuration (see [Environment Variables](#-environment-variables) below).
+<p>This will start the development server on <a href="http://localhost:3000">http://localhost:3000</a>.</p>
 
-## 🏃 Development
+Bash
 
-Start the development server with Turbopack:
-```bash
+
+
 npm run dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+</details>
 
-### Available Scripts
+🛠️ Project Details
 
-- `npm run dev` - Start development server (Turbopack)
-- `npm run build` - Create production build
-- `npm run start` - Start production server
-- `npm run lint` - Run ESLint
-- `npm run format` - Format code with Prettier (if configured)
+<details>
 
-## 🌍 Environment Variables
+<summary><strong>View Full Tech Stack</strong></summary>
 
-Create a `.env.local` file in the root directory. See `.env.example` for reference.
 
-### Email Configuration (Contact Form)
 
-**Option 1: Resend (Recommended)**
-```env
-RESEND_API_KEY=re_your_api_key_here
-TO_EMAIL=info@mertmax.bg
-```
+Framework: Next.js 15
 
-**Option 2: SMTP (Gmail, SendGrid, etc.)**
-```env
-SMTP_HOST=smtp.gmail.com
-SMTP_PORT=587
-SMTP_USER=your-email@gmail.com
-SMTP_PASS=your-app-password
-TO_EMAIL=info@mertmax.bg
-```
+UI Library: React 19
 
-### Other Variables
-```env
-NODE_ENV=development
-```
+Language: TypeScript
 
-## 📂 Project Structure
+Styling:
 
-```
-mertmaks-eood/
-├── app/
-│   ├── (stores)/              # Route group for store pages
-│   │   ├── construction/      # Construction division
-│   │   ├── industrial/        # Industrial division
-│   │   └── supermarket/       # Grocery division
-│   ├── api/
-│   │   └── contact/           # Contact form API route
-│   ├── components/            # React components
-│   │   ├── ui/                # shadcn/ui components
-│   │   └── *.tsx              # Feature components
-│   ├── contact/               # Contact page
-│   ├── data/                  # Static data (search index)
-│   ├── layout.tsx             # Root layout
-│   ├── page.tsx               # Homepage
-│   └── globals.css            # Global styles
-├── data/
-│   ├── stores.json            # Store data (hours, locations, coordinates)
-│   └── promotions.jsonl       # Promotions data
-├── lib/
-│   ├── stores.ts              # Store utility functions
-│   └── promotions.ts          # Promotions utility functions
-├── public/                    # Static assets
-└── next.config.ts             # Next.js configuration
-```
+Tailwind CSS
 
-## 🎨 Architecture Decisions
+SCSS
 
-### Server Components First
-- All components are Server Components by default
-- Client Components (`'use client'`) only when necessary (interactivity, hooks)
-- Reduces JavaScript bundle size and improves performance
+CSS Modules
 
-### Route Groups
-- `(stores)` route group for division pages (doesn't affect URL structure)
-- Clean URLs: `/supermarket`, `/industrial`, `/construction`
+UI Components: Radix UI
 
-### Static Data Approach
-- `data/stores.json` - Store information with GPS coordinates
-- `data/promotions.jsonl` - JSONL format for easy appending
-- Utility functions in `lib/` for data access
-- Server-side only (uses `fs.readFileSync`)
+3D:
 
-### Dynamic Imports (SSR-safe)
-- Leaflet map: Dynamically imported with `{ ssr: false }`
-- 3D showcase: Wrapper component prevents SSR issues
-- Ensures clean builds without Node.js API errors
+Three.js
 
-### Styling Strategy
-- Tailwind CSS: Primary styling system (utility-first)
-- SCSS Modules: For complex effects (holographic cards, gradients)
-- CSS Custom Properties: Theme colors (`--color-grocery`, `--color-industrial`, `--color-construction`)
+React Three Fiber
 
-### API Routes
-- `/api/contact` - Contact form submission
-- Zod validation for type-safe input
-- Rate limiting (in-memory, 5 requests/minute per IP)
-- TODO: Email integration (Resend or Nodemailer)
+React Three Drei
 
-## 🚢 Deployment
+Mapping:
 
-### Vercel (Recommended)
+Leaflet
 
-1. Push your code to GitHub/GitLab/Bitbucket
-2. Import project in [Vercel Dashboard](https://vercel.com/new)
-3. Configure environment variables in Vercel dashboard:
-   - `RESEND_API_KEY` (or SMTP credentials)
-   - `TO_EMAIL`
-4. Deploy automatically on push to `main` branch
+React Leaflet
 
-### Other Platforms (Docker, VPS)
+Form Management: React Hook Form
 
-Build the production app:
-```bash
-npm run build
-```
+Linting: ESLint
 
-Start the production server:
-```bash
-npm run start
-```
+Formatting: Prettier
 
-Or use Docker:
-```dockerfile
-FROM node:20-alpine
-WORKDIR /app
-COPY package*.json ./
-RUN npm ci --only=production
-COPY . .
-RUN npm run build
-EXPOSE 3000
-CMD ["npm", "start"]
-```
+</details>
 
-## 🔧 Configuration
+<details>
 
-### Tailwind CSS
-Custom colors defined in `tailwind.config.ts`:
-- Grocery: Red (`#e53e3e`)
-- Industrial: Magenta/Pink (`#d53f8c`)
-- Construction: Blue (`#3182ce`)
+<summary><strong>View Available Scripts</strong></summary>
 
-### Next.js
-- Turbopack enabled in dev mode (faster builds)
-- Image optimization configured
-- Path aliases: `@/*` → `./` (root directory)
 
-## 🎯 Features
 
-### Core Features
-- ✅ **3 Division Pages**: Grocery, Industrial, Construction
-- ✅ **Global Search**: Cmd+K fuzzy search (Fuse.js)
-- ✅ **Interactive Map**: Leaflet with 3 store markers + directions
-- ✅ **Contact Form**: Zod validation + rate limiting + email sending
-- ✅ **3D Showcase**: React Three Fiber with floating shapes
-- ✅ **Prism Cards**: 3D tilt effect with holographic gradients
-- ✅ **Page Transitions**: Color wipe animations (store-specific colors)
-- ✅ **Promotions**: Featured promotions grid on homepage
-- ✅ **Store Hours**: Live status display (open/closed)
-- ✅ **Responsive**: Mobile-first design, hamburger menu
-- ✅ **Accessibility**: Keyboard navigation, prefers-reduced-motion support
+npm run dev: Starts the development server.
 
-### UX Enhancements
-- Smooth page transitions with Framer Motion
-- Store-specific color coding throughout UI
-- Loading states and error boundaries
-- Form validation with helpful error messages
-- Rate limiting to prevent spam
+npm run build: Builds the application for production.
 
-## 🧪 Testing
+npm run start: Starts the production server.
 
-### Manual Testing Checklist
-- [ ] Homepage loads with 3D showcase
-- [ ] Navigation between all pages works
-- [ ] Search modal opens (Cmd+K / Ctrl+K)
-- [ ] Map displays 3 store markers correctly
-- [ ] Contact form submission works
-- [ ] Responsive design on mobile (375px+)
-- [ ] Page transitions are smooth
-- [ ] All store pages render correctly
+npm run lint: Lints the codebase using ESLint.
 
-### Accessibility Testing
-- [ ] Keyboard navigation (Tab, Enter, Esc)
-- [ ] Focus visible states
-- [ ] ARIA labels present
-- [ ] prefers-reduced-motion respected
-- [ ] Color contrast WCAG AA compliant
+npm run typecheck: Checks for TypeScript errors.
 
-## 📝 Known Limitations
+npm run format: Formats the code using Prettier.
 
-1. **Email Sending**: Contact form currently logs to console. Requires email service integration (Resend/Nodemailer).
-2. **Rate Limiting**: In-memory implementation. Use Redis/database for production.
-3. **Static Data**: Stores and promotions are static JSON. Consider CMS integration for non-technical updates.
-4. **3D Performance**: React Three Fiber may be heavy on low-end devices. Consider fallback.
-5. **Map Tiles**: Using free OpenStreetMap tiles. Consider Mapbox for production.
+</details>
 
-## 🗺️ Roadmap / Next Steps
+<details>
 
-### Phase 2 Enhancements
-- [ ] Implement actual email sending (Resend API)
-- [ ] Add product catalog with search/filtering
-- [ ] Admin dashboard for content management
-- [ ] User accounts and order history
-- [ ] Online ordering/reservations
-- [ ] Blog/news section
-- [ ] SEO optimization (structured data, meta tags)
-- [ ] Analytics integration (Vercel Analytics or Google Analytics)
-- [ ] PWA support (service worker, offline mode)
-- [ ] Performance optimization (bundle analysis, lazy loading)
+<summary><strong>View Project Structure</strong></summary>
 
-### Technical Debt
-- [ ] Add comprehensive TypeScript types for all data
-- [ ] Set up Playwright/Cypress E2E tests
-- [ ] Configure Prettier + ESLint rules
-- [ ] Add Storybook for component development
-- [ ] Set up CI/CD pipeline (GitHub Actions)
 
-## 📜 License
 
-Proprietary - MERTMAX ЕООД. All rights reserved.
+src/app: Contains the main application logic, including pages, layouts, and stores.
 
-## 👥 Contact
+src/components: Contains all the React components, organized by feature, layout, and UI.
 
-- **Website**: [mertmax.bg](https://mertmax.bg)
-- **Email**: info@mertmax.bg
-- **Location**: Samuil, Bulgaria
+src/data: Contains all the static data used in the application.
 
----
+src/lib: Contains utility functions and libraries.
 
-**Built with ❤️ using Next.js 15 + React 19**
+src/styles: Contains all the global styles, SCSS modules, and Tailwind CSS utilities.
+
+public: Contains all the static assets, such as images and fonts.
+
+</details>
+
+🤝 Contribution Guidelines
+
+Contributions are welcome! Please follow these guidelines when contributing:
+
+Branching: Create a new branch for each feature or bug fix.
+
+Commits: Write clear and concise commit messages.
+
+Pull Requests: Open a pull request with a detailed description of the changes.
+
+Code Style: Follow the existing code style and conventions.
+
+<p align="center">
+
+<em>This README was generated by the Melih Hyusein.</em>
+
+</p>

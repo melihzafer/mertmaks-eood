@@ -193,7 +193,7 @@ export default function ContactForm() {
         <Button
           type="submit"
           disabled={loading}
-          className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+          className="w-full bg-linear-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
         >
           {loading ? "Изпращане..." : "Изпрати"}
         </Button>
@@ -201,3 +201,4 @@ export default function ContactForm() {
     </div>
   );
 }
+

@@ -103,7 +103,7 @@ export function SamuilHubPage() {
     >
       {/* Hero Section */}
       <section
-        className="relative bg-gradient-to-br from-blue-50 via-pink-50 to-red-50 py-24 overflow-hidden"
+        className="relative bg-linear-to-br from-blue-50 via-pink-50 to-red-50 py-24 overflow-hidden"
         ref={heroRef}
       >
         <div className="container mx-auto px-4">
@@ -118,7 +118,7 @@ export function SamuilHubPage() {
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
               className="flex justify-center mb-8"
             >
-              <div className="flex h-24 w-24 items-center justify-center rounded-3xl bg-gradient-to-br from-blue-600 via-pink-500 to-red-600 shadow-2xl">
+              <div className="flex h-24 w-24 items-center justify-center rounded-3xl bg-linear-to-br from-blue-600 via-pink-500 to-red-600 shadow-2xl">
                 <Heart className="text-white" size={48} />
               </div>
             </motion.div>
@@ -197,7 +197,7 @@ export function SamuilHubPage() {
                     delay: index * 0.15,
                     ease: [0.16, 1, 0.3, 1],
                   }}
-                  className="flex-shrink-0 w-80 snap-center"
+                  className="shrink-0 w-80 snap-center"
                 >
                   <Card className="overflow-hidden border-2 border-gray-200 hover:border-blue-600 hover:shadow-xl transition-all duration-300 group">
                     <div className="relative h-48 overflow-hidden">
@@ -230,7 +230,7 @@ export function SamuilHubPage() {
 
       {/* Team Gallery */}
       <section
-        className="py-24 bg-gradient-to-br from-gray-50 to-white"
+        className="py-24 bg-linear-to-br from-gray-50 to-white"
         ref={teamRef}
       >
         <div className="container mx-auto px-4">
@@ -359,7 +359,7 @@ export function SamuilHubPage() {
                 className="text-center"
               >
                 <motion.div
-                  className="w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-blue-600 via-pink-500 to-red-600 flex items-center justify-center shadow-xl"
+                  className="w-20 h-20 mx-auto mb-6 rounded-2xl bg-linear-to-br from-blue-600 via-pink-500 to-red-600 flex items-center justify-center shadow-xl"
                   whileHover={{ scale: 1.1, rotate: 5 }}
                   transition={{ duration: 0.3 }}
                 >
@@ -379,3 +379,4 @@ export function SamuilHubPage() {
     </motion.div>
   );
 }
+

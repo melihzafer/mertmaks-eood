@@ -79,7 +79,7 @@ export function GroceryPage() {
         className="min-h-[calc(100vh-4rem)]"
       >
         {/* Hero Section */}
-        <section className="relative bg-gradient-to-br from-red-50 via-red-100 to-orange-50 py-24 overflow-hidden">
+        <section className="relative bg-linear-to-br from-red-50 via-red-100 to-orange-50 py-24 overflow-hidden">
           <motion.div
             className="absolute inset-0 opacity-10"
             animate={{
@@ -224,7 +224,7 @@ export function GroceryPage() {
 
         {/* Features Section */}
         <section
-          className="bg-gradient-to-br from-red-50 to-orange-50 py-24"
+          className="bg-linear-to-br from-red-50 to-orange-50 py-24"
           ref={featuresRef}
         >
           <div className="container mx-auto px-4">
@@ -300,3 +300,4 @@ export function GroceryPage() {
     </>
   );
 }
+

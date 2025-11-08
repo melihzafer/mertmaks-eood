@@ -47,7 +47,7 @@ export function StoreInfo({ store }: StoreInfoProps) {
       {/* Contact Info */}
       <div className="space-y-4 mb-8 pb-8 border-b border-gray-200">
         <div className="flex items-start gap-3">
-          <MapPin className="w-5 h-5 text-gray-500 mt-1 flex-shrink-0" />
+          <MapPin className="w-5 h-5 text-gray-500 mt-1 shrink-0" />
           <div>
             <p className="text-gray-900 font-medium">{store.address}</p>
             <p className="text-gray-600 text-sm">{store.city}, {store.region}</p>
@@ -55,14 +55,14 @@ export function StoreInfo({ store }: StoreInfoProps) {
         </div>
         
         <div className="flex items-center gap-3">
-          <Phone className="w-5 h-5 text-gray-500 flex-shrink-0" />
+          <Phone className="w-5 h-5 text-gray-500 shrink-0" />
           <a href={`tel:${store.phone}`} className="text-gray-900 hover:text-red-600 transition-colors">
             {store.phone}
           </a>
         </div>
         
         <div className="flex items-center gap-3">
-          <Mail className="w-5 h-5 text-gray-500 flex-shrink-0" />
+          <Mail className="w-5 h-5 text-gray-500 shrink-0" />
           <a href={`mailto:${store.email}`} className="text-gray-900 hover:text-red-600 transition-colors">
             {store.email}
           </a>
@@ -116,3 +116,4 @@ export function StoreInfo({ store }: StoreInfoProps) {
     </div>
   );
 }
+

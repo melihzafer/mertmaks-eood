@@ -73,7 +73,7 @@ export function ConstructionPage() {
         className="min-h-[calc(100vh-4rem)]"
       >
         {/* Hero Section - Blue & Yellow Theme */}
-        <section className="relative bg-gradient-to-br from-blue-50 via-blue-100 to-yellow-50 py-24 overflow-hidden">
+        <section className="relative bg-linear-to-br from-blue-50 via-blue-100 to-yellow-50 py-24 overflow-hidden">
           <motion.div
             className="absolute inset-0 opacity-10"
             animate={{
@@ -99,7 +99,7 @@ export function ConstructionPage() {
                 transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                 className="flex justify-center mb-8"
               >
-                <div className="flex h-24 w-24 items-center justify-center rounded-3xl bg-gradient-to-br from-[#3182CE] to-[#D69E2E] shadow-2xl">
+                <div className="flex h-24 w-24 items-center justify-center rounded-3xl bg-linear-to-br from-[#3182CE] to-[#D69E2E] shadow-2xl">
                   <HardHat className="text-white" size={48} />
                 </div>
               </motion.div>
@@ -219,7 +219,7 @@ export function ConstructionPage() {
 
         {/* Features Section */}
         <section
-          className="bg-gradient-to-br from-blue-50 to-yellow-50 py-24"
+          className="bg-linear-to-br from-blue-50 to-yellow-50 py-24"
           ref={featuresRef}
         >
           <div className="container mx-auto px-4">
@@ -271,7 +271,7 @@ export function ConstructionPage() {
                     className="text-center"
                   >
                     <motion.div
-                      className="w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-[#3182CE] to-[#D69E2E] flex items-center justify-center shadow-xl"
+                      className="w-20 h-20 mx-auto mb-6 rounded-2xl bg-linear-to-br from-[#3182CE] to-[#D69E2E] flex items-center justify-center shadow-xl"
                       whileHover={{ scale: 1.1, rotate: 5 }}
                       transition={{ duration: 0.3 }}
                     >
@@ -298,7 +298,7 @@ export function ConstructionPage() {
             initial={{ opacity: 0, y: 50 }}
             animate={isCtaInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="max-w-5xl mx-auto bg-gradient-to-r from-[#3182CE] to-[#D69E2E] rounded-3xl p-12 md:p-16 text-center text-white shadow-2xl"
+            className="max-w-5xl mx-auto bg-linear-to-r from-[#3182CE] to-[#D69E2E] rounded-3xl p-12 md:p-16 text-center text-white shadow-2xl"
           >
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
               Специални Оферти за Фирми
@@ -321,3 +321,4 @@ export function ConstructionPage() {
     </>
   );
 }
+

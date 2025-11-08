@@ -33,7 +33,7 @@ export function WebARButton() {
       {/* AR Button */}
       <motion.button
         onClick={handleARClick}
-        className="fixed bottom-24 right-6 z-40 flex items-center space-x-2 px-6 py-4 bg-gradient-to-r from-blue-600 via-pink-500 to-red-600 text-white rounded-full shadow-2xl"
+        className="fixed bottom-24 right-6 z-40 flex items-center space-x-2 px-6 py-4 bg-linear-to-r from-blue-600 via-pink-500 to-red-600 text-white rounded-full shadow-2xl"
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         initial={{ opacity: 0, y: 20 }}
@@ -54,7 +54,7 @@ export function WebARButton() {
             className="fixed inset-0 z-50 bg-black"
           >
             {/* Camera View Simulation */}
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-900 via-purple-900 to-pink-900 opacity-80" />
+            <div className="absolute inset-0 bg-linear-to-br from-blue-900 via-purple-900 to-pink-900 opacity-80" />
             
             {/* AR Overlay */}
             <div className="absolute inset-0 flex flex-col items-center justify-center text-white">
@@ -134,3 +134,4 @@ export function WebARButton() {
     </>
   );
 }
+

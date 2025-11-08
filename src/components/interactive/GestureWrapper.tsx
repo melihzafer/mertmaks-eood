@@ -68,3 +68,4 @@ export function GestureWrapper({ children }: GestureWrapperProps) {
     </motion.div>
   );
 }
+

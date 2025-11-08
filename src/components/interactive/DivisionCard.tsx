@@ -190,3 +190,4 @@ export function DivisionCard({
     </div>
   );
 }
+

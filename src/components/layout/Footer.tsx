@@ -1,8 +1,11 @@
-'use client';
+"use client";
 
-import { MapPin, Phone, Clock } from 'lucide-react';
-import Link from 'next/link';
-import { motion } from 'framer-motion';
+import { MapPin, Phone, Clock } from "lucide-react";
+import Link from "next/link";
+import { motion } from "framer-motion";
+import { companyInfo, contactInfo } from "@/data/company-data";
+import { footerQuickLinks } from "@/data/navigation-data";
+import { uiTexts } from "@/data/ui-texts";
 
 export function Footer() {
   return (
@@ -13,91 +16,73 @@ export function Footer() {
           <div>
             <div className="flex items-center space-x-3 mb-6">
               <motion.div
-                className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-blue-600 via-pink-500 to-red-600 shadow-lg"
+                className="flex h-12 w-12 items-center justify-center rounded-xl bg-linear-to-br from-blue-600 via-pink-500 to-red-600 shadow-lg"
                 whileHover={{ rotate: 5, scale: 1.05 }}
                 transition={{ duration: 0.3 }}
               >
                 <span className="text-xl text-white font-bold">M</span>
               </motion.div>
               <div className="flex flex-col">
-                <span className="text-xl font-bold tracking-tight text-gray-900">MERTMAX</span>
-                <span className="text-xs text-gray-500 font-medium">EOOD</span>
+                <span className="text-xl font-bold tracking-tight text-gray-900">
+                  {companyInfo.name.latin}
+                </span>
+                <span className="text-xs text-gray-500 font-medium">
+                  {companyInfo.legalForm}
+                </span>
               </div>
             </div>
             <p className="text-gray-600 leading-relaxed">
-              Вашият доверен партньор за хранителни стоки, промишлени продукти и строителни материали в Самуил и Разград.
+              {companyInfo.description}
             </p>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-6">Бързи Връзки</h3>
+            <h3 className="text-xl font-semibold text-gray-900 mb-6">
+              {uiTexts.sections.divisions}
+            </h3>
             <div className="flex flex-col space-y-3">
-              <Link 
-                href="/supermarket" 
-                className="text-gray-600 hover:text-[#E53E3E] transition-colors duration-300 inline-flex items-center group"
-              >
-                <motion.span
-                  className="w-0 group-hover:w-2 h-0.5 bg-[#E53E3E] mr-0 group-hover:mr-2 transition-all duration-300"
-                />
-                Супермаркет
-              </Link>
-              <Link 
-                href="/industrial" 
-                className="text-gray-600 hover:text-[#D53F8C] transition-colors duration-300 inline-flex items-center group"
-              >
-                <motion.span
-                  className="w-0 group-hover:w-2 h-0.5 bg-[#D53F8C] mr-0 group-hover:mr-2 transition-all duration-300"
-                />
-                Промишлени Стоки
-              </Link>
-              <Link 
-                href="/construction" 
-                className="text-gray-600 hover:text-[#3182CE] transition-colors duration-300 inline-flex items-center group"
-              >
-                <motion.span
-                  className="w-0 group-hover:w-2 h-0.5 bg-[#3182CE] mr-0 group-hover:mr-2 transition-all duration-300"
-                />
-                Строителство
-              </Link>
-              <Link 
-                href="/about" 
-                className="text-gray-600 hover:text-gray-900 transition-colors duration-300 inline-flex items-center group"
-              >
-                <motion.span
-                  className="w-0 group-hover:w-2 h-0.5 bg-gray-900 mr-0 group-hover:mr-2 transition-all duration-300"
-                />
-                За Нас
-              </Link>
-              <Link 
-                href="/contact" 
-                className="text-gray-600 hover:text-gray-900 transition-colors duration-300 inline-flex items-center group"
-              >
-                <motion.span
-                  className="w-0 group-hover:w-2 h-0.5 bg-gray-900 mr-0 group-hover:mr-2 transition-all duration-300"
-                />
-                Контакти
-              </Link>
+              {footerQuickLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="text-gray-600 hover:text-gray-900 transition-colors duration-300 inline-flex items-center group"
+                  style={{
+                    ["--hover-color" as any]: link.color,
+                  }}
+                >
+                  <motion.span
+                    className="w-0 group-hover:w-2 h-0.5 mr-0 group-hover:mr-2 transition-all duration-300"
+                    style={{ backgroundColor: link.color }}
+                  />
+                  {link.label}
+                </Link>
+              ))}
             </div>
           </div>
 
           {/* Contact Info */}
           <div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-6">Контакти</h3>
+            <h3 className="text-xl font-semibold text-gray-900 mb-6">
+              {uiTexts.sections.contactInfo}
+            </h3>
             <div className="flex flex-col space-y-4">
               <div className="flex items-start space-x-3 text-gray-600">
-                <MapPin size={20} className="mt-1 flex-shrink-0 text-gray-400" />
-                <span>с. Самуил, обл. Разград, България</span>
+                <MapPin size={20} className="mt-1 shrink-0 text-gray-400" />
+                <span>{contactInfo.address.full}</span>
               </div>
               <div className="flex items-center space-x-3 text-gray-600">
-                <Phone size={20} className="flex-shrink-0 text-gray-400" />
-                <a href="tel:+359XXXXXXXXX" className="hover:text-gray-900 transition-colors">
-                  +359 XXX XXX XXX
+                <Phone size={20} className="shrink-0 text-gray-400" />
+                <a
+                  href={`tel:${contactInfo.phone.main}`}
+                  className="hover:text-gray-900 transition-colors"
+                >
+                  {contactInfo.phone.display}
                 </a>
               </div>
               <div className="flex items-start space-x-3 text-gray-600">
-                <Clock size={20} className="mt-1 flex-shrink-0 text-gray-400" />
-                <span>Пон-Нед: 8:00 - 20:00</span>
+                <Clock size={20} className="mt-1 shrink-0 text-gray-400" />
+                <span>{contactInfo.hours.display}</span>
               </div>
             </div>
           </div>
@@ -105,10 +90,12 @@ export function Footer() {
 
         <div className="mt-12 pt-8 border-t border-gray-200 text-center">
           <p className="text-gray-600">
-            &copy; {new Date().getFullYear()} MERTMAX EOOD. Всички права запазени.
+            &copy; {new Date().getFullYear()} {companyInfo.name.latin}{" "}
+            {companyInfo.legalForm}. Всички права запазени.
           </p>
         </div>
       </div>
     </footer>
   );
 }
+

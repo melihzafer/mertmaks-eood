@@ -100,7 +100,7 @@ export function AudioToggle() {
           onHoverEnd={() => setShowTooltip(false)}
           className={`p-4 rounded-full shadow-2xl backdrop-blur-sm transition-colors ${
             isEnabled
-              ? 'bg-gradient-to-br from-blue-600 via-pink-500 to-red-600 text-white'
+              ? 'bg-linear-to-br from-blue-600 via-pink-500 to-red-600 text-white'
               : 'bg-white/90 text-gray-600 border border-gray-200'
           }`}
           whileHover={{ scale: 1.1 }}
@@ -130,3 +130,4 @@ export function AudioToggle() {
     </div>
   );
 }
+

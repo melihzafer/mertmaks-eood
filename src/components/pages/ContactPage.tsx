@@ -1,18 +1,10 @@
-import {
-  MapPin,
-  Phone,
-  Clock,
-  Mail,
-  ShoppingCart,
-  Wrench,
-  HardHat,
-  Send,
-  Check,
-} from "lucide-react";
+import { MapPin, Phone, Clock, Mail, Send, Check } from "lucide-react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { useRef, useState } from "react";
 import { Card } from "../ui/card";
 import { WebARButton } from "../interactive/WebARButton";
+import { storeContacts } from "@/data/store-contacts";
+import { uiTexts } from "@/data/ui-texts";
 
 // Helper function to check store status
 const getStoreStatus = (openTime: number, closeTime: number) => {
@@ -42,45 +34,6 @@ const getStoreStatus = (openTime: number, closeTime: number) => {
     };
   }
 };
-
-const stores = [
-  {
-    name: "Супермаркет MERTMAX",
-    icon: ShoppingCart,
-    color: "#E53E3E",
-    address: "ул. Главна 1, с. Самуил, обл. Разград",
-    phone: "+359 XXX XXX 001",
-    hours: "Понеделник - Неделя: 8:00 - 20:00",
-    email: "supermarket@mertmax.bg",
-    position: { top: "40%", left: "35%" },
-    openTime: 8,
-    closeTime: 20,
-  },
-  {
-    name: "Промишлени Стоки MERTMAX",
-    icon: Wrench,
-    color: "#D53F8C",
-    address: "ул. Главна 2, с. Самуил, обл. Разград",
-    phone: "+359 XXX XXX 002",
-    hours: "Понеделник - Неделя: 8:00 - 20:00",
-    email: "industrial@mertmax.bg",
-    position: { top: "50%", left: "50%" },
-    openTime: 8,
-    closeTime: 20,
-  },
-  {
-    name: "Строителство MERTMAX",
-    icon: HardHat,
-    color: "#3182CE",
-    address: "ул. Главна 3, с. Самуил, обл. Разград",
-    phone: "+359 XXX XXX 003",
-    hours: "Понеделник - Неделя: 8:00 - 20:00",
-    email: "construction@mertmax.bg",
-    position: { top: "45%", left: "65%" },
-    openTime: 8,
-    closeTime: 20,
-  },
-];
 
 export function ContactPage() {
   const storesRef = useRef(null);
@@ -126,7 +79,7 @@ export function ContactPage() {
       {/* WebAR Button - Mobile Only */}
       <WebARButton />
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-gray-50 to-gray-100 py-24">
+      <section className="relative bg-linear-to-br from-gray-50 to-gray-100 py-24">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
             <motion.h1
@@ -173,7 +126,7 @@ export function ContactPage() {
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {stores.map((store, index) => {
+            {storeContacts.map((store, index) => {
               const Icon = store.icon;
 
               return (
@@ -218,7 +171,7 @@ export function ContactPage() {
                       >
                         <MapPin
                           size={20}
-                          className="flex-shrink-0 text-gray-400 mt-0.5"
+                          className="shrink-0 text-gray-400 mt-0.5"
                         />
                         <p className="text-gray-600">{store.address}</p>
                       </motion.div>
@@ -230,7 +183,7 @@ export function ContactPage() {
                       >
                         <Phone
                           size={20}
-                          className="flex-shrink-0 text-gray-400"
+                          className="shrink-0 text-gray-400"
                         />
                         <a
                           href={`tel:${store.phone}`}
@@ -247,7 +200,7 @@ export function ContactPage() {
                       >
                         <Mail
                           size={20}
-                          className="flex-shrink-0 text-gray-400"
+                          className="shrink-0 text-gray-400"
                         />
                         <a
                           href={`mailto:${store.email}`}
@@ -264,7 +217,7 @@ export function ContactPage() {
                       >
                         <Clock
                           size={20}
-                          className="flex-shrink-0 text-gray-400 mt-0.5"
+                          className="shrink-0 text-gray-400 mt-0.5"
                         />
                         <p className="text-gray-600">{store.hours}</p>
                       </motion.div>
@@ -302,7 +255,7 @@ export function ContactPage() {
                 delay: 0.2,
                 ease: [0.16, 1, 0.3, 1],
               }}
-              className="bg-gradient-to-br from-blue-100 via-gray-100 to-pink-100 rounded-3xl h-[500px] relative overflow-hidden shadow-2xl"
+              className="bg-linear-to-br from-blue-100 via-gray-100 to-pink-100 rounded-3xl h-[500px] relative overflow-hidden shadow-2xl"
             >
               {/* Stylized Map Background */}
               <div className="absolute inset-0 opacity-20">
@@ -317,7 +270,7 @@ export function ContactPage() {
               </div>
 
               {/* Store Pins */}
-              {stores.map((store, index) => {
+              {storeContacts.map((store, index) => {
                 const Icon = store.icon;
                 const isSelected = selectedStore === index;
                 const storeStatus = getStoreStatus(
@@ -476,7 +429,7 @@ export function ContactPage() {
                 htmlFor="name"
                 className="absolute left-6 top-4 text-gray-500 transition-all peer-placeholder-shown:top-4 peer-placeholder-shown:text-base peer-focus:top-1 peer-focus:text-xs peer-[:not(:placeholder-shown)]:top-1 peer-[:not(:placeholder-shown)]:text-xs"
               >
-                Име
+                {uiTexts.contactForm.name.label}
               </label>
             </div>
 
@@ -496,7 +449,7 @@ export function ContactPage() {
                 htmlFor="email"
                 className="absolute left-6 top-4 text-gray-500 transition-all peer-placeholder-shown:top-4 peer-placeholder-shown:text-base peer-focus:top-1 peer-focus:text-xs peer-[:not(:placeholder-shown)]:top-1 peer-[:not(:placeholder-shown)]:text-xs"
               >
-                Email
+                {uiTexts.contactForm.email.label}
               </label>
             </div>
 
@@ -516,7 +469,7 @@ export function ContactPage() {
                 htmlFor="message"
                 className="absolute left-6 top-4 text-gray-500 transition-all peer-placeholder-shown:top-4 peer-placeholder-shown:text-base peer-focus:top-1 peer-focus:text-xs peer-[:not(:placeholder-shown)]:top-1 peer-[:not(:placeholder-shown)]:text-xs"
               >
-                Съобщение
+                {uiTexts.contactForm.message.label}
               </label>
             </div>
 
@@ -581,3 +534,4 @@ export function ContactPage() {
     </motion.div>
   );
 }
+
