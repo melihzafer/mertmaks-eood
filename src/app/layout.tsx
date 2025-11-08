@@ -3,7 +3,8 @@ import { Inter } from 'next/font/google';
 import { Header } from '../components/Header';
 import { Footer } from '../components/Footer';
 import { PageTransition } from '../components/PageTransition';
-import './globals.css';
+import { GestureWrapper } from '../components/GestureWrapper';
+import './global.css';
 
 const inter = Inter({ 
   subsets: ['latin', 'cyrillic'],
@@ -30,13 +31,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="bg" className={inter.variable}>
-      <body className={`${inter.className} antialiased bg-gray-50 text-gray-900`}>
+      <body 
+        className={`${inter.className} antialiased bg-gray-50 text-gray-900`}
+        suppressHydrationWarning
+      >
         <Header />
-        <PageTransition>
-          <main className="min-h-screen">
-            {children}
-          </main>
-        </PageTransition>
+        <GestureWrapper>
+          <PageTransition>
+            <main className="min-h-screen">
+              {children}
+            </main>
+          </PageTransition>
+        </GestureWrapper>
         <Footer />
       </body>
     </html>

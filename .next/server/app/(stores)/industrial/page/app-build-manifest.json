@@ -1,14 +1,14 @@
 {
   "pages": {
     "/(stores)/industrial/page": [
-      "static/chunks/[root-of-the-server]__a9bbe07b._.css",
-      "static/chunks/node_modules_next_02beae46._.js",
-      "static/chunks/node_modules_framer-motion_dist_es_011a2bde._.js",
-      "static/chunks/node_modules_tailwindcss_dist_4d86d7cd._.js",
-      "static/chunks/node_modules_23ea8495._.js",
-      "static/chunks/app_components_a8d12751._.js",
-      "static/chunks/app_layout_tsx_0a548d63._.js",
-      "static/chunks/node_modules_next_dist_client_components_builtin_global-error_eb3665ff.js",
+      "static/chunks/[root-of-the-server]__4a7cbc28._.css",
+      "static/chunks/node_modules_562fcd17._.js",
+      "static/chunks/src_f370fc7c._.js",
+      "static/chunks/src_app_layout_tsx_0a548d63._.js",
+      "static/chunks/node_modules_next_dist_client_components_builtin_global-error_928e6aa5.js",
+      "static/chunks/node_modules_1d3b8587._.js",
+      "static/chunks/src_349b7255._.js",
+      "static/chunks/src_app_(stores)_industrial_page_tsx_928e6aa5._.js",
       "static/chunks/[turbopack]_browser_dev_hmr-client_hmr-client_ts_57d40746._.js",
       "static/chunks/node_modules_next_dist_compiled_react-dom_1e674e59._.js",
       "static/chunks/node_modules_next_dist_compiled_next-devtools_index_a9cb0712.js",

@@ -1,13 +1,1 @@
-{
-  "[project]/src/components/ThreeDShowcase.tsx [app-client] (ecmascript, next/dynamic entry)": {
-    "id": "[project]/src/components/ThreeDShowcase.tsx [app-client] (ecmascript, next/dynamic entry)",
-    "files": [
-      "static/chunks/node_modules_react-reconciler_dd58c996._.js",
-      "static/chunks/node_modules_three_build_three_module_f7d46d9b.js",
-      "static/chunks/node_modules_@react-three_fiber_dist_f6388da4._.js",
-      "static/chunks/node_modules_9430dedd._.js",
-      "static/chunks/src_components_ThreeDShowcase_tsx_1166f2f1._.js",
-      "static/chunks/src_components_ThreeDShowcase_tsx_45561cd2._.js"
-    ]
-  }
-}
+{}

@@ -352,3 +352,94 @@ For future migrations:
 **Migrated By**: AI Agent (Beast Mode 4.5)  
 **Original Framework**: Vite 5 + React 18  
 **Target Framework**: Next.js 15 + React 19
+
+---
+
+## ✅ Final Content Migration (January 2025)
+
+### Phase: App Router Content Migration
+
+All page components have been successfully migrated from `src/components/` to `src/app/` routes with full App Router architecture:
+
+#### Migrated Pages
+
+1. **Homepage** (`src/app/page.tsx`)
+   - Size: 5.88 kB
+   - Features: Hero section, 3 division cards, promotions feed
+   - Status: ✅ Complete with full content
+
+2. **Contact Page** (`src/app/contact/page.tsx`)
+   - Size: 6.91 kB
+   - Features: 3 store locations, interactive Leaflet map, contact form with API route
+   - Status: ✅ Complete with full content
+
+3. **Construction Store** (`src/app/(stores)/construction/page.tsx`)
+   - Size: 3.69 kB
+   - Features: 6 product categories (Строителни Материали, Инструменти, Бои и Лакове, Дърводелски Материали, Електро и ВиК, Покривни Материали)
+   - Color scheme: Blue (#3182CE) and yellow (#D69E2E)
+   - Status: ✅ Complete with full content
+
+4. **Industrial Store** (`src/app/(stores)/industrial/page.tsx`)
+   - Size: 3.18 kB
+   - Features: 6 product categories (Електроуреди, Дом и Градина, Текстил, Инструменти, Осветление, Хигиенни Продукти)
+   - Color scheme: Pink (#D53F8C) with pink-to-purple gradients
+   - Status: ✅ Complete with full content
+
+5. **Supermarket** (`src/app/(stores)/supermarket/page.tsx`)
+   - Size: 3.48 kB
+   - Features: 6 product categories (Плодове и Зеленчуци, Месо, Млечни Продукти, Хлебни Изделия, Напитки, Консервирани)
+   - Color scheme: Red (#E53E3E) with red-to-orange gradients
+   - Status: ✅ Complete with full content
+
+6. **Samuil Hub** (`src/app/samuil-hub/page.tsx`)
+   - Size: 3.71 kB
+   - Features: Company history timeline (2005-2024, 5 milestones), team gallery (4 members with quotes), values section (3 core principles)
+   - Color scheme: Multi-color gradient (blue-pink-red)
+   - Status: ✅ Complete with full content
+
+#### Key Fixes Applied
+
+1. **Module Resolution**
+   - Fixed `tsconfig.json` paths from `"@/*": ["./*"]` to `"@/*": ["./src/*"]`
+   - Resolved all "Module not found" errors for `@/components` imports
+
+2. **Metadata Exports**
+   - Removed `export const metadata` from all client component pages
+   - Next.js 15 strictly prohibits metadata exports in `'use client'` components
+
+3. **Icon Imports**
+   - Fixed lucide-react imports: `Gear` → `Settings`, `Tool` → `Wrench`
+   - All icons now import correctly
+
+4. **Duplicate Content Cleanup**
+   - Removed legacy duplicate JSX structures from previous migration attempts
+   - All pages now have clean, single-source content
+
+#### Build Verification
+
+```bash
+npm run build
+```
+
+**Result**: ✅ **BUILD SUCCEEDED** (10.2s compilation)
+
+```
+Route (app)                Size      First Load JS
+┌ ○ /                      5.88 kB   156 kB
+├ ○ /construction          3.69 kB   151 kB
+├ ○ /contact               6.91 kB   154 kB
+├ ○ /industrial            3.18 kB   150 kB
+├ ○ /samuil-hub            3.71 kB   151 kB
+└ ○ /supermarket           3.48 kB   151 kB
++ First Load JS shared     102 kB
+```
+
+All routes are prerendered as static content. Only ESLint warnings remain (img vs Image component in ImageWithFallback.tsx - not blocking).
+
+#### Next Steps (Optional Cleanup)
+
+- [ ] Reorganize components into logical folders (layout/, sections/, interactive/, common/)
+- [ ] Delete old page component files from `src/components/` (HomePage.tsx, ContactPage.tsx, ConstructionPage.tsx, IndustrialPage.tsx, GroceryPage.tsx, SamuilHubPage.tsx)
+- [ ] Address ESLint warnings about `<img>` vs `<Image>` in ImageWithFallback.tsx
+- [ ] Run development server and spot-check animations/interactions
+- [ ] Consider metadata extraction to layout.tsx for SEO

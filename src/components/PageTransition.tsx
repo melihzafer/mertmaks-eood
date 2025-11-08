@@ -1,6 +1,6 @@
 'use client';
 
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { usePathname } from 'next/navigation';
 import { ReactNode, useEffect, useState } from 'react';
 
@@ -19,10 +19,12 @@ interface PageTransitionProps {
  * - Default: dark gray wipe
  * - Smooth cubic-bezier easing
  * - Respects prefers-reduced-motion
+ * - Content renders immediately (no blocking)
  */
 export function PageTransition({ children }: PageTransitionProps) {
   const pathname = usePathname();
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const [showWipe, setShowWipe] = useState(false);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -32,6 +34,15 @@ export function PageTransition({ children }: PageTransitionProps) {
     mediaQuery.addEventListener('change', handler);
     return () => mediaQuery.removeEventListener('change', handler);
   }, []);
+  
+  // Trigger wipe animation on route change
+  useEffect(() => {
+    if (!prefersReducedMotion) {
+      setShowWipe(true);
+      const timer = setTimeout(() => setShowWipe(false), 900);
+      return () => clearTimeout(timer);
+    }
+  }, [pathname, prefersReducedMotion]);
   
   // Determine wipe color based on route
   const getWipeColor = () => {
@@ -44,57 +55,34 @@ export function PageTransition({ children }: PageTransitionProps) {
     if (pathname.includes('/construction')) {
       return 'rgb(49, 130, 206)'; // Construction blue
     }
+    if (pathname.includes('/contact')) {
+      return 'rgb(37, 99, 235)'; // Contact blue
+    }
     return 'rgb(26, 26, 26)'; // Default dark
   };
   
   const wipeColor = getWipeColor();
-
-  // Reduced duration for users who prefer less motion
-  const duration = prefersReducedMotion ? 0.15 : 0.4;
-  const wipeDuration = prefersReducedMotion ? 0.3 : 0.9;
   
   return (
-    <AnimatePresence mode="wait">
-      <motion.div
-        key={pathname}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{
-          duration,
-          ease: [0.16, 1, 0.3, 1],
-        }}
-      >
-        {/* Color wipe overlay - slides in from left, exits to right */}
-        {!prefersReducedMotion && (
-          <motion.div
-            className="fixed inset-0 z-50 pointer-events-none"
-            initial={{ x: '-100%' }}
-            animate={{ x: '100%' }}
-            transition={{
-              duration: wipeDuration,
-              ease: [0.16, 1, 0.3, 1],
-            }}
-            style={{
-              backgroundColor: wipeColor,
-            }}
-          />
-        )}
-        
-        {/* Page content */}
+    <>
+      {/* Color wipe overlay - slides in from left, exits to right */}
+      {showWipe && (
         <motion.div
-          initial={{ y: prefersReducedMotion ? 0 : 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          exit={{ y: prefersReducedMotion ? 0 : -20, opacity: 0 }}
+          className="fixed inset-0 z-50 pointer-events-none"
+          initial={{ x: '-100%' }}
+          animate={{ x: '100%' }}
           transition={{
-            duration: duration * 1.2,
-            delay: prefersReducedMotion ? 0 : 0.15,
+            duration: 0.9,
             ease: [0.16, 1, 0.3, 1],
           }}
-        >
-          {children}
-        </motion.div>
-      </motion.div>
-    </AnimatePresence>
+          style={{
+            backgroundColor: wipeColor,
+          }}
+        />
+      )}
+      
+      {/* Page content - renders immediately */}
+      {children}
+    </>
   );
 }

@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import Fuse from 'fuse.js';
 import { Search, X, ShoppingCart, Wrench, HardHat } from 'lucide-react';
-import { flatSearchData } from '@/app/data/search-data';
+import { flatSearchData } from '@/data/search-data';
 
 interface SearchResult {
   item: {
