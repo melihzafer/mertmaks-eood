@@ -1,5 +1,5 @@
 import { HardHat, Hammer, PaintBucket, Ruler, Drill, Box } from 'lucide-react';
-import { motion, useInView } from 'motion/react';
+import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { Card } from './ui/card';
 

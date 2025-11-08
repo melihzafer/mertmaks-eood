@@ -1,5 +1,5 @@
 import { Wrench, Zap, Home, Shirt, Lightbulb, Scissors } from 'lucide-react';
-import { motion, useInView } from 'motion/react';
+import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { Card } from './ui/card';
 

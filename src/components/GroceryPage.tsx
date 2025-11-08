@@ -1,5 +1,5 @@
 import { ShoppingCart, Apple, Beef, Milk, Sandwich, Coffee, Package } from 'lucide-react';
-import { motion, useInView } from 'motion/react';
+import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { Card } from './ui/card';
 

@@ -1,0 +1,66 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    /* Brand Colors - The "Suit" */
+    --color-background: 249 249 249; /* #F9F9F9 */
+    --color-foreground: 26 26 26; /* #1A1A1A */
+    --color-border: 229 229 229; /* #E5E5E5 */
+    
+    /* Accent Colors - The "Ties" */
+    --color-grocery: 229 62 62; /* #E53E3E - Vibrant Red */
+    --color-industrial: 213 63 140; /* #D53F8C - Magenta */
+    --color-construction: 49 130 206; /* #3182CE - Deep Blue */
+    --color-construction-accent: 214 158 46; /* #D69E2E - Safety Yellow */
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-gray-50 text-gray-900;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  
+  /* Smooth scroll behavior */
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer utilities {
+  /* Text balance for headings */
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  /* Custom accent color utilities */
+  .accent-grocery {
+    color: rgb(var(--color-grocery));
+  }
+  
+  .bg-accent-grocery {
+    background-color: rgb(var(--color-grocery));
+  }
+  
+  .accent-industrial {
+    color: rgb(var(--color-industrial));
+  }
+  
+  .bg-accent-industrial {
+    background-color: rgb(var(--color-industrial));
+  }
+  
+  .accent-construction {
+    color: rgb(var(--color-construction));
+  }
+  
+  .bg-accent-construction {
+    background-color: rgb(var(--color-construction));
+  }
+}

@@ -1,0 +1,56 @@
+/* [project]/src/app/globals.css [app-client] (css) */
+@layer base {
+  :root {
+    --color-background: 249 249 249;
+    --color-foreground: 26 26 26;
+    --color-border: 229 229 229;
+    --color-grocery: 229 62 62;
+    --color-industrial: 213 63 140;
+    --color-construction: 49 130 206;
+    --color-construction-accent: 214 158 46;
+  }
+
+  @apply border-border;
+
+  @apply bg-gray-50 text-gray-900;
+
+  body {
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .accent-grocery {
+    color: rgb(var(--color-grocery));
+  }
+
+  .bg-accent-grocery {
+    background-color: rgb(var(--color-grocery));
+  }
+
+  .accent-industrial {
+    color: rgb(var(--color-industrial));
+  }
+
+  .bg-accent-industrial {
+    background-color: rgb(var(--color-industrial));
+  }
+
+  .accent-construction {
+    color: rgb(var(--color-construction));
+  }
+
+  .bg-accent-construction {
+    background-color: rgb(var(--color-construction));
+  }
+}
+
+/*# sourceMappingURL=src_app_globals_css_bad6b30c._.single.css.map*/

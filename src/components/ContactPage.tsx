@@ -1,5 +1,5 @@
 import { MapPin, Phone, Clock, Mail, ShoppingCart, Wrench, HardHat, Send, Check } from 'lucide-react';
-import { motion, useInView, AnimatePresence } from 'motion/react';
+import { motion, useInView, AnimatePresence } from 'framer-motion';
 import { useRef, useState } from 'react';
 import { Card } from './ui/card';
 import { WebARButton } from './WebARButton';
