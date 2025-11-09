@@ -2,8 +2,13 @@
 
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Navigation, MapPin, AlertCircle } from "lucide-react";
+import { X, Navigation, MapPin, AlertCircle, Compass } from "lucide-react";
 import { Button } from "@/components/ui/button";
+
+// Extend DeviceOrientationEvent for iOS webkit properties
+interface DeviceOrientationEventExtended extends DeviceOrientationEvent {
+  webkitCompassHeading?: number;
+}
 
 interface Store {
   id: string;
@@ -26,12 +31,20 @@ export function WebARFinder({ stores, onClose }: WebARFinderProps) {
   const [stream, setStream] = useState<MediaStream | null>(null);
   const [userLocation, setUserLocation] = useState<GeolocationCoordinates | null>(null);
   const [deviceOrientation, setDeviceOrientation] = useState<number>(0);
+  const [compassHeading, setCompassHeading] = useState<number | null>(null);
   const [error, setError] = useState<string>("");
   const [storesWithDistance, setStoresWithDistance] = useState<Store[]>([]);
   const [permissionGranted, setPermissionGranted] = useState(false);
+  const [isCalibrating, setIsCalibrating] = useState(true);
+  const [accuracy, setAccuracy] = useState<number | null>(null);
 
   // Calculate distance between two coordinates (Haversine formula)
-  const calculateDistance = (lat1: number, lon1: number, lat2: number, lon2: number): number => {
+  const calculateDistance = (
+    lat1: number,
+    lon1: number,
+    lat2: number,
+    lon2: number
+  ): number => {
     const R = 6371; // Earth's radius in km
     const dLat = ((lat2 - lat1) * Math.PI) / 180;
     const dLon = ((lon2 - lon1) * Math.PI) / 180;
@@ -46,7 +59,12 @@ export function WebARFinder({ stores, onClose }: WebARFinderProps) {
   };
 
   // Calculate bearing (direction) to target
-  const calculateBearing = (lat1: number, lon1: number, lat2: number, lon2: number): number => {
+  const calculateBearing = (
+    lat1: number,
+    lon1: number,
+    lat2: number,
+    lon2: number
+  ): number => {
     const dLon = ((lon2 - lon1) * Math.PI) / 180;
     const y = Math.sin(dLon) * Math.cos((lat2 * Math.PI) / 180);
     const x =
@@ -63,7 +81,11 @@ export function WebARFinder({ stores, onClose }: WebARFinderProps) {
     const startCamera = async () => {
       try {
         const mediaStream = await navigator.mediaDevices.getUserMedia({
-          video: { facingMode: "environment" },
+          video: { 
+            facingMode: "environment",
+            width: { ideal: 1920 },
+            height: { ideal: 1080 }
+          },
           audio: false,
         });
         setStream(mediaStream);
@@ -71,6 +93,7 @@ export function WebARFinder({ stores, onClose }: WebARFinderProps) {
           videoRef.current.srcObject = mediaStream;
         }
       } catch (err) {
+        console.error("Camera error:", err);
         setError("Камерата не е достъпна. Моля, разрешете достъп до камерата.");
       }
     };
@@ -84,17 +107,28 @@ export function WebARFinder({ stores, onClose }: WebARFinderProps) {
     };
   }, []);
 
-  // Request geolocation access
+  // Request geolocation access with high accuracy
   useEffect(() => {
     const watchId = navigator.geolocation.watchPosition(
       (position) => {
         setUserLocation(position.coords);
+        setAccuracy(position.coords.accuracy);
         setPermissionGranted(true);
+        
+        // Calibration complete after first accurate reading
+        if (position.coords.accuracy < 50) {
+          setTimeout(() => setIsCalibrating(false), 2000);
+        }
       },
       (err) => {
+        console.error("Geolocation error:", err);
         setError("Локацията не е достъпна. Моля, разрешете достъп до локацията.");
       },
-      { enableHighAccuracy: true, maximumAge: 1000 }
+      { 
+        enableHighAccuracy: true, 
+        maximumAge: 0,
+        timeout: 5000
+      }
     );
 
     return () => {
@@ -102,33 +136,66 @@ export function WebARFinder({ stores, onClose }: WebARFinderProps) {
     };
   }, []);
 
-  // Request device orientation
+  // Request device orientation with improved iOS support
   useEffect(() => {
+    let orientationHandler: ((event: DeviceOrientationEvent) => void) | null = null;
+
     const handleOrientation = (event: DeviceOrientationEvent) => {
+      const extendedEvent = event as DeviceOrientationEventExtended;
+      
+      // Handle both alpha (compass) and webkitCompassHeading (iOS)
       if (event.alpha !== null) {
-        // Alpha is the compass direction (0-360)
-        setDeviceOrientation(event.alpha);
+        // For Android and modern browsers
+        let heading = event.alpha;
+        
+        // Adjust for device orientation - iOS provides true compass heading
+        if (event.absolute && extendedEvent.webkitCompassHeading !== undefined) {
+          heading = extendedEvent.webkitCompassHeading;
+        }
+        
+        // Normalize heading
+        heading = (heading + 360) % 360;
+        setDeviceOrientation(heading);
+        setCompassHeading(heading);
+      } else if (extendedEvent.webkitCompassHeading !== undefined) {
+        // iOS fallback
+        const heading = extendedEvent.webkitCompassHeading;
+        setDeviceOrientation(heading);
+        setCompassHeading(heading);
       }
     };
 
+    orientationHandler = handleOrientation;
+
     // Request permission for iOS 13+
-    if (typeof (DeviceOrientationEvent as any).requestPermission === "function") {
-      (DeviceOrientationEvent as any)
-        .requestPermission()
-        .then((response: string) => {
+    const requestPermission = async () => {
+      if (typeof (DeviceOrientationEvent as any).requestPermission === "function") {
+        try {
+          const response = await (DeviceOrientationEvent as any).requestPermission();
           if (response === "granted") {
-            window.addEventListener("deviceorientation", handleOrientation);
+            window.addEventListener("deviceorientation", handleOrientation, true);
+            window.addEventListener("deviceorientationabsolute", handleOrientation, true);
+          } else {
+            setError("Моля, разрешете достъп до компаса в настройките.");
           }
-        })
-        .catch(() => {
+        } catch (err) {
+          console.error("Orientation permission error:", err);
           setError("Не може да се получи достъп до ориентацията на устройството.");
-        });
-    } else {
-      window.addEventListener("deviceorientation", handleOrientation);
-    }
+        }
+      } else {
+        // Non-iOS devices
+        window.addEventListener("deviceorientation", handleOrientation, true);
+        window.addEventListener("deviceorientationabsolute", handleOrientation, true);
+      }
+    };
+
+    requestPermission();
 
     return () => {
-      window.removeEventListener("deviceorientation", handleOrientation);
+      if (orientationHandler) {
+        window.removeEventListener("deviceorientation", orientationHandler, true);
+        window.removeEventListener("deviceorientationabsolute", orientationHandler, true);
+      }
     };
   }, []);
 
@@ -150,7 +217,9 @@ export function WebARFinder({ stores, onClose }: WebARFinderProps) {
         );
         return { ...store, distance, bearing };
       });
-      setStoresWithDistance(updatedStores.sort((a, b) => (a.distance || 0) - (b.distance || 0)));
+      setStoresWithDistance(
+        updatedStores.sort((a, b) => (a.distance || 0) - (b.distance || 0))
+      );
     }
   }, [userLocation, stores]);
 
@@ -191,12 +260,19 @@ export function WebARFinder({ stores, onClose }: WebARFinderProps) {
         {/* Overlay UI */}
         <div className="absolute inset-0 pointer-events-none">
           {/* Header */}
-          <div className="absolute top-0 left-0 right-0 bg-gradient-to-b from-black/70 to-transparent p-4 pointer-events-auto">
+          <div className="absolute top-0 left-0 right-0 bg-linear-to-b from-black/70 to-transparent p-4 pointer-events-auto">
             <div className="flex items-center justify-between">
-              <h2 className="text-white text-xl font-bold flex items-center gap-2">
-                <Navigation className="w-6 h-6" />
-                AR Навигация
-              </h2>
+              <div className="flex items-center gap-3">
+                <Navigation className="w-6 h-6 text-white" />
+                <div>
+                  <h2 className="text-white text-xl font-bold">AR Навигация</h2>
+                  {accuracy && (
+                    <p className="text-white/70 text-xs">
+                      Точност: {Math.round(accuracy)}m
+                    </p>
+                  )}
+                </div>
+              </div>
               <Button
                 variant="ghost"
                 size="icon"
@@ -208,10 +284,37 @@ export function WebARFinder({ stores, onClose }: WebARFinderProps) {
             </div>
           </div>
 
+          {/* Calibration indicator */}
+          {isCalibrating && (
+            <div className="absolute top-24 left-1/2 transform -translate-x-1/2 bg-blue-500/90 text-white px-6 py-3 rounded-full flex items-center gap-3">
+              <Compass className="w-5 h-5 animate-spin" />
+              <span className="text-sm font-medium">Калибриране на компаса...</span>
+            </div>
+          )}
+
+          {/* Compass rose */}
+          {compassHeading !== null && !isCalibrating && (
+            <div className="absolute top-24 right-4 w-20 h-20 pointer-events-auto">
+              <div className="relative w-full h-full bg-black/50 rounded-full backdrop-blur-sm border-2 border-white/30">
+                <motion.div
+                  className="absolute inset-0 flex items-center justify-center"
+                  animate={{ rotate: -compassHeading }}
+                  transition={{ type: "spring", stiffness: 50, damping: 20 }}
+                >
+                  <div className="text-white text-2xl font-bold">N</div>
+                  <div className="absolute top-1 text-red-500">▲</div>
+                </motion.div>
+                <div className="absolute inset-0 flex items-center justify-center text-white/50 text-xs">
+                  <div className="absolute top-2">{Math.round(compassHeading)}°</div>
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* Error message */}
           {error && (
-            <div className="absolute top-20 left-4 right-4 bg-red-500/90 text-white p-4 rounded-lg flex items-start gap-3">
-              <AlertCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
+            <div className="absolute top-20 left-4 right-4 bg-red-500/90 text-white p-4 rounded-lg flex items-start gap-3 pointer-events-auto">
+              <AlertCircle className="w-5 h-5 shrink-0 mt-0.5" />
               <p className="text-sm">{error}</p>
             </div>
           )}
@@ -288,11 +391,12 @@ export function WebARFinder({ stores, onClose }: WebARFinderProps) {
           )}
 
           {/* Bottom info panel */}
-          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-6 pointer-events-auto">
+          <div className="absolute bottom-0 left-0 right-0 bg-linear-to-t from-black/70 to-transparent p-6 pointer-events-auto">
             {userLocation ? (
               <div className="space-y-3">
                 <p className="text-white text-center text-sm opacity-90">
-                  Насочете камерата към околността. Стрелките показват посоката към магазините.
+                  Насочете камерата към околността. Стрелките показват посоката
+                  към магазините.
                 </p>
                 <div className="grid grid-cols-1 gap-2">
                   {storesWithDistance.slice(0, 3).map((store) => (
@@ -301,7 +405,9 @@ export function WebARFinder({ stores, onClose }: WebARFinderProps) {
                       className="bg-white/10 backdrop-blur-sm rounded-lg p-3 flex items-center justify-between"
                     >
                       <div className="text-white">
-                        <div className="font-semibold text-sm">{store.name}</div>
+                        <div className="font-semibold text-sm">
+                          {store.name}
+                        </div>
                         <div className="text-xs opacity-75">
                           {store.distance
                             ? store.distance < 1

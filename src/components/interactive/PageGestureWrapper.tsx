@@ -11,7 +11,7 @@ interface PageGestureWrapperProps {
   enableBackGesture?: boolean;
 }
 
-export function PageGestureWrapper({
+export default function PageGestureWrapper({
   children,
   nextPage,
   previousPage,
@@ -19,7 +19,10 @@ export function PageGestureWrapper({
 }: PageGestureWrapperProps) {
   const router = useRouter();
 
-  const handlePanEnd = (_: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+  const handlePanEnd = (
+    _: MouseEvent | TouchEvent | PointerEvent,
+    info: PanInfo
+  ) => {
     const swipeThreshold = 100;
     const velocityThreshold = 500;
 

@@ -32,7 +32,8 @@ export function OpenHoursPlanner() {
     setSelectedDay(dayKey);
   };
 
-  const selectedDayLabel = daysOfWeek.find((d) => d.key === selectedDay)?.label || "";
+  const selectedDayLabel =
+    daysOfWeek.find((d) => d.key === selectedDay)?.label || "";
 
   return (
     <div className="mt-8 p-6 bg-white dark:bg-gray-800 rounded-2xl shadow-lg">
@@ -82,7 +83,9 @@ export function OpenHoursPlanner() {
       {/* Store hours */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {storesData.stores.map((store, index) => {
-          const hours = store.hours[selectedDay as keyof typeof store.hours] as StoreHours;
+          const hours = store.hours[
+            selectedDay as keyof typeof store.hours
+          ] as StoreHours;
 
           return (
             <motion.div

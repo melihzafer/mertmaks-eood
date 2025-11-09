@@ -16,7 +16,8 @@ const config: Config = {
         grocery: "rgb(var(--color-grocery) / <alpha-value>)",
         industrial: "rgb(var(--color-industrial) / <alpha-value>)",
         construction: "rgb(var(--color-construction) / <alpha-value>)",
-        "construction-accent": "rgb(var(--color-construction-accent) / <alpha-value>)",
+        "construction-accent":
+          "rgb(var(--color-construction-accent) / <alpha-value>)",
       },
       fontFamily: {
         sans: ["var(--font-inter)", "ui-sans-serif", "system-ui", "sans-serif"],

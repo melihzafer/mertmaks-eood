@@ -4,7 +4,7 @@ import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { Card } from "@/components/ui/card";
 import { industrialPage } from "@/data/industrial";
-import { PageGestureWrapper } from "@/components/interactive/PageGestureWrapper";
+import PageGestureWrapper from "@/components/interactive/PageGestureWrapper";
 
 const { hero, categories, features } = industrialPage;
 const HeroIcon = hero.icon;

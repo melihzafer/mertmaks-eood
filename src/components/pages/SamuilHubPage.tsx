@@ -381,4 +381,3 @@ export function SamuilHubPage() {
     </motion.div>
   );
 }
-
