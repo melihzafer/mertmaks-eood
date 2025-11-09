@@ -8,6 +8,7 @@ import {
   ShoppingCart,
   Wrench,
   HardHat,
+  UtensilsCrossed,
   Send,
   Check,
 } from "lucide-react";
@@ -89,6 +90,18 @@ const stores = [
     position: { top: "45%", left: "65%" },
     openTime: 8,
     closeTime: 20,
+  },
+  {
+    name: "Ресторант Делиорман",
+    icon: UtensilsCrossed,
+    color: "#F59E0B",
+    address: "ул. Хаджи Димитър 6, 7454 Самуил, България",
+    phone: "+359 89 476 6273",
+    hours: "Понеделник - Неделя: 7:00 - 23:30",
+    email: "restaurantdeliorman@gmail.com",
+    position: { top: "42%", left: "52%" },
+    openTime: 7,
+    closeTime: 23.5,
   },
 ];
 
@@ -181,11 +194,11 @@ export default function ContactPage() {
               Нашите Магазини
             </h2>
             <p className="text-xl text-gray-600">
-              Посетете ни на едно от нашите три удобни местоположения
+              Посетете ни на едно от нашите четири удобни местоположения
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {stores.map((store, index) => {
               const Icon = store.icon;
 
@@ -231,7 +244,7 @@ export default function ContactPage() {
                       >
                         <MapPin
                           size={20}
-                          className="flex-shrink-0 text-gray-400 mt-0.5"
+                          className="flex-shrink-0 text-red-400 mt-0.5"
                         />
                         <p className="text-gray-600">{store.address}</p>
                       </motion.div>
