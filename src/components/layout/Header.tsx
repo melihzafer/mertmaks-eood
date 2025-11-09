@@ -12,6 +12,7 @@ const navLinks = [
   { href: "/supermarket", label: "Хранителен" },
   { href: "/industrial", label: "Индустриален" },
   { href: "/construction", label: "Строителен" },
+  { href: "/restaurant", label: "Ресторант" },
   { href: "/contact", label: "Контакти" },
 ];
 
@@ -97,7 +98,7 @@ export function Header() {
 
           <div className="flex p-2 items-center h-24 gap-2">
             {/* Search Bar with Dropdown */}
-            <div className="md:block relative" ref={searchRef}>
+            <div className="md:block hide-on-mobile relative" ref={searchRef}>
               <div className="flex items-center gap-2 px-3 py-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors">
                 <Search className="h-4 text-gray-500" />
                 <input
