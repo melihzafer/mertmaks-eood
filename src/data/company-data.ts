@@ -36,7 +36,7 @@ export interface ContactInfo {
 export const companyInfo: CompanyInfo = {
   name: {
     cyrillic: "МЕРТМАКС",
-    latin: "MERTMAX",
+    latin: "MERTMAKS",
   },
   legalForm: "ЕООД",
   tagline: "Вашият доверен партньор в Самуил и Разград",

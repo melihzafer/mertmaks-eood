@@ -11,6 +11,7 @@ import {
   UtensilsCrossed,
   Send,
   Check,
+  ShoppingCartIcon,
 } from "lucide-react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { useRef, useState } from "react";
@@ -57,7 +58,7 @@ const getStoreStatus = (openTime: number, closeTime: number) => {
 const stores = [
   {
     name: "Супермаркет MERTMAX",
-    icon: ShoppingCart,
+    icon: ShoppingCartIcon,
     color: "#E53E3E",
     address: "ул. Главна 1, с. Самуил, обл. Разград",
     phone: "+359 XXX XXX 001",
@@ -198,7 +199,7 @@ export default function ContactPage() {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
             {stores.map((store, index) => {
               const Icon = store.icon;
 

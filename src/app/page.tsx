@@ -189,7 +189,7 @@ export default function HomePage() {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-7xl mx-auto">
           {divisions.map((division, index) => (
             <motion.div
               key={division.href}
@@ -346,4 +346,3 @@ export default function HomePage() {
     </motion.div>
   );
 }
-
