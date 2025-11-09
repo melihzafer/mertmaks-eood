@@ -180,15 +180,15 @@ mertmaks-v6/
 
 ## 📜 Available Scripts
 
-| Script | Description |
-|--------|-------------|
-| `npm run dev` | Start development server with hot-reload |
-| `npm run build` | Build optimized production bundle |
-| `npm run start` | Start production server |
-| `npm run lint` | Run ESLint for code quality |
-| `npm run typecheck` | Check TypeScript types |
-| `npm run format` | Format code with Prettier |
-| `npm run test` | Run test suite |
+| Script              | Description                              |
+| ------------------- | ---------------------------------------- |
+| `npm run dev`       | Start development server with hot-reload |
+| `npm run build`     | Build optimized production bundle        |
+| `npm run start`     | Start production server                  |
+| `npm run lint`      | Run ESLint for code quality              |
+| `npm run typecheck` | Check TypeScript types                   |
+| `npm run format`    | Format code with Prettier                |
+| `npm run test`      | Run test suite                           |
 
 <br />
 
@@ -198,21 +198,25 @@ mertmaks-v6/
 <summary><strong>Click to view complete tech stack</strong></summary>
 
 ### Core
+
 - **Next.js 15** - React framework with App Router
 - **React 19** - UI library with Server Components
 - **TypeScript** - Type-safe JavaScript
 
 ### Styling
+
 - **Tailwind CSS** - Utility-first CSS framework
 - **SCSS** - CSS preprocessor
 - **CSS Modules** - Scoped styling
 
 ### UI/UX
+
 - **Radix UI** - Unstyled, accessible components
 - **Framer Motion** - Animation library
 - **React Hook Form** - Form management
 
 ### 3D & Visualization
+
 - **Three.js** - 3D graphics library
 - **React Three Fiber** - React renderer for Three.js
 - **React Three Drei** - Useful helpers for R3F
@@ -220,6 +224,7 @@ mertmaks-v6/
 - **React Leaflet** - React components for Leaflet
 
 ### Developer Tools
+
 - **ESLint** - Code linting
 - **Prettier** - Code formatting
 - **Husky** - Git hooks
