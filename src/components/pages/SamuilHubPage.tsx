@@ -1,3 +1,5 @@
+"use client";
+
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { Heart, Users, Award, Calendar } from "lucide-react";
@@ -379,4 +381,3 @@ export function SamuilHubPage() {
     </motion.div>
   );
 }
-

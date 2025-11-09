@@ -13,21 +13,23 @@ import {
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { WebARButton } from "@/components/interactive/WebARButton";
+import PageGestureWrapper from "@/components/interactive/PageGestureWrapper";
 
 export default function RestaurantPage() {
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.5 }}
-      className="min-h-[calc(100vh-4rem)]"
-    >
-      {/* WebAR Button - Mobile Only */}
-      <WebARButton />
+    <PageGestureWrapper nextPage="/contact" previousPage="/construction">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.5 }}
+        className="min-h-[calc(100vh-4rem)]"
+      >
+        {/* WebAR Button - Mobile Only */}
+        <WebARButton />
 
-      {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-amber-50 via-orange-50 to-red-50 py-24 overflow-hidden">
+        {/* Hero Section */}
+        <section className="relative bg-gradient-to-br from-amber-50 via-orange-50 to-red-50 py-24 overflow-hidden">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             <motion.div
@@ -314,5 +316,6 @@ export default function RestaurantPage() {
         </div>
       </section>
     </motion.div>
+    </PageGestureWrapper>
   );
 }

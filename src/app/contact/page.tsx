@@ -17,6 +17,7 @@ import { motion, useInView, AnimatePresence } from "framer-motion";
 import { useRef, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { WebARButton } from "@/components/interactive/WebARButton";
+import { OpenHoursPlanner } from "@/components/features/OpenHoursPlanner";
 import dynamic from "next/dynamic";
 import { getStores } from "@/lib/stores";
 
@@ -481,6 +482,9 @@ export default function ContactPage() {
               </AnimatePresence>
             </motion.button>
           </motion.form>
+
+          {/* Open Hours Planner */}
+          <OpenHoursPlanner />
         </div>
       </section>
     </motion.div>

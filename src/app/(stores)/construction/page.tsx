@@ -4,6 +4,7 @@ import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { Card } from "@/components/ui/card";
 import { constructionPage } from "@/data/construction";
+import PageGestureWrapper from "@/components/interactive/PageGestureWrapper";
 
 const { hero, categories, features, cta } = constructionPage;
 const HeroIcon = hero.icon;
@@ -23,7 +24,7 @@ export default function ConstructionPage() {
   const isCtaInView = useInView(ctaRef, { once: true, margin: "-100px" });
 
   return (
-    <>
+    <PageGestureWrapper nextPage="/restaurant" previousPage="/industrial">
       {/* Color Wipe Transition */}
       <motion.div
         className="fixed inset-0 z-50 pointer-events-none"
@@ -272,6 +273,6 @@ export default function ConstructionPage() {
           </motion.div>
         </section>
       </motion.div>
-    </>
+    </PageGestureWrapper>
   );
 }
