@@ -37,8 +37,8 @@ function createCustomIcon(store: Store): DivIcon {
         {status.status === "open"
           ? "●"
           : status.status === "closing-soon"
-            ? "◐"
-            : "○"}
+            ? "⚠"
+            : "⨉"}
       </div>
     </div>
   );
@@ -293,4 +293,3 @@ export default function SmartStoreMap({
     </div>
   );
 }
-

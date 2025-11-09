@@ -18,6 +18,7 @@ export const mainNavLinks: NavLink[] = [
   { href: "/supermarket", label: "Хранителен" },
   { href: "/industrial", label: "Индустриален" },
   { href: "/construction", label: "Строителен" },
+  { href: "/restaurant", label: "Ресторант" },
   { href: "/contact", label: "Контакти" },
 ];
 
@@ -37,6 +38,11 @@ export const footerQuickLinks: QuickLink[] = [
     href: "/construction",
     label: "Строителство",
     color: "#3182CE",
+  },
+  {
+    href: "/restaurant",
+    label: "Ресторант Делиорман",
+    color: "#F59E0B",
   },
   {
     href: "/about",

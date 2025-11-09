@@ -88,14 +88,17 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 pt-8 border-t border-gray-200 text-center">
+        <div className="mt-12 flex flex-col pt-8 border-t border-gray-200 text-center">
           <p className="text-gray-600">
-            &copy; {new Date().getFullYear()} {companyInfo.name.latin}{" "}
+            &copy; {new Date().getFullYear()} {companyInfo.name.cyrillic}{" "}
             {companyInfo.legalForm}. Всички права запазени.
           </p>
+          <span>
+            Powered by{" "}
+            <Link href="https://portfolio.melihzafer.me">Melih Hyusein</Link>
+          </span>
         </div>
       </div>
     </footer>
   );
 }
-

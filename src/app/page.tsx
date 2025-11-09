@@ -5,39 +5,7 @@ import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { DivisionCard } from "@/components/interactive/DivisionCard";
 import { Card } from "@/components/ui/card";
-
-const divisions = [
-  {
-    title: "Супермаркет",
-    description:
-      "Свежи хранителни продукти, месо, млечни продукти и всичко необходимо за вашето ежедневие.",
-    image:
-      "https://images.unsplash.com/photo-1714224247661-ee250f55a842?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxncm9jZXJ5JTIwc3VwZXJtYXJrZXQlMjBmcmVzaCUyMHByb2R1Y2V8ZW58MXx8fHwxNzYyNTQwMDAwfDA&ixlib=rb-4.1.0&q=80&w=1080",
-    href: "/supermarket",
-    iconName: "ShoppingCart" as const,
-    accentColor: "grocery" as const,
-  },
-  {
-    title: "Промишлени Стоки",
-    description:
-      "Широка гама от промишлени продукти, инструменти и битови стоки за всеки вкус.",
-    image:
-      "https://images.unsplash.com/photo-1613489763341-1a3603e11d61?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxpbmR1c3RyaWFsJTIwZ29vZHMlMjBoYXJkd2FyZSUyMHN0b3JlfGVufDF8fHx8MTc2MjU0MDAwMXww&ixlib=rb-4.1.0&q=80&w=1080",
-    href: "/industrial",
-    iconName: "Building2" as const,
-    accentColor: "industrial" as const,
-  },
-  {
-    title: "Строителство",
-    description:
-      "Професионални строителни материали, инструменти и решения за всеки проект.",
-    image:
-      "https://images.unsplash.com/photo-1758609554573-81474880be44?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb25zdHJ1Y3Rpb24lMjBtYXRlcmlhbHMlMjBidWlsZGluZyUyMHN1cHBsaWVzfGVufDF8fHx8MTc2MjU0MDAwMXww&ixlib=rb-4.1.0&q=80&w=1080",
-    href: "/construction",
-    iconName: "HardHat" as const,
-    accentColor: "construction" as const,
-  },
-];
+import { divisions } from "@/data/home-content";
 
 // Mock promotions data - In production, this would come from Firestore
 const promotions = [
@@ -221,7 +189,7 @@ export default function HomePage() {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-7xl mx-auto">
           {divisions.map((division, index) => (
             <motion.div
               key={division.href}
@@ -378,4 +346,3 @@ export default function HomePage() {
     </motion.div>
   );
 }
-

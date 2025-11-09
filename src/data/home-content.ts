@@ -7,6 +7,7 @@ import {
   ShoppingCart,
   Building2,
   HardHat,
+  UtensilsCrossed,
   type LucideIcon,
 } from "lucide-react";
 
@@ -15,8 +16,8 @@ export interface DivisionData {
   description: string;
   image: string;
   href: string;
-  iconName: "ShoppingCart" | "Building2" | "HardHat";
-  accentColor: "grocery" | "industrial" | "construction";
+  iconName: "ShoppingCart" | "Building2" | "HardHat" | "UtensilsCrossed";
+  accentColor: "grocery" | "industrial" | "construction" | "restaurant";
 }
 
 export interface PromotionData {
@@ -93,6 +94,16 @@ export const divisions: DivisionData[] = [
     href: "/construction",
     iconName: "HardHat",
     accentColor: "construction",
+  },
+  {
+    title: "Ресторант",
+    description:
+      "Традиционна българска кухня с уникална атмосфера и автентични рецепти.",
+    image:
+      "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxyZXN0YXVyYW50JTIwZGluaW5nJTIwdHJhZGl0aW9uYWwlMjBidWxnYXJpYW58ZW58MXx8fHwxNzYyNTQwMDAyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+    href: "/restaurant",
+    iconName: "UtensilsCrossed",
+    accentColor: "restaurant",
   },
 ];
 

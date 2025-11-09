@@ -8,13 +8,23 @@ import {
   ShoppingCart,
   Wrench,
   HardHat,
+  UtensilsCrossed,
   Send,
   Check,
+  ShoppingCartIcon,
 } from "lucide-react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { useRef, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { WebARButton } from "@/components/interactive/WebARButton";
+import dynamic from "next/dynamic";
+import { getStores } from "@/lib/stores";
+
+// Dynamic import to avoid SSR issues with Leaflet
+const SmartStoreMap = dynamic(
+  () => import("@/components/features/SmartStoreMap"),
+  { ssr: false }
+);
 
 // Helper function to check store status
 const getStoreStatus = (openTime: number, closeTime: number) => {
@@ -48,7 +58,7 @@ const getStoreStatus = (openTime: number, closeTime: number) => {
 const stores = [
   {
     name: "Супермаркет MERTMAX",
-    icon: ShoppingCart,
+    icon: ShoppingCartIcon,
     color: "#E53E3E",
     address: "ул. Главна 1, с. Самуил, обл. Разград",
     phone: "+359 XXX XXX 001",
@@ -82,7 +92,22 @@ const stores = [
     openTime: 8,
     closeTime: 20,
   },
+  {
+    name: "Ресторант Делиорман",
+    icon: UtensilsCrossed,
+    color: "#F59E0B",
+    address: "ул. Хаджи Димитър 6, 7454 Самуил, България",
+    phone: "+359 89 476 6273",
+    hours: "Понеделник - Неделя: 7:00 - 23:30",
+    email: "restaurantdeliorman@gmail.com",
+    position: { top: "42%", left: "52%" },
+    openTime: 7,
+    closeTime: 23.5,
+  },
 ];
+
+// Get real stores data
+const realStores = getStores();
 
 export default function ContactPage() {
   const storesRef = useRef(null);
@@ -170,11 +195,11 @@ export default function ContactPage() {
               Нашите Магазини
             </h2>
             <p className="text-xl text-gray-600">
-              Посетете ни на едно от нашите три удобни местоположения
+              Посетете ни на едно от нашите четири удобни местоположения
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
             {stores.map((store, index) => {
               const Icon = store.icon;
 
@@ -220,7 +245,7 @@ export default function ContactPage() {
                       >
                         <MapPin
                           size={20}
-                          className="flex-shrink-0 text-gray-400 mt-0.5"
+                          className="flex-shrink-0 text-red-400 mt-0.5"
                         />
                         <p className="text-gray-600">{store.address}</p>
                       </motion.div>
@@ -304,131 +329,9 @@ export default function ContactPage() {
                 delay: 0.2,
                 ease: [0.16, 1, 0.3, 1],
               }}
-              className="bg-gradient-to-br from-blue-100 via-gray-100 to-pink-100 rounded-3xl h-[500px] relative overflow-hidden shadow-2xl"
+              className="rounded-3xl overflow-hidden shadow-2xl"
             >
-              {/* Stylized Map Background */}
-              <div className="absolute inset-0 opacity-20">
-                <div
-                  className="absolute inset-0"
-                  style={{
-                    backgroundImage:
-                      "linear-gradient(#E5E5E5 1px, transparent 1px), linear-gradient(90deg, #E5E5E5 1px, transparent 1px)",
-                    backgroundSize: "50px 50px",
-                  }}
-                />
-              </div>
-
-              {/* Store Pins */}
-              {stores.map((store, index) => {
-                const Icon = store.icon;
-                const isSelected = selectedStore === index;
-                const storeStatus = getStoreStatus(
-                  store.openTime,
-                  store.closeTime
-                );
-
-                return (
-                  <motion.div
-                    key={store.name}
-                    className="absolute cursor-pointer"
-                    style={store.position}
-                    initial={{ scale: 0, opacity: 0 }}
-                    animate={
-                      isMapInView
-                        ? { scale: 1, opacity: 1 }
-                        : { scale: 0, opacity: 0 }
-                    }
-                    transition={{
-                      duration: 0.6,
-                      delay: 0.4 + index * 0.2,
-                      ease: [0.16, 1, 0.3, 1],
-                    }}
-                    whileHover={{ scale: 1.2 }}
-                    onClick={() => setSelectedStore(isSelected ? null : index)}
-                  >
-                    <motion.div
-                      className="relative"
-                      animate={isSelected ? { y: [0, -10, 0] } : {}}
-                      transition={{
-                        duration: 0.6,
-                        repeat: isSelected ? Infinity : 0,
-                      }}
-                    >
-                      <div
-                        className="w-16 h-16 rounded-full flex items-center justify-center shadow-2xl relative"
-                        style={{ backgroundColor: store.color }}
-                      >
-                        <Icon className="text-white" size={28} />
-
-                        {/* Status Indicator */}
-                        <motion.div
-                          className="absolute -top-1 -right-1 w-5 h-5 rounded-full border-2 border-white shadow-lg"
-                          style={{ backgroundColor: storeStatus.color }}
-                          animate={{ scale: [1, 1.2, 1] }}
-                          transition={{ duration: 2, repeat: Infinity }}
-                        />
-                      </div>
-
-                      {/* Pin pointer */}
-                      <div
-                        className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0"
-                        style={{
-                          borderLeft: "8px solid transparent",
-                          borderRight: "8px solid transparent",
-                          borderTop: `12px solid ${store.color}`,
-                        }}
-                      />
-
-                      {/* Info Popup */}
-                      {isSelected && (
-                        <motion.div
-                          initial={{ opacity: 0, y: 10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          className="absolute bottom-full left-1/2 -translate-x-1/2 mb-4 w-64 bg-white rounded-2xl shadow-2xl p-4"
-                          style={{ borderTop: `4px solid ${store.color}` }}
-                        >
-                          <div className="flex items-center justify-between mb-2">
-                            <h4
-                              className="font-semibold"
-                              style={{ color: store.color }}
-                            >
-                              {store.name}
-                            </h4>
-                            <span
-                              className={`text-xs font-semibold px-2 py-1 rounded-full ${storeStatus.textColor} bg-opacity-10`}
-                              style={{ backgroundColor: storeStatus.color }}
-                            >
-                              {storeStatus.status}
-                            </span>
-                          </div>
-                          <p className="text-sm text-gray-600 mb-3">
-                            {store.address}
-                          </p>
-                          <a
-                            href={`https://www.google.com/maps/search/${encodeURIComponent(store.address)}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center text-sm font-medium hover:underline"
-                            style={{ color: store.color }}
-                          >
-                            Вижте в Google Maps →
-                          </a>
-                        </motion.div>
-                      )}
-                    </motion.div>
-                  </motion.div>
-                );
-              })}
-
-              {/* Location Label */}
-              <div className="absolute bottom-8 left-1/2 -translate-x-1/2 bg-white/95 backdrop-blur px-6 py-3 rounded-full shadow-lg">
-                <div className="flex items-center space-x-2">
-                  <MapPin size={20} className="text-gray-600" />
-                  <span className="font-semibold text-gray-900">
-                    с. Самуил, обл. Разград
-                  </span>
-                </div>
-              </div>
+              <SmartStoreMap stores={realStores} height="600px" />
             </motion.div>
           </div>
         </div>
