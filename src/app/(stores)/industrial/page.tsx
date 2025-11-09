@@ -4,6 +4,7 @@ import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { Card } from "@/components/ui/card";
 import { industrialPage } from "@/data/industrial";
+import { PageGestureWrapper } from "@/components/interactive/PageGestureWrapper";
 
 const { hero, categories, features } = industrialPage;
 const HeroIcon = hero.icon;
@@ -21,7 +22,7 @@ export default function IndustrialPage() {
   });
 
   return (
-    <>
+    <PageGestureWrapper nextPage="/construction" previousPage="/supermarket">
       {/* Color Wipe Transition */}
       <motion.div
         className="fixed inset-0 z-50 pointer-events-none"
@@ -245,6 +246,6 @@ export default function IndustrialPage() {
           </div>
         </section>
       </motion.div>
-    </>
+    </PageGestureWrapper>
   );
 }

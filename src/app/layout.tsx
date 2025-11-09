@@ -4,6 +4,8 @@ import { Header } from "../components/layout/Header";
 import { Footer } from "../components/layout/Footer";
 import { PageTransition } from "../components/layout/PageTransition";
 import { GestureWrapper } from "../components/interactive/GestureWrapper";
+import { ThemeProvider } from "../components/theme/ThemeProvider";
+import { ThemeToggle } from "../components/theme/ThemeToggle";
 import "./global.css";
 import "./common.scss";
 
@@ -38,18 +40,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="bg" className={inter.variable}>
+    <html lang="bg" className={inter.variable} suppressHydrationWarning>
       <body
-        className={`${inter.className} antialiased bg-gray-50 text-gray-900`}
+        className={`${inter.className} antialiased bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100`}
         suppressHydrationWarning
       >
-        <Header />
-        <GestureWrapper>
-          <PageTransition>
-            <main className="min-h-screen">{children}</main>
-          </PageTransition>
-        </GestureWrapper>
-        <Footer />
+        <ThemeProvider>
+          <Header />
+          <GestureWrapper>
+            <PageTransition>
+              <main className="min-h-screen">{children}</main>
+            </PageTransition>
+          </GestureWrapper>
+          <Footer />
+          <ThemeToggle />
+        </ThemeProvider>
       </body>
     </html>
   );
