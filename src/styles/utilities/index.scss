@@ -1,9 +1,9 @@
-/* Import all utility SCSS files */
-@import "./spacing.scss";
-@import "./layout.scss";
-@import "./typography.scss";
-@import "./colors.scss";
-@import "./borders.scss";
-@import "./effects.scss";
-@import "./responsive.scss";
-@import "./interactivity.scss";
+/* Forward all utility SCSS files */
+@forward "./spacing.scss";
+@forward "./layout.scss";
+@forward "./typography.scss";
+@forward "./colors.scss";
+@forward "./borders.scss";
+@forward "./effects.scss";
+@forward "./responsive.scss";
+@forward "./interactivity.scss";

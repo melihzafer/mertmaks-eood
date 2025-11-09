@@ -49,7 +49,7 @@ export default function LeafletMap({ stores, height = '500px' }: LeafletMapProps
                 <h3 className='font-semibold text-base mb-1'>{store.name}</h3>
                 <p className='text-sm text-gray-600 mb-2'>{store.address}</p>
                 <p className='text-xs text-gray-500 mb-2'>
-                  Тел: <a href={'tel:' + store.phone} className='text-red-600 hover:underline'>{store.phone}</a>
+                  пїЅпїЅпїЅ: <a href={'tel:' + store.phone} className='text-red-600 hover:underline'>{store.phone}</a>
                 </p>
                 <a
                   href={'https://www.google.com/maps/dir//' + store.coordinates.lat + ',' + store.coordinates.lng}
@@ -57,7 +57,7 @@ export default function LeafletMap({ stores, height = '500px' }: LeafletMapProps
                   rel='noopener noreferrer'
                   className='text-sm text-red-600 hover:text-red-700 font-medium'
                 >
-                  Получи указания >
+                  Р’Р·РµРјРё РјР°СЂС€СЂСѓС‚ {'>'}
                 </a>
               </div>
             </Popup>

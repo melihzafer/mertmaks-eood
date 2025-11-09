@@ -61,7 +61,7 @@ export function StoreMap({ stores, height = '500px' }: StoreMapProps) {
               <div className='flex items-start gap-2'>
                 <Clock className='w-4 h-4 mt-0.5 shrink-0' />
                 <span>
-                  Пон-Нед: {store.hours.monday.open} - {store.hours.monday.close}
+                  пїЅпїЅпїЅ-пїЅпїЅпїЅ: {store.hours.monday.open} - {store.hours.monday.close}
                 </span>
               </div>
             </div>
@@ -72,7 +72,7 @@ export function StoreMap({ stores, height = '500px' }: StoreMapProps) {
               rel='noopener noreferrer'
               className='mt-4 inline-block text-sm text-red-600 hover:text-red-700 font-medium'
             >
-              Получи указания >
+              Р’Р·РµРјРё РјР°СЂС€СЂСѓС‚ {'>'}
             </a>
           </div>
         ))}
