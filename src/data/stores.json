@@ -92,6 +92,37 @@
         "Дървен материал",
         "Крепежни елементи"
       ]
+    },
+    {
+      "id": "restaurant",
+      "name": "Ресторант Делиорман",
+      "type": "restaurant",
+      "address": "ул. Хаджи Димитър 6, 7454 Самуил, България",
+      "city": "Самуил",
+      "region": "Разград",
+      "phone": "+359 89 476 6273",
+      "email": "restaurantdeliorman@gmail.com",
+      "coordinates": {
+        "lat": 43.5137365,
+        "lng": 26.7414018
+      },
+      "hours": {
+        "monday": { "open": "07:00", "close": "23:30", "closed": false },
+        "tuesday": { "open": "07:00", "close": "23:30", "closed": false },
+        "wednesday": { "open": "07:00", "close": "23:30", "closed": false },
+        "thursday": { "open": "07:00", "close": "23:30", "closed": false },
+        "friday": { "open": "07:00", "close": "23:30", "closed": false },
+        "saturday": { "open": "07:00", "close": "23:30", "closed": false },
+        "sunday": { "open": "07:00", "close": "23:30", "closed": false }
+      },
+      "features": [
+        "Традиционна българска кухня",
+        "Месни специалитети",
+        "Салати и закуски",
+        "Кетъринг услуги",
+        "Десерти",
+        "Местни напитки"
+      ]
     }
   ]
 }

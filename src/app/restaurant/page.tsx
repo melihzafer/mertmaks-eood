@@ -1,7 +1,15 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ExternalLink, UtensilsCrossed, MapPin, Clock, Phone, Star, ArrowRight } from "lucide-react";
+import {
+  ExternalLink,
+  UtensilsCrossed,
+  MapPin,
+  Clock,
+  Phone,
+  Star,
+  ArrowRight,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { WebARButton } from "@/components/interactive/WebARButton";
@@ -36,7 +44,11 @@ export default function RestaurantPage() {
             <motion.h1
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+              transition={{
+                duration: 0.8,
+                delay: 0.1,
+                ease: [0.16, 1, 0.3, 1],
+              }}
               className="text-5xl md:text-7xl font-bold text-gray-900 mb-6"
             >
               Ресторант Делиорман
@@ -45,7 +57,11 @@ export default function RestaurantPage() {
             <motion.p
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              transition={{
+                duration: 0.8,
+                delay: 0.2,
+                ease: [0.16, 1, 0.3, 1],
+              }}
               className="text-xl md:text-2xl text-gray-600 mb-12 max-w-2xl mx-auto"
             >
               Традиционна българска кухня с модерен усет в сърцето на Самуил
@@ -54,13 +70,19 @@ export default function RestaurantPage() {
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+              transition={{
+                duration: 0.8,
+                delay: 0.3,
+                ease: [0.16, 1, 0.3, 1],
+              }}
               className="flex flex-col sm:flex-row gap-4 justify-center"
             >
               <Button
                 size="lg"
                 className="bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white shadow-xl hover:shadow-2xl transition-all group"
-                onClick={() => window.open("https://deliorman.vercel.app", "_blank")}
+                onClick={() =>
+                  window.open("https://deliorman.vercel.app", "_blank")
+                }
               >
                 Посетете Сайта на Ресторанта
                 <ExternalLink className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -89,19 +111,21 @@ export default function RestaurantPage() {
                   За Ресторант Делиорман
                 </h2>
                 <p className="text-lg text-gray-600 mb-6">
-                  Ресторант Делиорман е част от семейството МЕРТМАКС ЕООД и предлага автентична българска кухня, 
-                  приготвена с любов и внимание към детайла.
+                  Ресторант Делиорман е част от семейството МЕРТМАКС ЕООД и
+                  предлага автентична българска кухня, приготвена с любов и
+                  внимание към детайла.
                 </p>
                 <p className="text-lg text-gray-600 mb-6">
-                  Нашите ястия се приготвят от свежи продукти, много от които са налични в нашия супермаркет. 
-                  Атмосферата е уютна и приятна, идеална за семейни събирания и специални поводи.
+                  Нашите ястия се приготвят от свежи продукти, много от които са
+                  налични в нашия супермаркет. Атмосферата е уютна и приятна,
+                  идеална за семейни събирания и специални поводи.
                 </p>
                 <div className="flex flex-wrap gap-4">
                   {[
                     "🍽️ Традиционна кухня",
                     "👨‍🍳 Професионални готвачи",
                     "🌿 Свежи продукти",
-                    "❤️ Семейна атмосфера"
+                    "❤️ Семейна атмосфера",
                   ].map((feature, index) => (
                     <motion.div
                       key={index}
@@ -211,12 +235,14 @@ export default function RestaurantPage() {
               {[
                 {
                   title: "Автентични рецепти",
-                  description: "Традиционни български ястия, приготвени по стари семейни рецепти",
+                  description:
+                    "Традиционни български ястия, приготвени по стари семейни рецепти",
                   icon: "🍲",
                 },
                 {
                   title: "Свежи продукти",
-                  description: "Използваме най-качествените продукти от нашия супермаркет",
+                  description:
+                    "Използваме най-качествените продукти от нашия супермаркет",
                   icon: "🥗",
                 },
                 {
@@ -226,7 +252,8 @@ export default function RestaurantPage() {
                 },
                 {
                   title: "Професионално обслужване",
-                  description: "Любезен персонал и отлично качество на услугата",
+                  description:
+                    "Любезен персонал и отлично качество на услугата",
                   icon: "⭐",
                 },
               ].map((feature, index) => (
@@ -269,12 +296,15 @@ export default function RestaurantPage() {
                 Готови за незабравимо кулинарно преживяване?
               </h2>
               <p className="text-xl text-white/90 mb-8">
-                Посетете нашия уебсайт за повече информация за менюто, галерия и резервации
+                Посетете нашия уебсайт за повече информация за менюто, галерия и
+                резервации
               </p>
               <Button
                 size="lg"
                 className="bg-white text-orange-600 hover:bg-gray-100 shadow-xl hover:shadow-2xl transition-all group"
-                onClick={() => window.open("https://deliorman.vercel.app", "_blank")}
+                onClick={() =>
+                  window.open("https://deliorman.vercel.app", "_blank")
+                }
               >
                 Към Сайта на Ресторанта
                 <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />

@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import { ArrowRight, ShoppingCart, Building2, HardHat } from 'lucide-react';
+import { ArrowRight, ShoppingCart, Building2, HardHat, UtensilsCrossed } from 'lucide-react';
 import { useState, useRef } from 'react';
 
 interface DivisionCardProps {
@@ -10,8 +10,8 @@ interface DivisionCardProps {
   description: string;
   image: string;
   href: string;
-  iconName: 'ShoppingCart' | 'Building2' | 'HardHat';
-  accentColor: 'grocery' | 'industrial' | 'construction';
+  iconName: 'ShoppingCart' | 'Building2' | 'HardHat' | 'UtensilsCrossed';
+  accentColor: 'grocery' | 'industrial' | 'construction' | 'restaurant';
 }
 
 export function DivisionCard({
@@ -31,6 +31,7 @@ export function DivisionCard({
     ShoppingCart,
     Building2,
     HardHat,
+    UtensilsCrossed,
   };
   const Icon = iconMap[iconName];
 
@@ -60,6 +61,10 @@ export function DivisionCard({
     construction: {
       solid: 'var(--color-construction)',
       gradient: 'radial-gradient(circle at center, rgba(49, 130, 206, 0.15) 0%, transparent 70%)',
+    },
+    restaurant: {
+      solid: '#F59E0B',
+      gradient: 'radial-gradient(circle at center, rgba(245, 158, 11, 0.15) 0%, transparent 70%)',
     },
   };
 
