@@ -29,7 +29,8 @@ interface WebARFinderProps {
 export function WebARFinder({ stores, onClose }: WebARFinderProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [stream, setStream] = useState<MediaStream | null>(null);
-  const [userLocation, setUserLocation] = useState<GeolocationCoordinates | null>(null);
+  const [userLocation, setUserLocation] =
+    useState<GeolocationCoordinates | null>(null);
   const [deviceOrientation, setDeviceOrientation] = useState<number>(0);
   const [compassHeading, setCompassHeading] = useState<number | null>(null);
   const [error, setError] = useState<string>("");
@@ -81,10 +82,10 @@ export function WebARFinder({ stores, onClose }: WebARFinderProps) {
     const startCamera = async () => {
       try {
         const mediaStream = await navigator.mediaDevices.getUserMedia({
-          video: { 
+          video: {
             facingMode: "environment",
             width: { ideal: 1920 },
-            height: { ideal: 1080 }
+            height: { ideal: 1080 },
           },
           audio: false,
         });
@@ -114,7 +115,7 @@ export function WebARFinder({ stores, onClose }: WebARFinderProps) {
         setUserLocation(position.coords);
         setAccuracy(position.coords.accuracy);
         setPermissionGranted(true);
-        
+
         // Calibration complete after first accurate reading
         if (position.coords.accuracy < 50) {
           setTimeout(() => setIsCalibrating(false), 2000);
@@ -122,12 +123,14 @@ export function WebARFinder({ stores, onClose }: WebARFinderProps) {
       },
       (err) => {
         console.error("Geolocation error:", err);
-        setError("Локацията не е достъпна. Моля, разрешете достъп до локацията.");
+        setError(
+          "Локацията не е достъпна. Моля, разрешете достъп до локацията."
+        );
       },
-      { 
-        enableHighAccuracy: true, 
+      {
+        enableHighAccuracy: true,
         maximumAge: 0,
-        timeout: 5000
+        timeout: 5000,
       }
     );
 
@@ -138,54 +141,89 @@ export function WebARFinder({ stores, onClose }: WebARFinderProps) {
 
   // Request device orientation with improved iOS support
   useEffect(() => {
-    let orientationHandler: ((event: DeviceOrientationEvent) => void) | null = null;
+    let orientationHandler: ((event: DeviceOrientationEvent) => void) | null =
+      null;
 
     const handleOrientation = (event: DeviceOrientationEvent) => {
       const extendedEvent = event as DeviceOrientationEventExtended;
-      
-      // Handle both alpha (compass) and webkitCompassHeading (iOS)
+
+      // iOS handling - highest priority
+      if (extendedEvent.webkitCompassHeading !== undefined) {
+        setDeviceOrientation(extendedEvent.webkitCompassHeading);
+        setCompassHeading(extendedEvent.webkitCompassHeading);
+        return;
+      }
+
+      // Android/Standard handling
       if (event.alpha !== null) {
-        // For Android and modern browsers
-        let heading = event.alpha;
-        
-        // Adjust for device orientation - iOS provides true compass heading
-        if (event.absolute && extendedEvent.webkitCompassHeading !== undefined) {
-          heading = extendedEvent.webkitCompassHeading;
+        // If this is a 'deviceorientationabsolute' event, it's the best source for Android
+        if (event.type === "deviceorientationabsolute") {
+          const heading = (360 - event.alpha) % 360;
+          setDeviceOrientation(heading);
+          setCompassHeading(heading);
+          return;
         }
-        
-        // Normalize heading
-        heading = (heading + 360) % 360;
-        setDeviceOrientation(heading);
-        setCompassHeading(heading);
-      } else if (extendedEvent.webkitCompassHeading !== undefined) {
-        // iOS fallback
-        const heading = extendedEvent.webkitCompassHeading;
+
+        // If it's a standard 'deviceorientation' event
+        // We only use it if we haven't received absolute events (hard to track without state,
+        // but we can check the 'absolute' property if available)
+
+        // If the event explicitly says it's absolute, use it
+        if (event.absolute) {
+          const heading = (360 - event.alpha) % 360;
+          setDeviceOrientation(heading);
+          setCompassHeading(heading);
+          return;
+        }
+
+        // Fallback: If we are here, we have a relative 'deviceorientation' event (absolute=false or undefined).
+        // We use it because it's better than nothing, and on some devices it might be all we get.
+        // However, to avoid jitter if both events are firing, we could try to detect if we are getting absolute ones.
+        // For now, we'll accept it to ensure the UI updates when the user rotates.
+        const heading = (360 - event.alpha) % 360;
         setDeviceOrientation(heading);
         setCompassHeading(heading);
       }
     };
-
     orientationHandler = handleOrientation;
 
     // Request permission for iOS 13+
     const requestPermission = async () => {
-      if (typeof (DeviceOrientationEvent as any).requestPermission === "function") {
+      if (
+        typeof (DeviceOrientationEvent as any).requestPermission === "function"
+      ) {
         try {
-          const response = await (DeviceOrientationEvent as any).requestPermission();
+          const response = await (
+            DeviceOrientationEvent as any
+          ).requestPermission();
           if (response === "granted") {
-            window.addEventListener("deviceorientation", handleOrientation, true);
-            window.addEventListener("deviceorientationabsolute", handleOrientation, true);
+            window.addEventListener(
+              "deviceorientation",
+              handleOrientation,
+              true
+            );
+            window.addEventListener(
+              "deviceorientationabsolute",
+              handleOrientation,
+              true
+            );
           } else {
             setError("Моля, разрешете достъп до компаса в настройките.");
           }
         } catch (err) {
           console.error("Orientation permission error:", err);
-          setError("Не може да се получи достъп до ориентацията на устройството.");
+          setError(
+            "Не може да се получи достъп до ориентацията на устройството."
+          );
         }
       } else {
         // Non-iOS devices
         window.addEventListener("deviceorientation", handleOrientation, true);
-        window.addEventListener("deviceorientationabsolute", handleOrientation, true);
+        window.addEventListener(
+          "deviceorientationabsolute",
+          handleOrientation,
+          true
+        );
       }
     };
 
@@ -193,8 +231,16 @@ export function WebARFinder({ stores, onClose }: WebARFinderProps) {
 
     return () => {
       if (orientationHandler) {
-        window.removeEventListener("deviceorientation", orientationHandler, true);
-        window.removeEventListener("deviceorientationabsolute", orientationHandler, true);
+        window.removeEventListener(
+          "deviceorientation",
+          orientationHandler,
+          true
+        );
+        window.removeEventListener(
+          "deviceorientationabsolute",
+          orientationHandler,
+          true
+        );
       }
     };
   }, []);
@@ -288,7 +334,9 @@ export function WebARFinder({ stores, onClose }: WebARFinderProps) {
           {isCalibrating && (
             <div className="absolute top-24 left-1/2 transform -translate-x-1/2 bg-blue-500/90 text-white px-6 py-3 rounded-full flex items-center gap-3">
               <Compass className="w-5 h-5 animate-spin" />
-              <span className="text-sm font-medium">Калибриране на компаса...</span>
+              <span className="text-sm font-medium">
+                Калибриране на компаса...
+              </span>
             </div>
           )}
 
@@ -305,7 +353,9 @@ export function WebARFinder({ stores, onClose }: WebARFinderProps) {
                   <div className="absolute top-1 text-red-500">▲</div>
                 </motion.div>
                 <div className="absolute inset-0 flex items-center justify-center text-white/50 text-xs">
-                  <div className="absolute top-2">{Math.round(compassHeading)}°</div>
+                  <div className="absolute top-2">
+                    {Math.round(compassHeading)}°
+                  </div>
                 </div>
               </div>
             </div>
@@ -330,16 +380,23 @@ export function WebARFinder({ stores, onClose }: WebARFinderProps) {
                 if (relativeAngle < 0) relativeAngle += 360;
                 if (relativeAngle > 360) relativeAngle -= 360;
 
-                // Only show if within 60 degrees of current view
-                const isVisible = relativeAngle < 60 || relativeAngle > 300;
+                // Only show if within 30 degrees of current view (60 degree FOV)
+                const FOV = 60;
+                const halfFOV = FOV / 2;
+
+                const isVisible =
+                  relativeAngle < halfFOV || relativeAngle > 360 - halfFOV;
                 if (!isVisible) return null;
 
                 // Calculate position on screen
                 let screenX = 50; // Center
                 if (relativeAngle < 180) {
-                  screenX = 50 + (relativeAngle / 180) * 40; // 0-40% right
+                  // Right side (0 to halfFOV)
+                  screenX = 50 + (relativeAngle / halfFOV) * 50;
                 } else {
-                  screenX = 50 - ((360 - relativeAngle) / 180) * 40; // 0-40% left
+                  // Left side (360-halfFOV to 360)
+                  const diff = 360 - relativeAngle;
+                  screenX = 50 - (diff / halfFOV) * 50;
                 }
 
                 return (
