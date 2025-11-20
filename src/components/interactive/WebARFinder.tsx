@@ -29,7 +29,8 @@ interface WebARFinderProps {
 export function WebARFinder({ stores, onClose }: WebARFinderProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [stream, setStream] = useState<MediaStream | null>(null);
-  const [userLocation, setUserLocation] = useState<GeolocationCoordinates | null>(null);
+  const [userLocation, setUserLocation] =
+    useState<GeolocationCoordinates | null>(null);
   const [deviceOrientation, setDeviceOrientation] = useState<number>(0);
   const [compassHeading, setCompassHeading] = useState<number | null>(null);
   const [error, setError] = useState<string>("");
@@ -37,6 +38,17 @@ export function WebARFinder({ stores, onClose }: WebARFinderProps) {
   const [permissionGranted, setPermissionGranted] = useState(false);
   const [isCalibrating, setIsCalibrating] = useState(true);
   const [accuracy, setAccuracy] = useState<number | null>(null);
+  const [isIOS, setIsIOS] = useState(false);
+  const [needsPermission, setNeedsPermission] = useState(false);
+  const watchIdRef = useRef<number | null>(null);
+
+  // Detect iOS
+  useEffect(() => {
+    const iOS =
+      /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+      (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+    setIsIOS(iOS);
+  }, []);
 
   // Calculate distance between two coordinates (Haversine formula)
   const calculateDistance = (
@@ -80,21 +92,39 @@ export function WebARFinder({ stores, onClose }: WebARFinderProps) {
   useEffect(() => {
     const startCamera = async () => {
       try {
-        const mediaStream = await navigator.mediaDevices.getUserMedia({
-          video: { 
-            facingMode: "environment",
-            width: { ideal: 1920 },
-            height: { ideal: 1080 }
+        const constraints: MediaStreamConstraints = {
+          video: {
+            facingMode: { ideal: "environment" },
+            width: { ideal: 1280 },
+            height: { ideal: 720 },
           },
           audio: false,
-        });
+        };
+
+        const mediaStream =
+          await navigator.mediaDevices.getUserMedia(constraints);
         setStream(mediaStream);
+
         if (videoRef.current) {
           videoRef.current.srcObject = mediaStream;
+          // Force play on iOS
+          videoRef.current.setAttribute("playsinline", "true");
+          videoRef.current.setAttribute("autoplay", "true");
+          videoRef.current.setAttribute("muted", "true");
+
+          // Ensure video plays
+          const playPromise = videoRef.current.play();
+          if (playPromise !== undefined) {
+            playPromise.catch((err) => {
+              console.error("Video play error:", err);
+            });
+          }
         }
       } catch (err) {
         console.error("Camera error:", err);
-        setError("Камерата не е достъпна. Моля, разрешете достъп до камерата.");
+        setError(
+          "Камерата не е достъпна. Моля, разрешете достъп до камерата в настройките."
+        );
       }
     };
 
@@ -109,57 +139,80 @@ export function WebARFinder({ stores, onClose }: WebARFinderProps) {
 
   // Request geolocation access with high accuracy
   useEffect(() => {
-    const watchId = navigator.geolocation.watchPosition(
+    if (watchIdRef.current !== null) {
+      navigator.geolocation.clearWatch(watchIdRef.current);
+    }
+
+    watchIdRef.current = navigator.geolocation.watchPosition(
       (position) => {
         setUserLocation(position.coords);
         setAccuracy(position.coords.accuracy);
         setPermissionGranted(true);
-        
+        setError(""); // Clear errors
+
         // Calibration complete after first accurate reading
-        if (position.coords.accuracy < 50) {
-          setTimeout(() => setIsCalibrating(false), 2000);
+        if (position.coords.accuracy < 100) {
+          setTimeout(() => setIsCalibrating(false), 1500);
         }
       },
       (err) => {
         console.error("Geolocation error:", err);
-        setError("Локацията не е достъпна. Моля, разрешете достъп до локацията.");
+        let errorMsg = "Локацията не е достъпна.";
+        if (err.code === 1) {
+          errorMsg =
+            "Моля, разрешете достъп до локацията в настройките на браузъра.";
+        } else if (err.code === 2) {
+          errorMsg =
+            "Локацията не може да бъде определена. Проверете GPS сигнала.";
+        } else if (err.code === 3) {
+          errorMsg = "Изтекло време за определяне на локацията.";
+        }
+        setError(errorMsg);
       },
-      { 
-        enableHighAccuracy: true, 
-        maximumAge: 0,
-        timeout: 5000
+      {
+        enableHighAccuracy: true,
+        maximumAge: 1000,
+        timeout: 10000,
       }
     );
 
     return () => {
-      navigator.geolocation.clearWatch(watchId);
+      if (watchIdRef.current !== null) {
+        navigator.geolocation.clearWatch(watchIdRef.current);
+        watchIdRef.current = null;
+      }
     };
   }, []);
 
   // Request device orientation with improved iOS support
   useEffect(() => {
-    let orientationHandler: ((event: DeviceOrientationEvent) => void) | null = null;
+    let orientationHandler: ((event: DeviceOrientationEvent) => void) | null =
+      null;
 
     const handleOrientation = (event: DeviceOrientationEvent) => {
       const extendedEvent = event as DeviceOrientationEventExtended;
-      
-      // Handle both alpha (compass) and webkitCompassHeading (iOS)
-      if (event.alpha !== null) {
-        // For Android and modern browsers
-        let heading = event.alpha;
-        
-        // Adjust for device orientation - iOS provides true compass heading
-        if (event.absolute && extendedEvent.webkitCompassHeading !== undefined) {
-          heading = extendedEvent.webkitCompassHeading;
+
+      let heading: number | null = null;
+
+      // iOS Safari uses webkitCompassHeading (already adjusted to true north)
+      if (extendedEvent.webkitCompassHeading !== undefined) {
+        heading = extendedEvent.webkitCompassHeading;
+      }
+      // Android and other browsers use alpha
+      else if (event.alpha !== null) {
+        // Alpha gives rotation around Z-axis (0-360)
+        // In portrait mode, alpha represents compass heading
+        heading = event.alpha;
+
+        // Adjust for absolute/relative
+        if (event.absolute === false && event.alpha !== null) {
+          heading = 360 - event.alpha;
         }
-        
-        // Normalize heading
+      }
+
+      if (heading !== null) {
+        // Normalize to 0-360
         heading = (heading + 360) % 360;
-        setDeviceOrientation(heading);
-        setCompassHeading(heading);
-      } else if (extendedEvent.webkitCompassHeading !== undefined) {
-        // iOS fallback
-        const heading = extendedEvent.webkitCompassHeading;
         setDeviceOrientation(heading);
         setCompassHeading(heading);
       }
@@ -169,23 +222,52 @@ export function WebARFinder({ stores, onClose }: WebARFinderProps) {
 
     // Request permission for iOS 13+
     const requestPermission = async () => {
-      if (typeof (DeviceOrientationEvent as any).requestPermission === "function") {
+      if (
+        typeof (DeviceOrientationEvent as any).requestPermission === "function"
+      ) {
+        setNeedsPermission(true);
         try {
-          const response = await (DeviceOrientationEvent as any).requestPermission();
+          const response = await (
+            DeviceOrientationEvent as any
+          ).requestPermission();
           if (response === "granted") {
-            window.addEventListener("deviceorientation", handleOrientation, true);
-            window.addEventListener("deviceorientationabsolute", handleOrientation, true);
+            setNeedsPermission(false);
+            window.addEventListener(
+              "deviceorientation",
+              handleOrientation,
+              true
+            );
+            window.addEventListener(
+              "deviceorientationabsolute",
+              handleOrientation,
+              true
+            );
           } else {
-            setError("Моля, разрешете достъп до компаса в настройките.");
+            setError(
+              "Моля, разрешете достъп до компаса в Safari настройките: Settings > Safari > Motion & Orientation Access"
+            );
           }
         } catch (err) {
           console.error("Orientation permission error:", err);
-          setError("Не може да се получи достъп до ориентацията на устройството.");
+          setError(
+            "За да използвате AR режим на iOS, трябва да разрешите достъп до сензорите."
+          );
         }
       } else {
-        // Non-iOS devices
+        // Non-iOS devices - directly add listeners
         window.addEventListener("deviceorientation", handleOrientation, true);
-        window.addEventListener("deviceorientationabsolute", handleOrientation, true);
+        window.addEventListener(
+          "deviceorientationabsolute",
+          handleOrientation,
+          true
+        );
+
+        // Check if we're getting data
+        setTimeout(() => {
+          if (compassHeading === null) {
+            setError("Компасът не е достъпен на това устройство.");
+          }
+        }, 3000);
       }
     };
 
@@ -193,11 +275,41 @@ export function WebARFinder({ stores, onClose }: WebARFinderProps) {
 
     return () => {
       if (orientationHandler) {
-        window.removeEventListener("deviceorientation", orientationHandler, true);
-        window.removeEventListener("deviceorientationabsolute", orientationHandler, true);
+        window.removeEventListener(
+          "deviceorientation",
+          orientationHandler,
+          true
+        );
+        window.removeEventListener(
+          "deviceorientationabsolute",
+          orientationHandler,
+          true
+        );
       }
     };
-  }, []);
+  }, [compassHeading]);
+
+  // Button to request permission on iOS
+  const requestIOSPermission = async () => {
+    if (
+      typeof (DeviceOrientationEvent as any).requestPermission === "function"
+    ) {
+      try {
+        const response = await (
+          DeviceOrientationEvent as any
+        ).requestPermission();
+        if (response === "granted") {
+          setNeedsPermission(false);
+          setError("");
+          location.reload(); // Reload to reinitialize sensors
+        }
+      } catch (err) {
+        setError(
+          "Достъпът беше отказан. Моля, разрешете в Safari настройките."
+        );
+      }
+    }
+  };
 
   // Calculate distances and bearings when user location changes
   useEffect(() => {
@@ -288,7 +400,9 @@ export function WebARFinder({ stores, onClose }: WebARFinderProps) {
           {isCalibrating && (
             <div className="absolute top-24 left-1/2 transform -translate-x-1/2 bg-blue-500/90 text-white px-6 py-3 rounded-full flex items-center gap-3">
               <Compass className="w-5 h-5 animate-spin" />
-              <span className="text-sm font-medium">Калибриране на компаса...</span>
+              <span className="text-sm font-medium">
+                Калибриране на компаса...
+              </span>
             </div>
           )}
 
@@ -305,17 +419,55 @@ export function WebARFinder({ stores, onClose }: WebARFinderProps) {
                   <div className="absolute top-1 text-red-500">▲</div>
                 </motion.div>
                 <div className="absolute inset-0 flex items-center justify-center text-white/50 text-xs">
-                  <div className="absolute top-2">{Math.round(compassHeading)}°</div>
+                  <div className="absolute top-2">
+                    {Math.round(compassHeading)}°
+                  </div>
                 </div>
               </div>
             </div>
           )}
 
           {/* Error message */}
-          {error && (
-            <div className="absolute top-20 left-4 right-4 bg-red-500/90 text-white p-4 rounded-lg flex items-start gap-3 pointer-events-auto">
+          {error && !needsPermission && (
+            <div className="absolute top-20 left-4 right-4 bg-red-500/90 text-white p-4 rounded-lg flex items-start gap-3 pointer-events-auto backdrop-blur-sm">
               <AlertCircle className="w-5 h-5 shrink-0 mt-0.5" />
-              <p className="text-sm">{error}</p>
+              <div className="flex-1">
+                <p className="text-sm font-medium mb-1">Грешка</p>
+                <p className="text-xs opacity-90">{error}</p>
+              </div>
+            </div>
+          )}
+
+          {/* iOS Permission Request */}
+          {needsPermission && isIOS && (
+            <div className="absolute inset-0 flex items-center justify-center p-6 bg-black/80 backdrop-blur-sm pointer-events-auto">
+              <div className="bg-white rounded-2xl p-6 max-w-sm">
+                <div className="flex flex-col items-center text-center gap-4">
+                  <Compass className="w-16 h-16 text-blue-600" />
+                  <div>
+                    <h3 className="text-xl font-bold text-gray-900 mb-2">
+                      Необходимо е разрешение
+                    </h3>
+                    <p className="text-sm text-gray-600">
+                      AR режимът изисква достъп до компаса и сензорите за
+                      движение на вашето устройство.
+                    </p>
+                  </div>
+                  <Button
+                    onClick={requestIOSPermission}
+                    className="w-full bg-blue-600 hover:bg-blue-700"
+                    size="lg"
+                  >
+                    Разреши достъп
+                  </Button>
+                  <button
+                    onClick={handleClose}
+                    className="text-sm text-gray-500 hover:text-gray-700"
+                  >
+                    Откажи
+                  </button>
+                </div>
+              </div>
             </div>
           )}
 

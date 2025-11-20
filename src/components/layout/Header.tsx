@@ -1,20 +1,47 @@
 ﻿"use client";
 
+import * as React from "react";
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Search } from "lucide-react";
 import { searchData } from "@/data/search-data";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "@/components/ui/navigation-menu";
+import { cn } from "@/lib/utils";
 
-const navLinks = [
-  { href: "/", label: "Начало" },
-  { href: "/supermarket", label: "Хранителен" },
-  { href: "/industrial", label: "Индустриален" },
-  { href: "/construction", label: "Строителен" },
-  { href: "/restaurant", label: "Ресторант" },
-  { href: "/contact", label: "Контакти" },
-];
+const ListItem = React.forwardRef<
+  React.ElementRef<typeof Link>,
+  React.ComponentPropsWithoutRef<typeof Link> & { title: string }
+>(({ className, title, children, ...props }, ref) => {
+  return (
+    <li>
+      <NavigationMenuLink asChild>
+        <Link
+          ref={ref}
+          className={cn(
+            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+            className
+          )}
+          {...props}
+        >
+          <div className="text-sm font-medium leading-none">{title}</div>
+          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+            {children}
+          </p>
+        </Link>
+      </NavigationMenuLink>
+    </li>
+  );
+});
+ListItem.displayName = "ListItem";
 
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -69,7 +96,7 @@ export function Header() {
     : [];
 
   return (
-    <header className="sticky top-0 z-40 bg-white border-b shadow-sm">
+    <header className="sticky top-0 z-1000 bg-white border-b shadow-sm transition-colors duration-300">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           <Link href="/" className="flex items-center gap-2">
@@ -229,20 +256,93 @@ export function Header() {
             </button>
           </div>
           <nav className="hidden md:flex items-center gap-1">
-            {navLinks.map((link) => (
-              <Link
-                style={{ borderColor: "black" }}
-                key={link.href}
-                href={link.href}
-                className={`relative px-4 py-2 transition-all ${
-                  pathname === link.href
-                    ? "text-gray-900 border-b-2 border-pink-500"
-                    : "text-gray-700 hover:text-gray-900"
-                }`}
-              >
-                {link.label}
-              </Link>
-            ))}
+            <Link
+              href="/"
+              className={cn(
+                "inline-flex h-9 items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100",
+                pathname === "/" && "bg-gray-100"
+              )}
+            >
+              Начало
+            </Link>
+
+            <NavigationMenu>
+              <NavigationMenuList>
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger>Магазини</NavigationMenuTrigger>
+                  <NavigationMenuContent className="w-[500px]! p-0!">
+                    <div id="div2" className="p-4 w-[500px]">
+                      <div id="div1" className="grid grid-cols-2 gap-3">
+                        <Link
+                          href="/supermarket"
+                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-gray-100 focus:bg-gray-100"
+                        >
+                          <div className="text-sm font-medium leading-none">
+                            Хранителен
+                          </div>
+                          <p className="text-sm leading-snug text-gray-600">
+                            Свежи продукти и стоки за дома
+                          </p>
+                        </Link>
+                        <Link
+                          href="/industrial"
+                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-gray-100 focus:bg-gray-100"
+                        >
+                          <div className="text-sm font-medium leading-none">
+                            Индустриален
+                          </div>
+                          <p className="text-sm leading-snug text-gray-600">
+                            Инструменти и оборудване
+                          </p>
+                        </Link>
+                        <Link
+                          href="/construction"
+                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-gray-100 focus:bg-gray-100"
+                        >
+                          <div className="text-sm font-medium leading-none">
+                            Строителен
+                          </div>
+                          <p className="text-sm leading-snug text-gray-600">
+                            Строителни материали и бои
+                          </p>
+                        </Link>
+                        <Link
+                          href="/restaurant"
+                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-gray-100 focus:bg-gray-100"
+                        >
+                          <div className="text-sm font-medium leading-none">
+                            Ресторант
+                          </div>
+                          <p className="text-sm leading-snug text-gray-600">
+                            Вкусна храна и напитки
+                          </p>
+                        </Link>
+                      </div>
+                    </div>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+              </NavigationMenuList>
+            </NavigationMenu>
+
+            <Link
+              href="/about"
+              className={cn(
+                "inline-flex h-9 items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100",
+                pathname === "/about" && "bg-gray-100"
+              )}
+            >
+              За Нас
+            </Link>
+
+            <Link
+              href="/contact"
+              className={cn(
+                "inline-flex h-9 items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100",
+                pathname === "/contact" && "bg-gray-100"
+              )}
+            >
+              Контакти
+            </Link>
           </nav>
         </div>
       </div>
@@ -256,22 +356,58 @@ export function Header() {
             className="md:hidden border-t"
           >
             <div className="container mx-auto px-4 py-4 flex flex-col gap-2">
-              {navLinks.map((link, index) => (
-                <motion.div
-                  key={link.href}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                >
-                  <Link
-                    href={link.href}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className="block px-4 py-3 rounded-lg hover:bg-gray-100 transition-colors"
-                  >
-                    {link.label}
-                  </Link>
-                </motion.div>
-              ))}
+              <Link
+                href="/"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="block px-4 py-3 rounded-lg hover:bg-gray-100 transition-colors"
+              >
+                Начало
+              </Link>
+              <div className="px-4 py-2 font-semibold text-gray-500">
+                Магазини
+              </div>
+              <Link
+                href="/supermarket"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="block px-4 py-2 ml-4 rounded-lg hover:bg-gray-100 transition-colors text-sm"
+              >
+                Хранителен
+              </Link>
+              <Link
+                href="/industrial"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="block px-4 py-2 ml-4 rounded-lg hover:bg-gray-100 transition-colors text-sm"
+              >
+                Индустриален
+              </Link>
+              <Link
+                href="/construction"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="block px-4 py-2 ml-4 rounded-lg hover:bg-gray-100 transition-colors text-sm"
+              >
+                Строителен
+              </Link>
+              <Link
+                href="/restaurant"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="block px-4 py-2 ml-4 rounded-lg hover:bg-gray-100 transition-colors text-sm"
+              >
+                Ресторант
+              </Link>
+              <Link
+                href="/about"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="block px-4 py-3 rounded-lg hover:bg-gray-100 transition-colors"
+              >
+                За Нас
+              </Link>
+              <Link
+                href="/contact"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="block px-4 py-3 rounded-lg hover:bg-gray-100 transition-colors"
+              >
+                Контакти
+              </Link>
             </div>
           </motion.nav>
         )}

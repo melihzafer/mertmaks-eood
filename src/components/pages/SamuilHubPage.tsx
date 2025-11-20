@@ -2,7 +2,19 @@
 
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import { Heart, Users, Award, Calendar } from "lucide-react";
+import {
+  Heart,
+  Users,
+  Award,
+  Calendar,
+  Handshake,
+  Sparkles,
+  Shield,
+  TrendingUp,
+  MapPin,
+  Phone,
+  Mail,
+} from "lucide-react";
 import { Card } from "../ui/card";
 
 // Mock timeline data
@@ -332,19 +344,22 @@ export function SamuilHubPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-6xl mx-auto">
             {[
               {
-                icon: "🤝",
+                icon: Handshake,
                 title: "Общност",
                 desc: "Ние сме част от Самуил и работим за благото на нашата общност",
+                color: "from-blue-500 to-blue-600",
               },
               {
-                icon: "✨",
+                icon: Sparkles,
                 title: "Качество",
                 desc: "Предлагаме само продукти, които бихме използвали в собствените си домове",
+                color: "from-pink-500 to-pink-600",
               },
               {
-                icon: "💚",
+                icon: Shield,
                 title: "Доверие",
                 desc: "Изграждаме дългосрочни отношения, базирани на честност и надеждност",
+                color: "from-red-500 to-red-600",
               },
             ].map((value, index) => (
               <motion.div
@@ -358,24 +373,120 @@ export function SamuilHubPage() {
                   delay: index * 0.2,
                   ease: [0.16, 1, 0.3, 1],
                 }}
-                className="text-center"
               >
-                <motion.div
-                  className="w-20 h-20 mx-auto mb-6 rounded-2xl bg-linear-to-br from-blue-600 via-pink-500 to-red-600 flex items-center justify-center shadow-xl"
-                  whileHover={{ scale: 1.1, rotate: 5 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <span className="text-4xl">{value.icon}</span>
-                </motion.div>
-                <h3 className="text-2xl font-bold mb-4 text-white">
-                  {value.title}
-                </h3>
-                <p className="text-lg text-gray-300 leading-relaxed">
-                  {value.desc}
-                </p>
+                <Card className="text-center p-8 bg-gray-800 border-gray-700 hover:border-gray-600 transition-all duration-300 h-full">
+                  <motion.div
+                    className={`w-20 h-20 mx-auto mb-6 rounded-2xl bg-linear-to-br ${value.color} flex items-center justify-center shadow-xl`}
+                    whileHover={{ scale: 1.1, rotate: 5 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <value.icon
+                      className="text-white"
+                      size={36}
+                      strokeWidth={2}
+                    />
+                  </motion.div>
+                  <h3 className="text-2xl font-bold mb-4 text-white">
+                    {value.title}
+                  </h3>
+                  <p className="text-lg text-gray-300 leading-relaxed">
+                    {value.desc}
+                  </p>
+                </Card>
               </motion.div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Statistics Section */}
+      <section className="py-24 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="max-w-6xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="text-center mb-16"
+            >
+              <div className="flex items-center justify-center space-x-3 mb-6">
+                <TrendingUp className="text-blue-600" size={32} />
+                <h2 className="text-4xl md:text-5xl font-bold text-gray-900">
+                  В Цифри
+                </h2>
+              </div>
+              <p className="text-xl text-gray-600">
+                Нашият принос към общността в Самуил
+              </p>
+            </motion.div>
+
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+              {[
+                { number: "20+", label: "Години опит", icon: Calendar },
+                { number: "4", label: "Магазина", icon: MapPin },
+                { number: "10000+", label: "Доволни клиенти", icon: Users },
+                { number: "5000+", label: "Продукта", icon: Award },
+              ].map((stat, index) => (
+                <motion.div
+                  key={stat.label}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                >
+                  <Card className="text-center p-8 border-2 hover:border-blue-600 hover:shadow-xl transition-all duration-300">
+                    <stat.icon
+                      className="mx-auto mb-4 text-blue-600"
+                      size={40}
+                    />
+                    <div className="text-5xl font-bold text-gray-900 mb-2">
+                      {stat.number}
+                    </div>
+                    <div className="text-gray-600 font-medium">
+                      {stat.label}
+                    </div>
+                  </Card>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact CTA Section */}
+      <section className="py-24 bg-linear-to-br from-blue-600 via-pink-500 to-red-600">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="max-w-4xl mx-auto text-center text-white"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+              Готови да ни посетите?
+            </h2>
+            <p className="text-xl mb-8 opacity-90">
+              Заповядайте в нашите магазини в Самуил или се свържете с нас
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <a
+                href="/contact"
+                className="inline-flex items-center gap-2 bg-white text-blue-600 px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-100 transition-colors shadow-lg"
+              >
+                <MapPin size={24} />
+                Вижте адресите
+              </a>
+              <a
+                href="tel:+359123456789"
+                className="inline-flex items-center gap-2 bg-transparent border-2 border-white text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-white hover:text-blue-600 transition-colors"
+              >
+                <Phone size={24} />
+                Обадете се
+              </a>
+            </div>
+          </motion.div>
         </div>
       </section>
     </motion.div>

@@ -213,14 +213,15 @@ export default function SmartStoreMap({
 
       {/* Map */}
       <div
-        className="rounded-xl overflow-hidden border shadow-md"
+        className="rounded-xl overflow-hidden border shadow-md relative z-0"
         style={{ height }}
       >
         <MapContainer
           center={[centerLat, centerLng]}
           zoom={13}
           scrollWheelZoom={false}
-          style={{ height: "100%", width: "100%" }}
+          style={{ height: "100%", width: "100%", zIndex: 1 }}
+          zoomControl={true}
         >
           <TileLayer
             attribution="&copy; OpenStreetMap contributors"

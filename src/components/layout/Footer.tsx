@@ -9,7 +9,7 @@ import { uiTexts } from "@/data/ui-texts";
 
 export function Footer() {
   return (
-    <footer className="border-t border-gray-200 bg-white">
+    <footer className="border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 transition-colors duration-300">
       <div className="container mx-auto px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
           {/* Company Info */}
@@ -23,22 +23,22 @@ export function Footer() {
                 <span className="text-xl text-white font-bold">M</span>
               </motion.div>
               <div className="flex flex-col">
-                <span className="text-xl font-bold tracking-tight text-gray-900">
+                <span className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">
                   {companyInfo.name.latin}
                 </span>
-                <span className="text-xs text-gray-500 font-medium">
+                <span className="text-xs text-gray-500 dark:text-gray-400 font-medium">
                   {companyInfo.legalForm}
                 </span>
               </div>
             </div>
-            <p className="text-gray-600 leading-relaxed">
+            <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
               {companyInfo.description}
             </p>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-6">
+            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">
               {uiTexts.sections.divisions}
             </h3>
             <div className="flex flex-col space-y-3">
@@ -46,7 +46,7 @@ export function Footer() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="text-gray-600 hover:text-gray-900 transition-colors duration-300 inline-flex items-center group"
+                  className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors duration-300 inline-flex items-center group"
                   style={{
                     ["--hover-color" as any]: link.color,
                   }}
@@ -63,39 +63,53 @@ export function Footer() {
 
           {/* Contact Info */}
           <div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-6">
+            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">
               {uiTexts.sections.contactInfo}
             </h3>
             <div className="flex flex-col space-y-4">
-              <div className="flex items-start space-x-3 text-gray-600">
-                <MapPin size={20} className="mt-1 shrink-0 text-gray-400" />
+              <div className="flex items-start space-x-3 text-gray-600 dark:text-gray-400">
+                <MapPin
+                  size={20}
+                  className="mt-1 shrink-0 text-gray-400 dark:text-gray-500"
+                />
                 <span>{contactInfo.address.full}</span>
               </div>
-              <div className="flex items-center space-x-3 text-gray-600">
-                <Phone size={20} className="shrink-0 text-gray-400" />
+              <div className="flex items-center space-x-3 text-gray-600 dark:text-gray-400">
+                <Phone
+                  size={20}
+                  className="shrink-0 text-gray-400 dark:text-gray-500"
+                />
                 <a
                   href={`tel:${contactInfo.phone.main}`}
-                  className="hover:text-gray-900 transition-colors"
+                  className="hover:text-gray-900 dark:hover:text-white transition-colors"
                 >
                   {contactInfo.phone.display}
                 </a>
               </div>
-              <div className="flex items-start space-x-3 text-gray-600">
-                <Clock size={20} className="mt-1 shrink-0 text-gray-400" />
+              <div className="flex items-start space-x-3 text-gray-600 dark:text-gray-400">
+                <Clock
+                  size={20}
+                  className="mt-1 shrink-0 text-gray-400 dark:text-gray-500"
+                />
                 <span>{contactInfo.hours.display}</span>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col pt-8 border-t border-gray-200 text-center">
-          <p className="text-gray-600">
+        <div className="mt-12 flex flex-col pt-8 border-t border-gray-200 dark:border-gray-800 text-center">
+          <p className="text-gray-600 dark:text-gray-400">
             &copy; {new Date().getFullYear()} {companyInfo.name.cyrillic}{" "}
             {companyInfo.legalForm}. Всички права запазени.
           </p>
-          <span>
+          <span className="text-gray-600 dark:text-gray-400">
             Powered by{" "}
-            <Link href="https://portfolio.melihzafer.me">Melih Hyusein</Link>
+            <Link
+              href="https://portfolio.melihzafer.me"
+              className="hover:text-gray-900 dark:hover:text-white transition-colors"
+            >
+              Melih Hyusein
+            </Link>
           </span>
         </div>
       </div>

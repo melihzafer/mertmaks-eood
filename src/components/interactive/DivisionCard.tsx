@@ -117,7 +117,7 @@ export function DivisionCard({
 
         <motion.div
           ref={cardRef}
-          className="relative overflow-hidden rounded-2xl bg-white border-2 border-gray-200"
+          className="relative overflow-hidden rounded-2xl bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700"
           onMouseMove={handleMouseMove}
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={handleMouseLeave}
@@ -175,7 +175,9 @@ export function DivisionCard({
               </h3>
             </div>
 
-            <p className="text-gray-600 mb-6 leading-relaxed">{description}</p>
+            <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
+              {description}
+            </p>
 
             <motion.div
               className="flex items-center space-x-2"
