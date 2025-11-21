@@ -2,7 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 import { z } from "zod";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = process.env.RESEND_API_KEY 
+  ? new Resend(process.env.RESEND_API_KEY)
+  : null;
 
 const feedbackSchema = z.object({
   rating: z.number().min(1).max(5),
@@ -48,6 +50,15 @@ export async function POST(request: NextRequest) {
 
     const body = await request.json();
     const validatedData = feedbackSchema.parse(body);
+
+    // If no Resend API key, just log to console
+    if (!resend) {
+      console.log("Feedback submission (no email sent - missing RESEND_API_KEY):", validatedData);
+      return NextResponse.json({
+        success: true,
+        message: "Благодарим ви за обратната връзка!",
+      });
+    }
 
     const stars = "⭐".repeat(validatedData.rating);
 

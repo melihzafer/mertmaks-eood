@@ -2,7 +2,9 @@
 import { Resend } from "resend";
 import { z } from "zod";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = process.env.RESEND_API_KEY
+  ? new Resend(process.env.RESEND_API_KEY)
+  : null;
 
 const contactSchema = z.object({
   name: z.string().min(2, "Името трябва да е поне 2 символа"),
@@ -47,6 +49,15 @@ export async function POST(request: NextRequest) {
 
     const body = await request.json();
     const validatedData = contactSchema.parse(body);
+
+    // If no Resend API key, just log to console
+    if (!resend) {
+      console.log("Contact form submission (no email sent - missing RESEND_API_KEY):", validatedData);
+      return NextResponse.json({
+        success: true,
+        message: "Вашето съобщение е изпратено успешно! Ще се свържем с вас скоро.",
+      });
+    }
 
     // Send email via Resend
     const { data, error } = await resend.emails.send({
