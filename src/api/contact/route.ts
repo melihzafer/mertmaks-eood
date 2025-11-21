@@ -52,10 +52,14 @@ export async function POST(request: NextRequest) {
 
     // If no Resend API key, just log to console
     if (!resend) {
-      console.log("Contact form submission (no email sent - missing RESEND_API_KEY):", validatedData);
+      console.log(
+        "Contact form submission (no email sent - missing RESEND_API_KEY):",
+        validatedData
+      );
       return NextResponse.json({
         success: true,
-        message: "Вашето съобщение е изпратено успешно! Ще се свържем с вас скоро.",
+        message:
+          "Вашето съобщение е изпратено успешно! Ще се свържем с вас скоро.",
       });
     }
 
