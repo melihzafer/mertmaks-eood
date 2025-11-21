@@ -38,6 +38,17 @@ export function WebARFinder({ stores, onClose }: WebARFinderProps) {
   const [permissionGranted, setPermissionGranted] = useState(false);
   const [isCalibrating, setIsCalibrating] = useState(true);
   const [accuracy, setAccuracy] = useState<number | null>(null);
+  const [isIOS, setIsIOS] = useState(false);
+  const [needsPermission, setNeedsPermission] = useState(false);
+  const watchIdRef = useRef<number | null>(null);
+
+  // Detect iOS
+  useEffect(() => {
+    const iOS =
+      /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+      (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+    setIsIOS(iOS);
+  }, []);
 
   // Calculate distance between two coordinates (Haversine formula)
   const calculateDistance = (
@@ -81,21 +92,39 @@ export function WebARFinder({ stores, onClose }: WebARFinderProps) {
   useEffect(() => {
     const startCamera = async () => {
       try {
-        const mediaStream = await navigator.mediaDevices.getUserMedia({
+        const constraints: MediaStreamConstraints = {
           video: {
-            facingMode: "environment",
-            width: { ideal: 1920 },
-            height: { ideal: 1080 },
+            facingMode: { ideal: "environment" },
+            width: { ideal: 1280 },
+            height: { ideal: 720 },
           },
           audio: false,
-        });
+        };
+
+        const mediaStream =
+          await navigator.mediaDevices.getUserMedia(constraints);
         setStream(mediaStream);
+
         if (videoRef.current) {
           videoRef.current.srcObject = mediaStream;
+          // Force play on iOS
+          videoRef.current.setAttribute("playsinline", "true");
+          videoRef.current.setAttribute("autoplay", "true");
+          videoRef.current.setAttribute("muted", "true");
+
+          // Ensure video plays
+          const playPromise = videoRef.current.play();
+          if (playPromise !== undefined) {
+            playPromise.catch((err) => {
+              console.error("Video play error:", err);
+            });
+          }
         }
       } catch (err) {
         console.error("Camera error:", err);
-        setError("Камерата не е достъпна. Моля, разрешете достъп до камерата.");
+        setError(
+          "Камерата не е достъпна. Моля, разрешете достъп до камерата в настройките."
+        );
       }
     };
 
@@ -110,32 +139,48 @@ export function WebARFinder({ stores, onClose }: WebARFinderProps) {
 
   // Request geolocation access with high accuracy
   useEffect(() => {
-    const watchId = navigator.geolocation.watchPosition(
+    if (watchIdRef.current !== null) {
+      navigator.geolocation.clearWatch(watchIdRef.current);
+    }
+
+    watchIdRef.current = navigator.geolocation.watchPosition(
       (position) => {
         setUserLocation(position.coords);
         setAccuracy(position.coords.accuracy);
         setPermissionGranted(true);
+        setError(""); // Clear errors
 
         // Calibration complete after first accurate reading
-        if (position.coords.accuracy < 50) {
-          setTimeout(() => setIsCalibrating(false), 2000);
+        if (position.coords.accuracy < 100) {
+          setTimeout(() => setIsCalibrating(false), 1500);
         }
       },
       (err) => {
         console.error("Geolocation error:", err);
-        setError(
-          "Локацията не е достъпна. Моля, разрешете достъп до локацията."
-        );
+        let errorMsg = "Локацията не е достъпна.";
+        if (err.code === 1) {
+          errorMsg =
+            "Моля, разрешете достъп до локацията в настройките на браузъра.";
+        } else if (err.code === 2) {
+          errorMsg =
+            "Локацията не може да бъде определена. Проверете GPS сигнала.";
+        } else if (err.code === 3) {
+          errorMsg = "Изтекло време за определяне на локацията.";
+        }
+        setError(errorMsg);
       },
       {
         enableHighAccuracy: true,
-        maximumAge: 0,
-        timeout: 5000,
+        maximumAge: 1000,
+        timeout: 10000,
       }
     );
 
     return () => {
-      navigator.geolocation.clearWatch(watchId);
+      if (watchIdRef.current !== null) {
+        navigator.geolocation.clearWatch(watchIdRef.current);
+        watchIdRef.current = null;
+      }
     };
   }, []);
 
@@ -147,44 +192,32 @@ export function WebARFinder({ stores, onClose }: WebARFinderProps) {
     const handleOrientation = (event: DeviceOrientationEvent) => {
       const extendedEvent = event as DeviceOrientationEventExtended;
 
-      // iOS handling - highest priority
+      let heading: number | null = null;
+
+      // iOS Safari uses webkitCompassHeading (already adjusted to true north)
       if (extendedEvent.webkitCompassHeading !== undefined) {
-        setDeviceOrientation(extendedEvent.webkitCompassHeading);
-        setCompassHeading(extendedEvent.webkitCompassHeading);
-        return;
+        heading = extendedEvent.webkitCompassHeading;
+      }
+      // Android and other browsers use alpha
+      else if (event.alpha !== null) {
+        // Alpha gives rotation around Z-axis (0-360)
+        // In portrait mode, alpha represents compass heading
+        heading = event.alpha;
+
+        // Adjust for absolute/relative
+        if (event.absolute === false && event.alpha !== null) {
+          heading = 360 - event.alpha;
+        }
       }
 
-      // Android/Standard handling
-      if (event.alpha !== null) {
-        // If this is a 'deviceorientationabsolute' event, it's the best source for Android
-        if (event.type === "deviceorientationabsolute") {
-          const heading = (360 - event.alpha) % 360;
-          setDeviceOrientation(heading);
-          setCompassHeading(heading);
-          return;
-        }
-
-        // If it's a standard 'deviceorientation' event
-        // We only use it if we haven't received absolute events (hard to track without state,
-        // but we can check the 'absolute' property if available)
-
-        // If the event explicitly says it's absolute, use it
-        if (event.absolute) {
-          const heading = (360 - event.alpha) % 360;
-          setDeviceOrientation(heading);
-          setCompassHeading(heading);
-          return;
-        }
-
-        // Fallback: If we are here, we have a relative 'deviceorientation' event (absolute=false or undefined).
-        // We use it because it's better than nothing, and on some devices it might be all we get.
-        // However, to avoid jitter if both events are firing, we could try to detect if we are getting absolute ones.
-        // For now, we'll accept it to ensure the UI updates when the user rotates.
-        const heading = (360 - event.alpha) % 360;
+      if (heading !== null) {
+        // Normalize to 0-360
+        heading = (heading + 360) % 360;
         setDeviceOrientation(heading);
         setCompassHeading(heading);
       }
     };
+
     orientationHandler = handleOrientation;
 
     // Request permission for iOS 13+
@@ -192,11 +225,13 @@ export function WebARFinder({ stores, onClose }: WebARFinderProps) {
       if (
         typeof (DeviceOrientationEvent as any).requestPermission === "function"
       ) {
+        setNeedsPermission(true);
         try {
           const response = await (
             DeviceOrientationEvent as any
           ).requestPermission();
           if (response === "granted") {
+            setNeedsPermission(false);
             window.addEventListener(
               "deviceorientation",
               handleOrientation,
@@ -208,22 +243,31 @@ export function WebARFinder({ stores, onClose }: WebARFinderProps) {
               true
             );
           } else {
-            setError("Моля, разрешете достъп до компаса в настройките.");
+            setError(
+              "Моля, разрешете достъп до компаса в Safari настройките: Settings > Safari > Motion & Orientation Access"
+            );
           }
         } catch (err) {
           console.error("Orientation permission error:", err);
           setError(
-            "Не може да се получи достъп до ориентацията на устройството."
+            "За да използвате AR режим на iOS, трябва да разрешите достъп до сензорите."
           );
         }
       } else {
-        // Non-iOS devices
+        // Non-iOS devices - directly add listeners
         window.addEventListener("deviceorientation", handleOrientation, true);
         window.addEventListener(
           "deviceorientationabsolute",
           handleOrientation,
           true
         );
+
+        // Check if we're getting data
+        setTimeout(() => {
+          if (compassHeading === null) {
+            setError("Компасът не е достъпен на това устройство.");
+          }
+        }, 3000);
       }
     };
 
@@ -243,7 +287,29 @@ export function WebARFinder({ stores, onClose }: WebARFinderProps) {
         );
       }
     };
-  }, []);
+  }, [compassHeading]);
+
+  // Button to request permission on iOS
+  const requestIOSPermission = async () => {
+    if (
+      typeof (DeviceOrientationEvent as any).requestPermission === "function"
+    ) {
+      try {
+        const response = await (
+          DeviceOrientationEvent as any
+        ).requestPermission();
+        if (response === "granted") {
+          setNeedsPermission(false);
+          setError("");
+          location.reload(); // Reload to reinitialize sensors
+        }
+      } catch (err) {
+        setError(
+          "Достъпът беше отказан. Моля, разрешете в Safari настройките."
+        );
+      }
+    }
+  };
 
   // Calculate distances and bearings when user location changes
   useEffect(() => {
@@ -362,10 +428,46 @@ export function WebARFinder({ stores, onClose }: WebARFinderProps) {
           )}
 
           {/* Error message */}
-          {error && (
-            <div className="absolute top-20 left-4 right-4 bg-red-500/90 text-white p-4 rounded-lg flex items-start gap-3 pointer-events-auto">
+          {error && !needsPermission && (
+            <div className="absolute top-20 left-4 right-4 bg-red-500/90 text-white p-4 rounded-lg flex items-start gap-3 pointer-events-auto backdrop-blur-sm">
               <AlertCircle className="w-5 h-5 shrink-0 mt-0.5" />
-              <p className="text-sm">{error}</p>
+              <div className="flex-1">
+                <p className="text-sm font-medium mb-1">Грешка</p>
+                <p className="text-xs opacity-90">{error}</p>
+              </div>
+            </div>
+          )}
+
+          {/* iOS Permission Request */}
+          {needsPermission && isIOS && (
+            <div className="absolute inset-0 flex items-center justify-center p-6 bg-black/80 backdrop-blur-sm pointer-events-auto">
+              <div className="bg-white rounded-2xl p-6 max-w-sm">
+                <div className="flex flex-col items-center text-center gap-4">
+                  <Compass className="w-16 h-16 text-blue-600" />
+                  <div>
+                    <h3 className="text-xl font-bold text-gray-900 mb-2">
+                      Необходимо е разрешение
+                    </h3>
+                    <p className="text-sm text-gray-600">
+                      AR режимът изисква достъп до компаса и сензорите за
+                      движение на вашето устройство.
+                    </p>
+                  </div>
+                  <Button
+                    onClick={requestIOSPermission}
+                    className="w-full bg-blue-600 hover:bg-blue-700"
+                    size="lg"
+                  >
+                    Разреши достъп
+                  </Button>
+                  <button
+                    onClick={handleClose}
+                    className="text-sm text-gray-500 hover:text-gray-700"
+                  >
+                    Откажи
+                  </button>
+                </div>
+              </div>
             </div>
           )}
 
@@ -380,23 +482,16 @@ export function WebARFinder({ stores, onClose }: WebARFinderProps) {
                 if (relativeAngle < 0) relativeAngle += 360;
                 if (relativeAngle > 360) relativeAngle -= 360;
 
-                // Only show if within 30 degrees of current view (60 degree FOV)
-                const FOV = 60;
-                const halfFOV = FOV / 2;
-
-                const isVisible =
-                  relativeAngle < halfFOV || relativeAngle > 360 - halfFOV;
+                // Only show if within 60 degrees of current view
+                const isVisible = relativeAngle < 60 || relativeAngle > 300;
                 if (!isVisible) return null;
 
                 // Calculate position on screen
                 let screenX = 50; // Center
                 if (relativeAngle < 180) {
-                  // Right side (0 to halfFOV)
-                  screenX = 50 + (relativeAngle / halfFOV) * 50;
+                  screenX = 50 + (relativeAngle / 180) * 40; // 0-40% right
                 } else {
-                  // Left side (360-halfFOV to 360)
-                  const diff = 360 - relativeAngle;
-                  screenX = 50 - (diff / halfFOV) * 50;
+                  screenX = 50 - ((360 - relativeAngle) / 180) * 40; // 0-40% left
                 }
 
                 return (

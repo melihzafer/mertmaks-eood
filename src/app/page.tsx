@@ -211,7 +211,7 @@ export default function HomePage() {
 
       {/* Live Promotions Feed */}
       <section
-        className="py-24 bg-linear-to-br from-gray-50 to-white"
+        className="py-24 bg-linear-to-br from-gray-50 to-white dark:from-gray-900 dark:to-gray-950 transition-colors duration-300"
         ref={promotionsRef}
       >
         <div className="container mx-auto px-4">
@@ -225,11 +225,11 @@ export default function HomePage() {
           >
             <div className="flex items-center justify-center space-x-3 mb-6">
               <Tag className="text-red-600" size={32} />
-              <h2 className="text-4xl md:text-5xl font-bold text-gray-900">
+              <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white">
                 Седмични Промоции
               </h2>
             </div>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
               Не пропускайте специалните ни оферти тази седмица
             </p>
           </motion.div>
@@ -251,8 +251,8 @@ export default function HomePage() {
                 }}
               >
                 <Card
-                  className="overflow-hidden border-2 hover:shadow-2xl transition-all duration-300 group"
-                  style={{ borderColor: `${promo.color}20` }}
+                  className="overflow-hidden border-2 hover:shadow-2xl transition-all duration-300 group bg-white dark:bg-gray-800 dark:border-gray-700"
+                  style={{ borderColor: `${promo.color}40` }}
                 >
                   <div className="relative h-48 overflow-hidden">
                     <motion.img
@@ -262,7 +262,7 @@ export default function HomePage() {
                       whileHover={{ scale: 1.1 }}
                       transition={{ duration: 0.6 }}
                     />
-                    <div className="absolute top-4 right-4 bg-white px-3 py-1 rounded-full shadow-lg">
+                    <div className="absolute top-4 right-4 bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm px-3 py-1 rounded-full shadow-lg">
                       <div className="flex items-center space-x-1">
                         <TrendingDown
                           size={16}
@@ -279,25 +279,33 @@ export default function HomePage() {
                   </div>
                   <div className="p-6">
                     <div
-                      className="text-xs font-medium mb-2"
+                      className="text-xs font-medium mb-2 uppercase tracking-wider"
                       style={{ color: promo.color }}
                     >
                       {promo.store}
                     </div>
-                    <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                    <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                       {promo.title}
                     </h3>
-                    <p className="text-gray-600 mb-4">{promo.description}</p>
-                    <div className="flex items-baseline space-x-2">
-                      <span
-                        className="text-2xl font-bold"
-                        style={{ color: promo.color }}
-                      >
-                        {promo.price}
-                      </span>
-                      <span className="text-sm text-gray-400 line-through">
-                        {promo.originalPrice}
-                      </span>
+                    <p className="text-gray-600 dark:text-gray-300 mb-6 line-clamp-2">
+                      {promo.description}
+                    </p>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-baseline space-x-3">
+                        <span
+                          className="text-2xl font-extrabold px-3 py-1 rounded-lg"
+                          style={{
+                            color: "white",
+                            backgroundColor: promo.color,
+                            boxShadow: `0 4px 14px 0 ${promo.color}60`,
+                          }}
+                        >
+                          {promo.price}
+                        </span>
+                        <span className="text-sm text-gray-400 dark:text-gray-500 line-through decoration-2">
+                          {promo.originalPrice}
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </Card>

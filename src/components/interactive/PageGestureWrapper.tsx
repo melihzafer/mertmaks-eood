@@ -1,8 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { motion, PanInfo } from "framer-motion";
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useState, useRef } from "react";
 
 interface PageGestureWrapperProps {
   children: ReactNode;
@@ -18,56 +17,92 @@ export default function PageGestureWrapper({
   enableBackGesture = true,
 }: PageGestureWrapperProps) {
   const router = useRouter();
+  const [isMobile, setIsMobile] = useState(false);
+  const touchStartX = useRef<number>(0);
+  const touchStartY = useRef<number>(0);
+  const touchStartTime = useRef<number>(0);
+  const isFromEdge = useRef<boolean>(false);
 
-  const handlePanEnd = (
-    _: MouseEvent | TouchEvent | PointerEvent,
-    info: PanInfo
-  ) => {
-    const swipeThreshold = 100;
-    const velocityThreshold = 500;
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
 
-    // Swipe right (back)
-    if (
-      enableBackGesture &&
-      info.offset.x > swipeThreshold &&
-      info.velocity.x > velocityThreshold &&
-      info.point.x < 50 // Only from left edge
-    ) {
-      if ("vibrate" in navigator) {
-        navigator.vibrate(30);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  useEffect(() => {
+    if (!isMobile) return;
+
+    const handleTouchStart = (e: TouchEvent) => {
+      touchStartX.current = e.touches[0].clientX;
+      touchStartY.current = e.touches[0].clientY;
+      touchStartTime.current = Date.now();
+      isFromEdge.current = e.touches[0].clientX < 50;
+    };
+
+    const handleTouchEnd = (e: TouchEvent) => {
+      const touchEndX = e.changedTouches[0].clientX;
+      const touchEndY = e.changedTouches[0].clientY;
+      const touchEndTime = Date.now();
+
+      const deltaX = touchEndX - touchStartX.current;
+      const deltaY = touchEndY - touchStartY.current;
+      const deltaTime = touchEndTime - touchStartTime.current;
+
+      const velocity = Math.abs(deltaX) / deltaTime;
+
+      // Only trigger if horizontal swipe is dominant
+      if (Math.abs(deltaX) < Math.abs(deltaY)) return;
+
+      const threshold = 80;
+      const velocityThreshold = 0.5;
+
+      // Swipe right (back) - only from left edge
+      if (
+        enableBackGesture &&
+        deltaX > threshold &&
+        velocity > velocityThreshold &&
+        isFromEdge.current
+      ) {
+        if ("vibrate" in navigator) {
+          navigator.vibrate(30);
+        }
+        if (previousPage) {
+          router.push(previousPage);
+        } else {
+          router.back();
+        }
+        return;
       }
-      if (previousPage) {
-        router.push(previousPage);
-      } else {
-        router.back();
-      }
-      return;
-    }
 
-    // Swipe left (next page)
-    if (
-      nextPage &&
-      info.offset.x < -swipeThreshold &&
-      info.velocity.x < -velocityThreshold
-    ) {
-      if ("vibrate" in navigator) {
-        navigator.vibrate(30);
+      // Swipe left (next page)
+      if (
+        nextPage &&
+        deltaX < -threshold &&
+        velocity > velocityThreshold &&
+        !isFromEdge.current
+      ) {
+        if ("vibrate" in navigator) {
+          navigator.vibrate(30);
+        }
+        router.push(nextPage);
+        return;
       }
-      router.push(nextPage);
-      return;
-    }
-  };
+    };
 
-  return (
-    <motion.div
-      onPanEnd={handlePanEnd}
-      className="min-h-screen"
-      drag="x"
-      dragConstraints={{ left: 0, right: 0 }}
-      dragElastic={0.2}
-      dragTransition={{ bounceStiffness: 600, bounceDamping: 20 }}
-    >
-      {children}
-    </motion.div>
-  );
+    document.addEventListener("touchstart", handleTouchStart, {
+      passive: true,
+    });
+    document.addEventListener("touchend", handleTouchEnd, { passive: true });
+
+    return () => {
+      document.removeEventListener("touchstart", handleTouchStart);
+      document.removeEventListener("touchend", handleTouchEnd);
+    };
+  }, [isMobile, nextPage, previousPage, enableBackGesture, router]);
+
+  return <div className="min-h-screen">{children}</div>;
 }

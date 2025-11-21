@@ -3,3 +3,10 @@
     display: none !important;
   }
 }
+
+.navigation-menu-viewport-container {
+  min-width: 500px !important;
+  width: max-content !important;
+  right: 0 !important;
+  background-color: white;
+}
