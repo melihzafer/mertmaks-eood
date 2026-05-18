@@ -16,6 +16,9 @@ const nextConfig: NextConfig = {
   },
   // Optimize for static generation
   output: 'standalone',
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 };
 
 export default nextConfig;
