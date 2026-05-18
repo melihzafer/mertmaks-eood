@@ -1,5 +1,5 @@
-import { SamuilHubPage } from "@/components/pages/SamuilHubPage";
+import { redirect } from "next/navigation";
 
 export default function AboutPage() {
-  return <SamuilHubPage />;
+  redirect("/samuil-hub");
 }

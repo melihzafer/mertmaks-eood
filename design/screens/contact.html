@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="bg">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Контакти — МЕРТМАКС</title>
+  <link rel="stylesheet" href="../assets/mertmaks.css">
+</head>
+<body class="page contact-page" style="--accent:var(--supermarket)">
+  <div class="wipe"></div>
+
+  <header class="site-header">
+    <div class="nav-inner">
+      <a class="brand" href="../index.html"><strong>МЕРТМАКС</strong><span>ЕООД</span></a>
+      <nav class="nav-links" aria-label="Основна навигация">
+        <a href="home.html" data-wipe data-color="#E53E3E">Начало</a>
+        <a href="supermarket.html" data-wipe data-color="#E53E3E">Магазини</a>
+        <a href="samuil-hub.html" data-wipe data-color="#D53F8C">За нас</a>
+        <a class="active" href="contact.html">Контакти</a>
+      </nav>
+      <div class="cluster">
+        <button class="icon-btn desktop-search" type="button" data-open-search aria-label="Търсене">⌕</button>
+        <button class="icon-btn hamburger" type="button" data-open-menu aria-label="Отвори меню">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="contact-hero section-tight">
+      <div class="container contact-hero-grid">
+        <div class="stack fade-up">
+          <div class="eyebrow">Контакти</div>
+          <h1>Всички пътища водят към МЕРТМАКС.</h1>
+          <p class="lead">Пишете ни, обадете се или минете през центъра на Самуил. Магазините и ресторантът са близо един до друг, за да свършите повече с едно посещение.</p>
+          <div class="contact-actions">
+            <a class="btn primary" href="tel:+359000000000">Обадете се</a>
+            <a class="btn" href="#contactForm">Изпратете запитване</a>
+          </div>
+        </div>
+        <aside class="visit-card fade-up" aria-label="Бърза информация">
+          <span>Днес</span>
+          <strong>Отворено</strong>
+          <p>с. Самуил, област Разград</p>
+          <div class="mini-rules">
+            <i style="--card-color:#E53E3E"></i>
+            <i style="--card-color:#D53F8C"></i>
+            <i style="--card-color:#3182CE"></i>
+            <i style="--card-color:#C05621"></i>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section-tight">
+      <div class="container contact-mobile-flow">
+        <section class="contact-panel map-panel fade-up" aria-label="Карта на Самуил">
+          <div class="map-grid"></div>
+          <div class="map-route route-one"></div>
+          <div class="map-route route-two"></div>
+          <div class="map-pin"></div>
+          <div class="map-content stack">
+            <div class="eyebrow">Локация</div>
+            <h2>с. Самуил, област Разград</h2>
+            <p>Централна точка за ежедневни покупки, ремонтни материали, индустриални консумативи и топла храна.</p>
+          </div>
+        </section>
+
+        <section class="contact-panel store-list fade-up" aria-label="Обекти">
+          <div class="panel-title">
+            <div class="eyebrow">Обекти</div>
+            <h2>Изберете къде искате да отидете.</h2>
+          </div>
+          <a class="store-card touch-card" style="--card-color:#E53E3E" href="supermarket.html" data-wipe data-color="#E53E3E">
+            <span>01</span>
+            <div><h3>Супермаркет</h3><p>Ежедневни покупки, свежи продукти и стоки за дома.</p></div>
+          </a>
+          <a class="store-card touch-card" style="--card-color:#D53F8C" href="industrial.html" data-wipe data-color="#D53F8C">
+            <span>02</span>
+            <div><h3>Индустриален магазин</h3><p>Инструменти, крепежи и консумативи за работа.</p></div>
+          </a>
+          <a class="store-card touch-card" style="--card-color:#3182CE" href="construction.html" data-wipe data-color="#3182CE">
+            <span>03</span>
+            <div><h3>Строителство</h3><p>Материали за ремонт, обект и поддръжка.</p></div>
+          </a>
+          <a class="store-card touch-card" style="--card-color:#C05621" href="restaurant.html" data-wipe data-color="#C05621">
+            <span>04</span>
+            <div><h3>Ресторант Делиорман</h3><p>Топла кухня, обедно меню и място за срещи.</p></div>
+          </a>
+        </section>
+
+        <section class="contact-panel form-card fade-up">
+          <div class="panel-title">
+            <div class="eyebrow">Запитване</div>
+            <h2>Пишете ни директно.</h2>
+          </div>
+          <form class="contact-form" id="contactForm" novalidate>
+            <div class="field">
+              <input id="name" name="name" autocomplete="name" required>
+              <label for="name">Име</label>
+            </div>
+            <div class="field">
+              <input id="phone" name="phone" inputmode="tel" autocomplete="tel" required>
+              <label for="phone">Телефон</label>
+            </div>
+            <div class="field">
+              <select id="topic" name="topic" required>
+                <option value="">Изберете тема</option>
+                <option>Супермаркет</option>
+                <option>Индустриален магазин</option>
+                <option>Строителство</option>
+                <option>Ресторант Делиорман</option>
+                <option>Общ въпрос</option>
+              </select>
+              <label for="topic">Относно</label>
+            </div>
+            <div class="field">
+              <textarea id="message" name="message" required></textarea>
+              <label for="message">Съобщение</label>
+            </div>
+            <button class="btn color" type="submit">Подгответе съобщение</button>
+            <p class="form-message" aria-live="polite"></p>
+          </form>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <script src="../assets/mertmaks.js"></script>
+</body>
+</html>
