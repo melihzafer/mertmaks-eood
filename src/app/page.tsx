@@ -162,13 +162,18 @@ export default function HomePage() {
             <p>{homePage.cta.description}</p>
           </div>
           <div className="shape-stack">
-            {[
-              accents.supermarket,
-              accents.industrial,
-              accents.construction,
-              accents.restaurant,
-            ].map((shape) => (
-              <div key={shape} style={{ "--shape": shape } as CardColorStyle} />
+            {homePage.cta.cards.map((card) => (
+              <Link
+                key={card.href}
+                href={card.href}
+                className="shape-card"
+                data-wipe
+                data-color={card.color}
+                style={{ "--shape": card.color, "--card-color": card.color } as CardColorStyle}
+              >
+                <span className="shape-card-label">{card.label}</span>
+                <span className="shape-card-meta">{card.meta}</span>
+              </Link>
             ))}
           </div>
         </div>

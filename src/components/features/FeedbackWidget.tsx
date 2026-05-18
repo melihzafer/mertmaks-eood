@@ -2,6 +2,7 @@
 
 import type { CSSProperties, FormEvent } from "react";
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { CheckCircle2, Loader2, MessageSquarePlus, Star } from "lucide-react";
 import {
   Dialog,
@@ -16,7 +17,7 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { toast } from "sonner";
 import { motion, AnimatePresence } from "framer-motion";
-import { accents } from "@/data/redesign-content";
+import { getRouteAccent } from "@/lib/route-accent";
 
 const feedbackCategories = [
   { value: "service", label: "Обслужване", meta: "Екип и отношение" },
@@ -43,6 +44,7 @@ const ratingLabels = [
 ];
 
 export function FeedbackWidget() {
+  const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [rating, setRating] = useState(0);
   const [hoveredRating, setHoveredRating] = useState(0);
@@ -115,8 +117,10 @@ export function FeedbackWidget() {
   };
 
   const displayRating = hoveredRating || rating;
+  const accent = getRouteAccent(pathname ?? "/");
 
   if (!showWidget) return null;
+  if (pathname?.startsWith("/find-us")) return null;
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -129,8 +133,9 @@ export function FeedbackWidget() {
           whileHover={{ y: -2 }}
           whileTap={{ scale: 0.97 }}
           type="button"
+          aria-label="Отвори формата за обратна връзка"
           data-open={isOpen ? "true" : "false"}
-          style={{ "--theme-accent": accents.supermarket } as FeedbackStyle}
+          style={{ "--theme-accent": accent } as FeedbackStyle}
         >
           <span className="feedback-trigger-icon" aria-hidden="true">
             <MessageSquarePlus className="h-5 w-5" />

@@ -16,7 +16,7 @@ const contactSchema = z.object({
 
 const storeNames = {
   grocery: "Хранителен магазин",
-  industrial: "Индустриален магазин",
+  industrial: "Домашни потреби",
   construction: "Строителен магазин",
 };
 

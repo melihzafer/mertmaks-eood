@@ -5,8 +5,8 @@ import { motion } from 'framer-motion';
 const pages = [
   { path: '/', label: 'Начало' },
   { path: '/supermarket', label: 'Супермаркет', color: '#E53E3E' },
-  { path: '/industrial', label: 'Промишлени', color: '#D53F8C' },
-  { path: '/construction', label: 'Строителство', color: '#3182CE' },
+  { path: '/industrial', label: 'Домашни', color: '#D53F8C' },
+  { path: '/construction', label: 'Строителство', color: '#2563EB' },
   { path: '/contact', label: 'Контакти' },
 ];
 

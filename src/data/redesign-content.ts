@@ -12,11 +12,12 @@ export const accents = {
   supermarket: "#E53E3E",
   supermarketAccent: "#DD6B20",
   industrial: "#D53F8C",
-  industrialAccent: "#805AD5",
-  construction: "#3182CE",
-  constructionAccent: "#D69E2E",
-  restaurant: "#C05621",
-  restaurantAccent: "#ED8936",
+  industrialAccent: "#F687B3",
+  construction: "#2563EB",
+  constructionAccent: "#F6C343",
+  restaurant: "#8B4513",
+  restaurantAccent: "#D97706",
+  restaurantYellow: "#F2C94C",
 };
 
 export const searchLinks = [
@@ -26,10 +27,46 @@ export const searchLinks = [
   { href: "/contact", label: "Адрес в Самуил" },
 ];
 
+export const storesMenuLinks = [
+  {
+    href: "/supermarket",
+    label: "Супермаркет",
+    description: "Хранителни стоки и ежедневни покупки",
+    color: accents.supermarket,
+  },
+  {
+    href: "/industrial",
+    label: "Домашни потреби",
+    description: "Нехранителни стоки, текстил, посуда и дребни находки",
+    color: accents.industrial,
+  },
+  {
+    href: "/construction",
+    label: "Строителство",
+    description: "Материали за ремонт и обект",
+    color: accents.construction,
+  },
+  {
+    href: "/restaurant",
+    label: "Ресторант Делиорман",
+    description: "Топла кухня и обедно меню",
+    color: accents.restaurant,
+  },
+];
+
+export const searchPanelCopy = {
+  title: "Търсене",
+  placeholder: "Търсете продукти, магазини, FAQ...",
+  closeLabel: "Затвори търсене",
+  emptyHint: "Бързи връзки",
+  noResults: 'Няма резултати за "{query}"',
+  resultsHint: "Натиснете Enter за първия резултат",
+};
+
 export const mobileLinks = [
   { href: "/", label: "Начало" },
   { href: "/supermarket", label: "Супермаркет" },
-  { href: "/industrial", label: "Индустриален" },
+  { href: "/industrial", label: "Домашни" },
   { href: "/construction", label: "Строителство" },
   { href: "/restaurant", label: "Ресторант" },
   { href: "/contact", label: "Контакти" },
@@ -37,7 +74,7 @@ export const mobileLinks = [
 
 export const footerLinks = [
   { href: "/supermarket", label: "Супермаркет", color: accents.supermarket },
-  { href: "/industrial", label: "Индустриален", color: accents.industrial },
+  { href: "/industrial", label: "Домашни потреби", color: accents.industrial },
   { href: "/construction", label: "Строителство", color: accents.construction },
   { href: "/restaurant", label: "Ресторант", color: accents.restaurant },
 ];
@@ -62,8 +99,8 @@ export const homePage = {
       href: "/industrial",
       color: accents.industrial,
       index: "02",
-      title: "Индустриален",
-      label: "инструменти",
+      title: "Домашни потреби",
+      label: "нехранителни",
     },
     {
       href: "/construction",
@@ -99,10 +136,10 @@ export const homePage = {
       href: "/industrial",
       color: accents.industrial,
       index: "02",
-      visual: "Машини",
-      title: "Индустриален",
+      visual: "За дома",
+      title: "Домашни потреби",
       description:
-        "Инструменти, крепежи и консумативи за работа без прекъсване.",
+        "Нехранителни стоки, посуда, текстил, козметика и дребни нужди за дома.",
     },
     {
       href: "/construction",
@@ -132,12 +169,12 @@ export const homePage = {
       description: "Подбрани артикули за семейната трапеза.",
     },
     {
-      category: "tools",
+      category: "home",
       color: accents.industrial,
-      label: "ново",
-      visual: "Работилница",
-      title: "Комплект инструменти",
-      description: "Практичен избор за дома и професионалисти.",
+      label: "за дома",
+      visual: "Домашни потреби",
+      title: "Посуда и дребни стоки",
+      description: "Практичен избор за кухнята, банята и ежедневието.",
     },
     {
       category: "home",
@@ -153,6 +190,32 @@ export const homePage = {
     title: "Местен център за покупки, работа и срещи.",
     description:
       "МЕРТМАКС събира най-нужното за селото в ясно разпознаваеми цветни пространства.",
+    cards: [
+      {
+        href: "/supermarket",
+        color: accents.supermarket,
+        label: "Супермаркет",
+        meta: "ежедневни покупки",
+      },
+      {
+        href: "/industrial",
+        color: accents.industrial,
+        label: "Домашни потреби",
+        meta: "нехранителни стоки",
+      },
+      {
+        href: "/construction",
+        color: accents.construction,
+        label: "Строителство",
+        meta: "материали и бои",
+      },
+      {
+        href: "/restaurant",
+        color: accents.restaurant,
+        label: "Делиорман",
+        meta: "ресторант и кухня",
+      },
+    ],
   },
 };
 
@@ -216,63 +279,68 @@ export const divisionPages = {
   },
   industrial: {
     accent: accents.industrial,
-    heroIndex: "02 / Индустриален",
-    title: "Инструменти и консумативи за работа.",
+    diagonal: accents.industrialAccent,
+    heroIndex: "02 / Домашни потреби",
+    title: "Нехранителни стоки за дома и всеки ден.",
     description:
-      "От крепежи до техника — индустриалният магазин помага на майстори, земеделци и домакинства да завършат задачата навреме.",
+      "Универсален магазин за домашни потреби: посуда, текстил, козметика, канцелария и дребни практични находки на достъпни цени.",
     cards: [
       {
         wide: true,
-        icon: "ИН",
-        title: "Ръчни инструменти",
+        icon: "КХ",
+        title: "Кухня и посуда",
         items: [
-          "Ключове, клещи, отвертки",
-          "Измерване и маркиране",
-          "Практични комплекти",
+          "Чаши, чинии и прибори",
+          "Кутии, купи и органайзери",
+          "Ежедневни консумативи",
         ],
       },
-      { icon: "КР", title: "Крепежи", items: ["Винтове", "Дюбели", "Скоби"] },
       {
-        icon: "ЕЛ",
-        title: "Електро",
-        items: ["Кабели", "Ключове", "Осветление"],
+        icon: "ТК",
+        title: "Текстил",
+        items: ["Кърпи", "Спално бельо", "Домашен текстил"],
+      },
+      {
+        icon: "КО",
+        title: "Козметика",
+        items: ["Парфюмерия", "Хигиена", "Аксесоари"],
       },
       {
         wide: true,
-        icon: "ЗА",
-        title: "Защита и консумативи",
+        icon: "ДР",
+        title: "Дребни стоки",
         items: [
-          "Ръкавици и очила",
-          "Лепила, силикони, масла",
-          "Бързо допълване за обекта",
+          "Канцеларски материали",
+          "Сезонни артикули",
+          "Полезни неща за дома",
         ],
       },
     ],
     features: [
       {
         index: "01",
-        title: "За майстори",
-        description: "Артикули за ремонт, сервиз и работилница.",
+        title: "Много категории",
+        description: "От кухнята до банята — подредено за бързо избиране.",
       },
       {
         index: "02",
-        title: "На място",
-        description: "Нужните дреболии са близо, без път до града.",
+        title: "Достъпни находки",
+        description: "Практични нехранителни стоки без пътуване до града.",
       },
       {
         index: "03",
-        title: "Ясна подредба",
-        description: "Категории по задача, не по складова логика.",
+        title: "Всекидневни нужди",
+        description: "Малки покупки, които често липсват точно когато трябват.",
       },
     ],
   },
   construction: {
     accent: accents.construction,
     diagonal: accents.constructionAccent,
-    heroIndex: "03 / Строителство",
-    title: "Силен син магазин за сериозни ремонти.",
+    heroIndex: "03 / Строителен магазин",
+    title: "Синьо-жълт магазин за ремонт, двор и строеж.",
     description:
-      "Материали, бои, сухи смеси и строителни решения за дома, двора и обекта — с жълт safety акцент за бързо ориентиране.",
+      "Формат тип Praktiker/Temax за Самуил: строителни материали, бои, инструменти, ВиК, електро и сезонни решения за дома и обекта.",
     cards: [
       {
         wide: true,
@@ -339,7 +407,7 @@ export const restaurantPage = {
       description: "Бърз избор за обяд или вечеря.",
     },
     {
-      color: accents.restaurant,
+      color: accents.restaurantYellow,
       visual: "Салати",
       title: "Свежи салати",
       description: "Леки комбинации към основното меню.",
@@ -365,8 +433,8 @@ export const contactPage = {
       href: "/industrial",
       color: accents.industrial,
       index: "02",
-      title: "Индустриален магазин",
-      description: "Инструменти, крепежи и консумативи за работа.",
+      title: "Домашни потреби",
+      description: "Нехранителни стоки, посуда, текстил и дребни артикули.",
     },
     {
       href: "/construction",
@@ -385,7 +453,7 @@ export const contactPage = {
   ],
   topics: [
     "Супермаркет",
-    "Индустриален магазин",
+    "Домашни потреби",
     "Строителство",
     "Ресторант Делиорман",
     "Общ въпрос",
@@ -395,7 +463,7 @@ export const contactPage = {
 export const samuilHubPage = {
   eyebrow: "История / Самуил Hub",
   title: "Местен бизнес с четири цветни лица.",
-  lead: "МЕРТМАКС расте около реалните нужди на селото: храна, инструменти, строителни материали и място за срещи.",
+  lead: "МЕРТМАКС расте около реалните нужди на селото: храна, домашни потреби, строителни материали и място за срещи.",
   events: [
     {
       color: accents.supermarket,
@@ -407,7 +475,7 @@ export const samuilHubPage = {
       color: accents.industrial,
       title: "Разширяване",
       description:
-        "Добавяне на индустриални артикули за работа, ремонт и земеделски нужди.",
+        "Добавяне на нехранителни стоки, текстил, посуда и дребни потреби за дома.",
     },
     {
       color: accents.construction,

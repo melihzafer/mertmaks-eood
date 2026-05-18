@@ -83,8 +83,8 @@ export const samuilHubPage: SamuilHubPageData = {
       },
       {
         year: "2020",
-        title: "Промишлен Отдел",
-        description: "Добавяме промишлени стоки към нашата гама",
+        title: "Домашни потреби",
+        description: "Добавяме нехранителни стоки, текстил, посуда и дребни артикули за дома",
         image: "/images/timeline/2020.jpg",
       },
       {
@@ -116,7 +116,7 @@ export const samuilHubPage: SamuilHubPageData = {
       },
       {
         name: "Георги Иванов",
-        role: "Мениджър Промишлени Стоки",
+        role: "Мениджър Домашни потреби",
         image: "/images/team/georgi.jpg",
         quote: "Качеството е в детайлите",
         color: "#8B5CF6",

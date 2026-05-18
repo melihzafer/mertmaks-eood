@@ -147,7 +147,7 @@ export default function ContactForm() {
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="grocery">Хранителен</SelectItem>
-              <SelectItem value="industrial">Индустриален</SelectItem>
+              <SelectItem value="industrial">Домашни потреби</SelectItem>
               <SelectItem value="construction">Строителен</SelectItem>
             </SelectContent>
           </Select>

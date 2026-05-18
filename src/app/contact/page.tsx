@@ -1,9 +1,21 @@
 "use client";
 
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import type { CSSProperties, FormEvent } from "react";
-import { useState } from "react";
-import { accents, contactPage } from "@/data/redesign-content";
+import { useMemo, useState } from "react";
+import { accents, brand, contactPage } from "@/data/redesign-content";
+import storesData from "@/data/stores.json";
+import type { Store } from "@/lib/stores";
+
+const LeafletMap = dynamic(() => import("@/components/features/LeafletMap"), {
+  ssr: false,
+  loading: () => (
+    <div className="leaflet-loading" aria-hidden="true">
+      Зареждане на картата…
+    </div>
+  ),
+});
 
 type CardColorStyle = CSSProperties & {
   "--theme-accent"?: string;
@@ -23,6 +35,11 @@ export default function ContactPage() {
   const [form, setForm] = useState(initialForm);
   const [invalidField, setInvalidField] = useState<FormField | null>(null);
   const [message, setMessage] = useState("");
+
+  const stores = useMemo<Store[]>(
+    () => storesData.stores as Store[],
+    [],
+  );
 
   const updateField = (field: FormField, value: string) => {
     setForm((current) => ({ ...current, [field]: value }));
@@ -71,9 +88,20 @@ export default function ContactPage() {
             className="visit-card fade-up visible"
             aria-label="Бърза информация"
           >
-            <span>Днес</span>
-            <strong>Отворено</strong>
-            <p>с. Самуил, област Разград</p>
+            <div>
+              <span>Днес</span>
+              <strong>Отворено</strong>
+            </div>
+            <dl className="visit-card-details">
+              <div>
+                <dt>Адрес</dt>
+                <dd>{brand.location}</dd>
+              </div>
+              <div>
+                <dt>Работно време</dt>
+                <dd>{brand.hours}</dd>
+              </div>
+            </dl>
             <div className="mini-rules">
               {[
                 accents.supermarket,
@@ -94,20 +122,19 @@ export default function ContactPage() {
       <section className="section-tight">
         <div className="container contact-mobile-flow">
           <section
-            className="contact-panel map-panel fade-up visible"
+            className="contact-panel map-panel-real fade-up visible"
             aria-label="Карта на Самуил"
           >
-            <div className="map-grid" />
-            <div className="map-route route-one" />
-            <div className="map-route route-two" />
-            <div className="map-pin" />
             <div className="map-content stack">
               <div className="eyebrow">Локация</div>
               <h2>с. Самуил, област Разград</h2>
               <p>
                 Централна точка за ежедневни покупки, ремонтни материали,
-                индустриални консумативи и топла храна.
+                домашни потреби и топла храна.
               </p>
+            </div>
+            <div className="leaflet-frame">
+              <LeafletMap stores={stores} height="100%" />
             </div>
           </section>
 
@@ -120,22 +147,27 @@ export default function ContactPage() {
               <h2>Изберете къде искате да отидете.</h2>
             </div>
 
-            {contactPage.stores.map((store) => (
-              <Link
-                key={store.href}
-                className="store-card touch-card"
-                href={store.href}
-                data-wipe
-                data-color={store.color}
-                style={{ "--card-color": store.color } as CardColorStyle}
-              >
-                <span>{store.index}</span>
-                <div>
-                  <h3>{store.title}</h3>
-                  <p>{store.description}</p>
-                </div>
-              </Link>
-            ))}
+            <div className="location-card-list">
+              {contactPage.stores.map((store) => (
+                <Link
+                  key={store.href}
+                  className="location-card"
+                  href={store.href}
+                  data-wipe
+                  data-color={store.color}
+                  style={{ "--card-color": store.color } as CardColorStyle}
+                >
+                  <span className="location-card-index">{store.index}</span>
+                  <div className="location-card-copy">
+                    <h3>{store.title}</h3>
+                    <p>{store.description}</p>
+                  </div>
+                  <span className="location-card-arrow" aria-hidden="true">
+                    →
+                  </span>
+                </Link>
+              ))}
+            </div>
           </section>
 
           <section className="contact-panel form-card fade-up visible">

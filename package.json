@@ -6,7 +6,7 @@
   "scripts": {
     "compile:scss": "sass src/styles/utilities/index.scss src/styles/utilities/compiled.css --no-source-map",
     "predev": "npm run compile:scss",
-    "dev": "next dev --turbo",
+    "dev": "next dev --turbo -H 0.0.0.0",
     "prebuild": "npm run compile:scss",
     "build": "next build",
     "start": "next start",

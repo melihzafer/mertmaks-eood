@@ -9,7 +9,7 @@ export interface StoreHours {
 export interface Store {
   id: string;
   name: string;
-  type: 'grocery' | 'industrial' | 'construction';
+  type: 'grocery' | 'industrial' | 'construction' | 'restaurant';
   address: string;
   city: string;
   region: string;
@@ -167,4 +167,26 @@ export function getFormattedHours(store: Store): Array<{
  */
 export function getStoresByType(type: Store['type']): Store[] {
   return storesData.stores.filter(store => store.type === type) as Store[];
+}
+
+/**
+ * Shape consumed by the AR Store Finder (`/find-us`). Pre-flattened to keep
+ * the AR layer decoupled from the richer `Store` shape.
+ */
+export interface FinderStore {
+  id: string;
+  name: string;
+  lat: number;
+  lng: number;
+  address: string;
+}
+
+export function getStoresForFinder(): FinderStore[] {
+  return (storesData.stores as Store[]).map((store) => ({
+    id: store.id,
+    name: store.name,
+    lat: store.coordinates.lat,
+    lng: store.coordinates.lng,
+    address: store.address,
+  }));
 }

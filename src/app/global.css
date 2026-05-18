@@ -13,9 +13,9 @@
 
     /* Accent Colors - The "Ties" */
     --color-grocery: 229 62 62; /* #E53E3E - Vibrant Red */
-    --color-industrial: 213 63 140; /* #D53F8C - Magenta */
-    --color-construction: 49 130 206; /* #3182CE - Deep Blue */
-    --color-construction-accent: 214 158 46; /* #D69E2E - Safety Yellow */
+    --color-industrial: 213 63 140; /* #D53F8C - Pink */
+    --color-construction: 37 99 235; /* #2563EB - Hardware Blue */
+    --color-construction-accent: 246 195 67; /* #F6C343 - Safety Yellow */
 
     /* Shadcn/UI colors for light mode */
     --background: 0 0% 100%;

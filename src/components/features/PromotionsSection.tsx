@@ -71,7 +71,7 @@ export async function PromotionsSection() {
                     className={`absolute bottom-4 left-4 px-3 py-1 rounded-full text-sm font-semibold border ${storeColors[promo.store]}`}
                   >
                     {promo.store === "supermarket" && "Супермаркет"}
-                    {promo.store === "industrial" && "Индустриална база"}
+                    {promo.store === "industrial" && "Домашни потреби"}
                     {promo.store === "construction" && "Строителен магазин"}
                   </div>
                 </div>

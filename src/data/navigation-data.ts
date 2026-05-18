@@ -16,7 +16,7 @@ export interface QuickLink extends NavLink {
 export const mainNavLinks: NavLink[] = [
   { href: "/", label: "Начало" },
   { href: "/supermarket", label: "Хранителен" },
-  { href: "/industrial", label: "Индустриален" },
+  { href: "/industrial", label: "Домашни потреби" },
   { href: "/construction", label: "Строителен" },
   { href: "/restaurant", label: "Ресторант" },
   { href: "/contact", label: "Контакти" },
@@ -31,18 +31,18 @@ export const footerQuickLinks: QuickLink[] = [
   },
   {
     href: "/industrial",
-    label: "Промишлени Стоки",
+    label: "Домашни потреби",
     color: "#D53F8C",
   },
   {
     href: "/construction",
     label: "Строителство",
-    color: "#3182CE",
+    color: "#2563EB",
   },
   {
     href: "/restaurant",
     label: "Ресторант Делиорман",
-    color: "#F59E0B",
+    color: "#8B4513",
   },
   {
     href: "/about",
