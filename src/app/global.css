@@ -2,6 +2,7 @@
 
 /* Import custom utility classes */
 @import "../styles/utilities/compiled.css";
+@import "./redesign.css";
 
 @layer base {
   :root {
@@ -12,9 +13,9 @@
 
     /* Accent Colors - The "Ties" */
     --color-grocery: 229 62 62; /* #E53E3E - Vibrant Red */
-    --color-industrial: 213 63 140; /* #D53F8C - Magenta */
-    --color-construction: 49 130 206; /* #3182CE - Deep Blue */
-    --color-construction-accent: 214 158 46; /* #D69E2E - Safety Yellow */
+    --color-industrial: 213 63 140; /* #D53F8C - Pink */
+    --color-construction: 37 99 235; /* #2563EB - Hardware Blue */
+    --color-construction-accent: 246 195 67; /* #F6C343 - Safety Yellow */
 
     /* Shadcn/UI colors for light mode */
     --background: 0 0% 100%;
@@ -61,14 +62,6 @@
     scroll-behavior: smooth;
   }
 
-  /* Smooth theme transitions for all color-based properties */
-  *,
-  *::before,
-  *::after {
-    transition-property: background-color, border-color, color, fill, stroke;
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    transition-duration: 300ms;
-  }
 }
 
 @layer utilities {
@@ -3047,4 +3040,11 @@ html {
 .leaflet-top,
 .leaflet-bottom {
   z-index: 400 !important;
+}
+
+@layer utilities {
+  .mask-linear-fade {
+    mask-image: linear-gradient(to right, transparent, black 20%, black 80%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 20%, black 80%, transparent);
+  }
 }

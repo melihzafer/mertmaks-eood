@@ -76,9 +76,9 @@ export const divisions: DivisionData[] = [
     accentColor: "grocery",
   },
   {
-    title: "Промишлени Стоки",
+    title: "Домашни потреби",
     description:
-      "Широка гама от промишлени продукти, инструменти и битови стоки за всеки вкус.",
+      "Нехранителни стоки, текстил, посуда, козметика и дребни потреби за дома.",
     image:
       "https://images.unsplash.com/photo-1613489763341-1a3603e11d61?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxpbmR1c3RyaWFsJTIwZ29vZHMlMjBoYXJkd2FyZSUyMHN0b3JlfGVufDF8fHx8MTc2MjU0MDAwMXww&ixlib=rb-4.1.0&q=80&w=1080",
     href: "/industrial",
@@ -122,14 +122,14 @@ export const promotions: PromotionData[] = [
   },
   {
     id: 2,
-    title: "Електроинструменти",
-    description: "Специална цена на бормашини",
+    title: "Домашни потреби",
+    description: "Подбрани дребни стоки за кухнята и дома",
     price: "79.99 лв",
     originalPrice: "99.99 лв",
     image:
       "https://images.unsplash.com/photo-1504148455328-c376907d081c?w=400&h=300&fit=crop",
     color: "#D53F8C",
-    store: "Промишлени Стоки",
+    store: "Домашни потреби",
   },
   {
     id: 3,
@@ -139,7 +139,7 @@ export const promotions: PromotionData[] = [
     originalPrice: "14.99 лв/л",
     image:
       "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=400&h=300&fit=crop",
-    color: "#3182CE",
+    color: "#2563EB",
     store: "Строителство",
   },
 ];

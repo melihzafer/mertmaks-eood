@@ -38,36 +38,36 @@ export const searchData = {
     },
     {
       id: 'product-5',
-      name: "Бормашини и Инструменти",
-      category: "Промишлени Стоки",
-      keywords: ["бормашина", "винтоверт", "триони", "чукове", "инструменти"],
+      name: "Кухненски прибори и посуда",
+      category: "Домашни потреби",
+      keywords: ["чаши", "чинии", "прибори", "купички", "посуда"],
       store: "industrial" as const,
       color: "#D53F8C",
       link: "/industrial"
     },
     {
       id: 'product-6',
-      name: "Електрически Уреди",
-      category: "Промишлени Стоки",
-      keywords: ["ютии", "прахосмукачки", "миксери", "електроуреди"],
+      name: "Текстил за дома",
+      category: "Домашни потреби",
+      keywords: ["кърпи", "спално бельо", "завеси", "текстил"],
       store: "industrial" as const,
       color: "#D53F8C",
       link: "/industrial"
     },
     {
       id: 'product-7',
-      name: "Крепежни Елементи",
-      category: "Промишлени Стоки",
-      keywords: ["винтове", "гайки", "болтове", "дюбели", "крепеж"],
+      name: "Козметика и парфюмерия",
+      category: "Домашни потреби",
+      keywords: ["козметика", "парфюмерия", "хигиена", "аксесоари"],
       store: "industrial" as const,
       color: "#D53F8C",
       link: "/industrial"
     },
     {
       id: 'product-8',
-      name: "Осветление и Електрика",
-      category: "Промишлени Стоки",
-      keywords: ["лампи", "led", "ключове", "контакти", "кабели"],
+      name: "Канцелария и дребни стоки",
+      category: "Домашни потреби",
+      keywords: ["тетрадки", "химикали", "канцелария", "дребни стоки"],
       store: "industrial" as const,
       color: "#D53F8C",
       link: "/industrial"
@@ -78,7 +78,7 @@ export const searchData = {
       category: "Строителство",
       keywords: ["тухли", "блокове", "газобетон", "керемиди"],
       store: "construction" as const,
-      color: "#3182CE",
+      color: "#2563EB",
       link: "/construction"
     },
     {
@@ -87,7 +87,7 @@ export const searchData = {
       category: "Строителство",
       keywords: ["цимент", "варова", "гипс", "мазилка"],
       store: "construction" as const,
-      color: "#3182CE",
+      color: "#2563EB",
       link: "/construction"
     },
     {
@@ -96,7 +96,7 @@ export const searchData = {
       category: "Строителство",
       keywords: ["боя", "латекс", "лак", "грунд", "мазилка"],
       store: "construction" as const,
-      color: "#3182CE",
+      color: "#2563EB",
       link: "/construction"
     },
     {
@@ -105,7 +105,7 @@ export const searchData = {
       category: "Строителство",
       keywords: ["стиропор", "минерална вата", "изолация", "топлоизолация"],
       store: "construction" as const,
-      color: "#3182CE",
+      color: "#2563EB",
       link: "/construction"
     }
   ],

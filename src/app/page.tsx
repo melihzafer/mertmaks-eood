@@ -1,356 +1,183 @@
 "use client";
 
-import { Tag, TrendingDown } from "lucide-react";
-import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
-import { DivisionCard } from "@/components/interactive/DivisionCard";
-import { Card } from "@/components/ui/card";
-import { divisions } from "@/data/home-content";
+import Link from "next/link";
+import type { CSSProperties } from "react";
+import { useState } from "react";
+import { accents, homePage } from "@/data/redesign-content";
 
-// Mock promotions data - In production, this would come from Firestore
-const promotions = [
-  {
-    id: 1,
-    title: "Свежи Плодове",
-    description: "20% отстъпка на сезонни плодове",
-    price: "2.99 лв/кг",
-    originalPrice: "3.99 лв/кг",
-    image:
-      "https://images.unsplash.com/photo-1610832958506-aa56368176cf?w=400&h=300&fit=crop",
-    color: "#E53E3E",
-    store: "Супермаркет",
-  },
-  {
-    id: 2,
-    title: "Електроинструменти",
-    description: "Специална цена на бормашини",
-    price: "79.99 лв",
-    originalPrice: "99.99 лв",
-    image:
-      "https://images.unsplash.com/photo-1504148455328-c376907d081c?w=400&h=300&fit=crop",
-    color: "#D53F8C",
-    store: "Промишлени Стоки",
-  },
-  {
-    id: 3,
-    title: "Боя за Стени",
-    description: "15% отстъпка на всички интериорни бои",
-    price: "12.99 лв/л",
-    originalPrice: "14.99 лв/л",
-    image:
-      "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=400&h=300&fit=crop",
-    color: "#3182CE",
-    store: "Строителство",
-  },
-];
+type CardColorStyle = CSSProperties & {
+  "--card-color"?: string;
+  "--shape"?: string;
+  background?: string;
+};
 
 export default function HomePage() {
-  const divisionsRef = useRef(null);
-  const promotionsRef = useRef(null);
-  const ctaRef = useRef(null);
-  const isDivisionsInView = useInView(divisionsRef, {
-    once: true,
-    margin: "-100px",
-  });
-  const isPromotionsInView = useInView(promotionsRef, {
-    once: true,
-    margin: "-100px",
-  });
-  const isCtaInView = useInView(ctaRef, { once: true, margin: "-100px" });
+  const [activeFilter, setActiveFilter] = useState("all");
+  const visiblePromotions =
+    activeFilter === "all"
+      ? homePage.promotions
+      : homePage.promotions.filter((promo) => promo.category === activeFilter);
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.5 }}
-      className="min-h-[calc(100vh-4rem)]"
-    >
-      {/* Hero Section - "Living Wallpaper" */}
-      <section className="relative min-h-[85vh] flex items-center justify-center overflow-hidden">
-        {/* Background Image with Parallax Effect */}
-        <motion.div
-          className="absolute inset-0 z-0"
-          initial={{ scale: 1.1 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
-        >
-          <div
-            className="absolute inset-0 bg-cover bg-center"
-            style={{
-              backgroundImage:
-                "url(https://images.unsplash.com/photo-1762439181518-15f8e01012a6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjByZXRhaWwlMjBzdG9yZSUyMGV4dGVyaW9yfGVufDF8fHx8MTc2MjU0MDAwMnww&ixlib=rb-4.1.0&q=80&w=1080)",
-            }}
-          />
-          <div className="absolute inset-0 bg-linear-to-b from-black/60 via-black/50 to-black/70" />
-        </motion.div>
-
-        {/* Hero Content */}
-        <div className="container mx-auto px-4 z-10 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="flex justify-center mb-8"
-          >
-            <motion.div
-              className="flex h-24 w-24 items-center justify-center rounded-3xl bg-linear-to-br from-blue-600 via-pink-500 to-red-600 shadow-2xl"
-              whileHover={{ rotate: 5, scale: 1.1 }}
-              transition={{ duration: 0.3 }}
+    <main style={{ "--theme-accent": accents.supermarket } as CSSProperties}>
+      <section className="hero-home">
+        <div className="hero-copy fade-up visible">
+          <div className="eyebrow">{homePage.hero.eyebrow}</div>
+          <h1>{homePage.hero.title}</h1>
+          <p className="lead">{homePage.hero.lead}</p>
+          <div className="cluster">
+            <Link
+              className="btn primary"
+              href={homePage.hero.primaryCta.href}
+              data-wipe
+              data-color={accents.supermarket}
             >
-              <span className="text-5xl text-white font-bold">M</span>
-            </motion.div>
-          </motion.div>
-
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            className="text-5xl md:text-7xl font-bold text-white mb-6 tracking-tight"
-          >
-            MERTMAX: Сърцето на Самуил
-          </motion.h1>
-
-          <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="text-xl md:text-2xl text-white/90 mb-4 max-w-3xl mx-auto"
-          >
-            Вашият доверен партньор в Самуил и Разград
-          </motion.p>
-
-          <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="text-lg text-white/80 max-w-2xl mx-auto"
-          >
-            Три магазина под един покрив - хранителни стоки, промишлени продукти
-            и строителни материали
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 1, ease: [0.16, 1, 0.3, 1] }}
-            className="mt-12"
-          >
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="inline-block"
-            >
-              <a
-                href="#divisions"
-                className="inline-flex items-center justify-center rounded-full bg-white px-10 py-4 text-lg font-semibold text-gray-900 shadow-xl hover:shadow-2xl transition-shadow duration-300"
-              >
-                Разгледай Магазините
-              </a>
-            </motion.div>
-          </motion.div>
+              {homePage.hero.primaryCta.label}
+            </Link>
+            <Link className="btn" href={homePage.hero.secondaryCta.href}>
+              {homePage.hero.secondaryCta.label}
+            </Link>
+          </div>
         </div>
 
-        {/* Scroll Indicator */}
-        <motion.div
-          className="absolute bottom-8 left-1/2 -translate-x-1/2"
-          animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-        >
-          <div className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center pt-2">
-            <motion.div
-              className="w-1.5 h-1.5 bg-white rounded-full"
-              animate={{ y: [0, 16, 0] }}
-              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-            />
-          </div>
-        </motion.div>
-      </section>
-
-      {/* Divisions Section - "Prism Cards" */}
-      <section
-        id="divisions"
-        className="py-24 container mx-auto px-4"
-        ref={divisionsRef}
-      >
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={
-            isDivisionsInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }
-          }
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-            Нашите Магазини
-          </h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Изберете магазина, който отговаря на вашите нужди
-          </p>
-        </motion.div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-7xl mx-auto">
-          {divisions.map((division, index) => (
-            <motion.div
-              key={division.href}
-              initial={{ opacity: 0, y: 50 }}
-              animate={
-                isDivisionsInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }
-              }
-              transition={{
-                duration: 0.8,
-                delay: index * 0.2,
-                ease: [0.16, 1, 0.3, 1],
-              }}
+        <div className="division-stripes">
+          {homePage.stripes.map((stripe) => (
+            <Link
+              key={stripe.href}
+              className="stripe"
+              href={stripe.href}
+              data-wipe
+              data-color={stripe.color}
+              data-index={stripe.index}
+              style={{ "--card-color": stripe.color } as CardColorStyle}
             >
-              <DivisionCard {...division} />
-            </motion.div>
+              <strong>{stripe.title}</strong>
+              <span>{stripe.label}</span>
+            </Link>
           ))}
         </div>
       </section>
 
-      {/* Live Promotions Feed */}
-      <section
-        className="py-24 bg-linear-to-br from-gray-50 to-white dark:from-gray-900 dark:to-gray-950 transition-colors duration-300"
-        ref={promotionsRef}
-      >
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            animate={
-              isPromotionsInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }
-            }
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="text-center mb-16"
-          >
-            <div className="flex items-center justify-center space-x-3 mb-6">
-              <Tag className="text-red-600" size={32} />
-              <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white">
-                Седмични Промоции
-              </h2>
+      <section className="stats-band">
+        <div className="stats">
+          {homePage.stats.map((stat) => (
+            <div className="stat" key={stat.label}>
+              <b data-count={stat.value} data-suffix={stat.suffix}>
+                {`${stat.value}${stat.suffix}`}
+              </b>
+              <span>{stat.label}</span>
             </div>
-            <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-              Не пропускайте специалните ни оферти тази седмица
-            </p>
-          </motion.div>
+          ))}
+        </div>
+      </section>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
-            {promotions.map((promo, index) => (
-              <motion.div
-                key={promo.id}
-                initial={{ opacity: 0, y: 50 }}
-                animate={
-                  isPromotionsInView
-                    ? { opacity: 1, y: 0 }
-                    : { opacity: 0, y: 50 }
-                }
-                transition={{
-                  duration: 0.8,
-                  delay: index * 0.15,
-                  ease: [0.16, 1, 0.3, 1],
-                }}
+      <section className="section" id="stores">
+        <div className="container">
+          <div className="indexed-head">
+            <div className="big-index">01</div>
+            <div>
+              <div className="eyebrow">Нашите магазини</div>
+              <h2>Четири силни посоки. Едно местно име.</h2>
+            </div>
+          </div>
+
+          <div className="division-grid">
+            {homePage.divisions.map((division) => (
+              <Link
+                key={division.href}
+                className="division-card fade-up visible"
+                href={division.href}
+                data-wipe
+                data-color={division.color}
+                style={{ "--card-color": division.color } as CardColorStyle}
               >
-                <Card
-                  className="overflow-hidden border-2 hover:shadow-2xl transition-all duration-300 group bg-white dark:bg-gray-800 dark:border-gray-700"
-                  style={{ borderColor: `${promo.color}40` }}
-                >
-                  <div className="relative h-48 overflow-hidden">
-                    <motion.img
-                      src={promo.image}
-                      alt={promo.title}
-                      className="w-full h-full object-cover"
-                      whileHover={{ scale: 1.1 }}
-                      transition={{ duration: 0.6 }}
-                    />
-                    <div className="absolute top-4 right-4 bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm px-3 py-1 rounded-full shadow-lg">
-                      <div className="flex items-center space-x-1">
-                        <TrendingDown
-                          size={16}
-                          style={{ color: promo.color }}
-                        />
-                        <span
-                          className="font-semibold text-sm"
-                          style={{ color: promo.color }}
-                        >
-                          ПРОМО
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="p-6">
-                    <div
-                      className="text-xs font-medium mb-2 uppercase tracking-wider"
-                      style={{ color: promo.color }}
-                    >
-                      {promo.store}
-                    </div>
-                    <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                      {promo.title}
-                    </h3>
-                    <p className="text-gray-600 dark:text-gray-300 mb-6 line-clamp-2">
-                      {promo.description}
-                    </p>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-baseline space-x-3">
-                        <span
-                          className="text-2xl font-extrabold px-3 py-1 rounded-lg"
-                          style={{
-                            color: "white",
-                            backgroundColor: promo.color,
-                            boxShadow: `0 4px 14px 0 ${promo.color}60`,
-                          }}
-                        >
-                          {promo.price}
-                        </span>
-                        <span className="text-sm text-gray-400 dark:text-gray-500 line-through decoration-2">
-                          {promo.originalPrice}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </Card>
-              </motion.div>
+                <div className="visual">
+                  <span>{division.visual}</span>
+                </div>
+                <div className="card-body">
+                  <div className="num">{division.index}</div>
+                  <h3>{division.title}</h3>
+                  <p>{division.description}</p>
+                  <b>Разгледай →</b>
+                </div>
+              </Link>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="bg-gray-900 py-24" ref={ctaRef}>
-        <div className="container mx-auto px-4 text-center">
-          <motion.h2
-            initial={{ opacity: 0, y: 50 }}
-            animate={isCtaInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="text-4xl md:text-5xl font-bold text-white mb-6"
-          >
-            Посетете Ни Днес
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 50 }}
-            animate={isCtaInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-            transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="text-xl text-gray-300 mb-10 max-w-2xl mx-auto"
-          >
-            Всички наши магазини се намират в с. Самуил, обл. Разград. Очакваме
-            ви всеки ден от 8:00 до 20:00.
-          </motion.p>
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            animate={isCtaInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-            transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <motion.a
-              href="/contact"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="inline-flex items-center justify-center rounded-full bg-white px-10 py-4 text-lg font-semibold text-gray-900 shadow-xl hover:shadow-2xl transition-shadow duration-300"
-            >
-              Вижте Контакти
-            </motion.a>
-          </motion.div>
+      <section className="section-tight">
+        <div className="container">
+          <div className="promo-toolbar">
+            <div>
+              <div className="eyebrow">Live promotions</div>
+              <h2>Акценти тази седмица</h2>
+            </div>
+            <div className="filter-row" data-filter-group>
+              {[
+                ["all", "Всички"],
+                ["food", "Храни"],
+                ["tools", "Инструменти"],
+                ["home", "Дом"],
+              ].map(([value, label]) => (
+                <button
+                  key={value}
+                  className={`filter ${activeFilter === value ? "active" : ""}`}
+                  type="button"
+                  data-filter={value}
+                  onClick={() => setActiveFilter(value)}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="promo-grid">
+            {visiblePromotions.map((promo) => (
+              <article
+                key={promo.title}
+                className="promo-card"
+                data-category={promo.category}
+                style={{ "--card-color": promo.color } as CardColorStyle}
+              >
+                <div className="promo-top" />
+                <div className="promo-image">{promo.visual}</div>
+                <div className="promo-content">
+                  <span className="price">{promo.label}</span>
+                  <h3>{promo.title}</h3>
+                  <p>{promo.description}</p>
+                </div>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
-    </motion.div>
+
+      <section className="cta-dark section">
+        <div className="cta-box">
+          <div className="stack">
+            <div className="eyebrow">{homePage.cta.eyebrow}</div>
+            <h2>{homePage.cta.title}</h2>
+            <p>{homePage.cta.description}</p>
+          </div>
+          <div className="shape-stack">
+            {homePage.cta.cards.map((card) => (
+              <Link
+                key={card.href}
+                href={card.href}
+                className="shape-card"
+                data-wipe
+                data-color={card.color}
+                style={{ "--shape": card.color, "--card-color": card.color } as CardColorStyle}
+              >
+                <span className="shape-card-label">{card.label}</span>
+                <span className="shape-card-meta">{card.meta}</span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+    </main>
   );
 }

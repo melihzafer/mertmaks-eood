@@ -69,12 +69,12 @@ export function DivisionCard({
     construction: {
       solid: "var(--color-construction)",
       gradient:
-        "radial-gradient(circle at center, rgba(49, 130, 206, 0.15) 0%, transparent 70%)",
+        "radial-gradient(circle at center, rgba(37, 99, 235, 0.15) 0%, transparent 70%)",
     },
     restaurant: {
-      solid: "#F59E0B",
+      solid: "#8B4513",
       gradient:
-        "radial-gradient(circle at center, rgba(245, 158, 11, 0.15) 0%, transparent 70%)",
+        "radial-gradient(circle at center, rgba(217, 119, 6, 0.18) 0%, transparent 70%)",
     },
   };
 

@@ -98,7 +98,7 @@ export function ThreeDShowcase() {
           <ambientLight intensity={0.5} />
           <directionalLight position={[10, 10, 5]} intensity={1} />
           <pointLight position={[-10, -10, -5]} intensity={0.5} color="#E53E3E" />
-          <pointLight position={[10, 10, 5]} intensity={0.5} color="#3182CE" />
+          <pointLight position={[10, 10, 5]} intensity={0.5} color="#2563EB" />
           
           {/* 3D Shapes */}
           <Logo3D />

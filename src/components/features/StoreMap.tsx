@@ -72,7 +72,7 @@ export function StoreMap({ stores, height = "500px" }: StoreMapProps) {
               <div className="flex items-start gap-2">
                 <Clock className="w-4 h-4 mt-0.5 shrink-0" />
                 <span>
-                  ���-���: {store.hours.monday.open} -{" "}
+                  Понеделник: {store.hours.monday.open} -{" "}
                   {store.hours.monday.close}
                 </span>
               </div>

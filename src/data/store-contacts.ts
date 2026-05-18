@@ -32,7 +32,7 @@ export const storeContacts: StoreContact[] = [
     closeTime: 20,
   },
   {
-    name: "Промишлени Стоки MERTMAX",
+    name: "Домашни потреби MERTMAX",
     icon: Wrench,
     color: "#D53F8C",
     address: "ул. Главна 2, с. Самуил, обл. Разград",
@@ -46,7 +46,7 @@ export const storeContacts: StoreContact[] = [
   {
     name: "Строителство MERTMAX",
     icon: HardHat,
-    color: "#3182CE",
+    color: "#2563EB",
     address: "ул. Главна 3, с. Самуил, обл. Разград",
     phone: "+359 XXX XXX 003",
     hours: "Понеделник - Неделя: 8:00 - 20:00",
