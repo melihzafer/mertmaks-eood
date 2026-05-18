@@ -1,4 +1,4 @@
-import { accents } from "@/data/redesign-content";
+import { accents } from "@/data/brand-colors";
 
 export function getRouteAccent(pathname: string) {
   if (pathname.startsWith("/industrial")) return accents.industrial;
