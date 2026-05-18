@@ -1,18 +1,24 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
+import { Geologica, Manrope } from "next/font/google";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Header } from "../components/layout/Header";
 import { Footer } from "../components/layout/Footer";
-import { PageTransition } from "../components/layout/PageTransition";
-import { GestureWrapper } from "../components/interactive/GestureWrapper";
+import { FeedbackWidget } from "@/components/features/FeedbackWidget";
 import { ServiceWorkerProvider } from "../components/theme/ServiceWorkerProvider";
-import { FeedbackWidget } from "../components/features/FeedbackWidget";
 import { Toaster } from "@/components/ui/sonner";
 import "./global.css";
 import "./common.scss";
 
-const inter = Inter({
+const geologica = Geologica({
   subsets: ["latin", "cyrillic"],
-  variable: "--font-inter",
+  variable: "--font-geologica",
+  display: "swap",
+});
+
+const manrope = Manrope({
+  subsets: ["latin", "cyrillic"],
+  variable: "--font-manrope",
   display: "swap",
 });
 
@@ -41,6 +47,9 @@ export const metadata: Metadata = {
     statusBarStyle: "default",
     title: "Мертмакс",
   },
+  other: {
+    "model:poster": "/icons/icon-512x512.png",
+  },
   openGraph: {
     title: "MERTMAX EOOD - Сърцето на Самуил",
     description: "Три магазина под един покрив",
@@ -55,21 +64,24 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="bg" className={inter.variable} suppressHydrationWarning>
+    <html
+      lang="bg"
+      className={`${geologica.variable} ${manrope.variable}`}
+      data-scroll-behavior="smooth"
+      suppressHydrationWarning
+    >
       <body
-        className={`${inter.className} antialiased bg-gray-50 text-gray-900`}
+        className={`${manrope.className} antialiased`}
         suppressHydrationWarning
       >
         <ServiceWorkerProvider />
         <Header />
-        <GestureWrapper>
-          <PageTransition>
-            <main className="min-h-screen">{children}</main>
-          </PageTransition>
-        </GestureWrapper>
-        <FeedbackWidget />
+        {children}
         <Toaster />
+        <FeedbackWidget />
         <Footer />
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

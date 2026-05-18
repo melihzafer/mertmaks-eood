@@ -1,417 +1,336 @@
-﻿"use client";
+"use client";
 
-import * as React from "react";
-import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Search } from "lucide-react";
-import { searchData } from "@/data/search-data";
+import { usePathname, useRouter } from "next/navigation";
+import type { CSSProperties, MouseEvent as ReactMouseEvent } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-} from "@/components/ui/navigation-menu";
-import { cn } from "@/lib/utils";
+  accents,
+  brand,
+  mobileLinks,
+  searchLinks,
+} from "@/data/redesign-content";
 
-const ListItem = React.forwardRef<
-  React.ElementRef<typeof Link>,
-  React.ComponentPropsWithoutRef<typeof Link> & { title: string }
->(({ className, title, children, ...props }, ref) => {
-  return (
-    <li>
-      <NavigationMenuLink asChild>
-        <Link
-          ref={ref}
-          className={cn(
-            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
-            className
-          )}
-          {...props}
-        >
-          <div className="text-sm font-medium leading-none">{title}</div>
-          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-            {children}
-          </p>
-        </Link>
-      </NavigationMenuLink>
-    </li>
-  );
-});
-ListItem.displayName = "ListItem";
+type AccentStyle = CSSProperties & {
+  "--theme-accent"?: string;
+};
+
+function getRouteAccent(pathname: string) {
+  if (pathname.startsWith("/industrial")) return accents.industrial;
+  if (pathname.startsWith("/construction")) return accents.construction;
+  if (pathname.startsWith("/restaurant")) return accents.restaurant;
+  if (pathname.startsWith("/samuil-hub") || pathname.startsWith("/about")) {
+    return accents.supermarketAccent;
+  }
+
+  return accents.supermarket;
+}
+
+function isModifiedClick(event: MouseEvent | ReactMouseEvent) {
+  return event.metaKey || event.ctrlKey || event.shiftKey || event.altKey;
+}
 
 export function Header() {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [isSearchFocused, setIsSearchFocused] = useState(false);
-  const searchRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
+  const router = useRouter();
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [wipeColor, setWipeColor] = useState(accents.supermarket);
+  const [isWiping, setIsWiping] = useState(false);
+  const searchInputRef = useRef<HTMLInputElement>(null);
+  const previousFocusRef = useRef<HTMLElement | null>(null);
 
-  // Close search dropdown when clicking outside
+  const accent = useMemo(() => getRouteAccent(pathname), [pathname]);
+  const accentStyle: AccentStyle = { "--theme-accent": accent };
+
+  const secondNav = pathname.startsWith("/restaurant")
+    ? { href: "/restaurant", label: "Ресторант" }
+    : { href: "/supermarket", label: "Магазини" };
+
+  const navLinks = [
+    { href: "/", label: "Начало", active: pathname === "/" },
+    {
+      ...secondNav,
+      active: pathname.startsWith("/restaurant")
+        ? pathname.startsWith("/restaurant")
+        : ["/supermarket", "/industrial", "/construction"].some((route) =>
+            pathname.startsWith(route),
+          ),
+    },
+    {
+      href: "/samuil-hub",
+      label: "За нас",
+      active:
+        pathname.startsWith("/samuil-hub") || pathname.startsWith("/about"),
+    },
+    {
+      href: "/contact",
+      label: "Контакти",
+      active: pathname.startsWith("/contact"),
+    },
+  ];
+
+  const runWipe = useCallback(
+    (href: string, color = accent) => {
+      setIsMobileOpen(false);
+      setIsSearchOpen(false);
+      setWipeColor(color);
+      setIsWiping(false);
+      requestAnimationFrame(() => setIsWiping(true));
+      window.setTimeout(() => router.push(href), 310);
+      window.setTimeout(() => setIsWiping(false), 680);
+    },
+    [accent, router],
+  );
+
+  const openSearch = () => {
+    previousFocusRef.current = document.activeElement as HTMLElement | null;
+    setIsMobileOpen(false);
+    setIsSearchOpen(true);
+  };
+
+  const closeSearch = () => {
+    setIsSearchOpen(false);
+    previousFocusRef.current?.focus();
+  };
+
   useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (
-        searchRef.current &&
-        !searchRef.current.contains(event.target as Node)
-      ) {
-        setIsSearchFocused(false);
-      }
-    }
-
-    function handleEscapeKey(event: KeyboardEvent) {
-      if (event.key === "Escape") {
-        setIsSearchFocused(false);
-        setSearchQuery("");
-      }
-    }
-
-    document.addEventListener("mousedown", handleClickOutside);
-    document.addEventListener("keydown", handleEscapeKey);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-      document.removeEventListener("keydown", handleEscapeKey);
-    };
+    const onScroll = () => setIsScrolled(window.scrollY > 12);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Filter search results
-  const searchResults = searchQuery.trim()
-    ? [
-        ...searchData.products.filter(
-          (item) =>
-            item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            item.keywords.some((kw) =>
-              kw.toLowerCase().includes(searchQuery.toLowerCase())
-            )
-        ),
-        ...searchData.faqs.filter(
-          (item) =>
-            item.question.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            item.answer.toLowerCase().includes(searchQuery.toLowerCase())
-        ),
-      ].slice(0, 6)
-    : [];
+  useEffect(() => {
+    const controller = new AbortController();
+
+    const onClick = (event: MouseEvent) => {
+      const link = (event.target as Element | null)?.closest<HTMLAnchorElement>(
+        "a[data-wipe]",
+      );
+
+      if (!link || isModifiedClick(event) || event.button !== 0) return;
+
+      const href = link.getAttribute("href");
+      if (!href || href.startsWith("#") || href.startsWith("http")) return;
+
+      event.preventDefault();
+      runWipe(href, link.dataset.color || getRouteAccent(href));
+    };
+
+    document.addEventListener("click", onClick, {
+      capture: true,
+      signal: controller.signal,
+    });
+    return () => controller.abort();
+  }, [runWipe]);
+
+  useEffect(() => {
+    const counters = document.querySelectorAll<HTMLElement>("[data-count]");
+    const counterObservers: IntersectionObserver[] = [];
+    const counterTimers: number[] = [];
+
+    counters.forEach((counter) => {
+      const target = Number(counter.dataset.count || 0);
+      const suffix = counter.dataset.suffix || "";
+      const step = Math.max(1, Math.ceil(target / 34));
+      let current = 0;
+
+      counter.textContent = `${target}${suffix}`;
+
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (!entry?.isIntersecting || counter.dataset.counted) return;
+
+          counter.dataset.counted = "true";
+          counter.textContent = `0${suffix}`;
+
+          const timer = window.setInterval(() => {
+            current = Math.min(target, current + step);
+            counter.textContent = `${current}${suffix}`;
+            if (current >= target) window.clearInterval(timer);
+          }, 28);
+          counterTimers.push(timer);
+        },
+        { threshold: 0.35 },
+      );
+
+      observer.observe(counter);
+      counterObservers.push(observer);
+    });
+
+    const revealObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) entry.target.classList.add("visible");
+        });
+      },
+      { threshold: 0.12 },
+    );
+
+    document
+      .querySelectorAll<HTMLElement>(".fade-up")
+      .forEach((element) => revealObserver.observe(element));
+
+    return () => {
+      counterObservers.forEach((observer) => observer.disconnect());
+      counterTimers.forEach((timer) => window.clearInterval(timer));
+      revealObserver.disconnect();
+    };
+  }, [pathname]);
+
+  useEffect(() => {
+    if (!isSearchOpen) return;
+    const timer = window.setTimeout(() => searchInputRef.current?.focus(), 0);
+    return () => window.clearTimeout(timer);
+  }, [isSearchOpen]);
 
   return (
-    <header className="sticky top-0 z-1000 bg-white border-b shadow-sm transition-colors duration-300">
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
-          <Link href="/" className="flex items-center gap-2">
-            {/* Logo - matches brand design */}
-            <div className="flex items-center h-16 p-5 rounded-lg overflow-hidden">
-              {/* Icon part - pink gradient with M */}
-              <motion.div
-                className="flex h-12 w-12 items-center justify-center rounded-xl bg-linear-to-br from-blue-600 via-pink-500 to-red-600 shadow-2xl"
-                whileHover={{ rotate: 2, scale: 1.05 }}
-                transition={{ duration: 0.3 }}
-              >
-                <span className="text-xl text-white font-bold">M</span>
-              </motion.div>
+    <>
+      <div
+        className={`wipe ${isWiping ? "run" : ""}`}
+        style={{ "--theme-accent": wipeColor } as AccentStyle}
+      />
 
-              {/* Text part - red background with white text */}
-              <div className=" px-3 flex justify-center flex-col">
-                <span className="text-black font-bold text-sm tracking-tight">
-                  МЕРТМАКС
-                </span>
-                <span className="text-xs text-black font-medium">ЕООД</span>
-              </div>
-            </div>
-
-            {/* Location subtitle */}
+      <header
+        className={`site-header ${isScrolled ? "scrolled" : ""}`}
+        style={accentStyle}
+      >
+        <div className="nav-inner">
+          <Link
+            className="brand"
+            href="/"
+            data-wipe
+            data-color={accents.supermarket}
+          >
+            <strong>{brand.name}</strong>
+            <span>{brand.legalForm}</span>
           </Link>
 
-          <div className="flex p-2 items-center h-24 gap-2">
-            {/* Search Bar with Dropdown */}
-            <div className="md:block hide-on-mobile relative" ref={searchRef}>
-              <div className="flex items-center gap-2 px-3 py-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors">
-                <Search className="h-4 text-gray-500" />
-                <input
-                  type="text"
-                  placeholder="Търси..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  onFocus={() => setIsSearchFocused(true)}
-                  className="bg-transparent border-none outline-none text-sm text-gray-700 placeholder-gray-500 w-32 focus:w-48 transition-all"
-                />
-                {searchQuery && (
-                  <button
-                    onClick={() => {
-                      setSearchQuery("");
-                      setIsSearchFocused(false);
-                    }}
-                    className="text-gray-500 hover:text-gray-700"
-                  >
-                    <X className="w-4 h-4" />
-                  </button>
-                )}
-              </div>
+          <nav className="nav-links" aria-label="Основна навигация">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                className={link.active ? "active" : undefined}
+                href={link.href}
+                data-wipe
+                data-color={getRouteAccent(link.href)}
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
 
-              {/* Search Results Dropdown */}
-              <AnimatePresence>
-                {isSearchFocused && searchQuery && searchResults.length > 0 && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.2 }}
-                    style={{
-                      minWidth: `calc(${searchRef.current?.offsetWidth}px + 150px)`,
-                      width: "100%",
-                      left: `-${150 / 2}px`,
-                      maxWidth: "100vw",
-                    }}
-                    className="absolute bg-white top mt-2 right-0 rounded-lg shadow-2xl border border-gray-200 overflow-hidden z-50"
-                  >
-                    <div className="p-2 text-xs text-gray-500 font-medium border-b">
-                      Търсене с интелигентно съвпадение
-                    </div>
-                    <div className="max-h-96 overflow-y-auto">
-                      {searchResults.map((result, index) => {
-                        const isProduct = "color" in result && "name" in result;
-                        const isFaq =
-                          "question" in result && "answer" in result;
-
-                        return (
-                          <Link
-                            key={index}
-                            href={result.link}
-                            onClick={() => {
-                              setIsSearchFocused(false);
-                              setSearchQuery("");
-                            }}
-                            className="block p-4 hover:bg-gray-50 transition-colors border-b last:border-b-0"
-                          >
-                            <div className="flex items-start gap-3">
-                              <div
-                                className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0"
-                                style={{
-                                  backgroundColor:
-                                    isProduct && "color" in result
-                                      ? `${result.color}20`
-                                      : "#f3f4f6",
-                                }}
-                              >
-                                <Search
-                                  className="w-5 h-5"
-                                  style={{
-                                    color:
-                                      isProduct && "color" in result
-                                        ? result.color
-                                        : "#6b7280",
-                                  }}
-                                />
-                              </div>
-                              <div className="flex-1 min-w-0">
-                                <h4 className="font-semibold text-gray-900 text-sm mb-1">
-                                  {isProduct && "name" in result
-                                    ? result.name
-                                    : isFaq && "question" in result
-                                      ? result.question
-                                      : ""}
-                                </h4>
-                                <p className="text-xs text-gray-600 mb-1">
-                                  {isProduct && "category" in result
-                                    ? result.category
-                                    : isFaq && "answer" in result
-                                      ? result.answer
-                                      : ""}
-                                </p>
-                                {isProduct &&
-                                  "color" in result &&
-                                  "category" in result && (
-                                    <span
-                                      className="text-xs font-medium"
-                                      style={{ color: result.color }}
-                                    >
-                                      {result.category}
-                                    </span>
-                                  )}
-                              </div>
-                            </div>
-                          </Link>
-                        );
-                      })}
-                    </div>
-                    <div className="p-2 text-right border-t bg-gray-50">
-                      <span className="text-xs text-gray-500">ESC</span>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-
+          <div className="cluster">
             <button
-              className="md:hidden p-2 hover:bg-gray-100 rounded-lg transition-colors"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              aria-label="Меню"
+              className="icon-btn desktop-search"
+              type="button"
+              aria-label="Търсене"
+              onClick={openSearch}
             >
-              {isMobileMenuOpen ? (
-                <X className="w-6 h-6" />
-              ) : (
-                <Menu className="w-6 h-6" />
-              )}
+              ⌕
+            </button>
+            <button
+              className="icon-btn hamburger"
+              type="button"
+              aria-label="Отвори меню"
+              onClick={() => setIsMobileOpen(true)}
+            >
+              ☰
             </button>
           </div>
-          <nav className="hidden md:flex items-center gap-1">
-            <Link
-              href="/"
-              className={cn(
-                "inline-flex h-9 items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100",
-                pathname === "/" && "bg-gray-100"
-              )}
-            >
-              Начало
-            </Link>
-
-            <NavigationMenu>
-              <NavigationMenuList>
-                <NavigationMenuItem>
-                  <NavigationMenuTrigger>Магазини</NavigationMenuTrigger>
-                  <NavigationMenuContent className="w-[500px]! p-0!">
-                    <div id="div2" className="p-4 w-[500px]">
-                      <div id="div1" className="grid grid-cols-2 gap-3">
-                        <Link
-                          href="/supermarket"
-                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-gray-100 focus:bg-gray-100"
-                        >
-                          <div className="text-sm font-medium leading-none">
-                            Хранителен
-                          </div>
-                          <p className="text-sm leading-snug text-gray-600">
-                            Свежи продукти и стоки за дома
-                          </p>
-                        </Link>
-                        <Link
-                          href="/industrial"
-                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-gray-100 focus:bg-gray-100"
-                        >
-                          <div className="text-sm font-medium leading-none">
-                            Индустриален
-                          </div>
-                          <p className="text-sm leading-snug text-gray-600">
-                            Инструменти и оборудване
-                          </p>
-                        </Link>
-                        <Link
-                          href="/construction"
-                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-gray-100 focus:bg-gray-100"
-                        >
-                          <div className="text-sm font-medium leading-none">
-                            Строителен
-                          </div>
-                          <p className="text-sm leading-snug text-gray-600">
-                            Строителни материали и бои
-                          </p>
-                        </Link>
-                        <Link
-                          href="/restaurant"
-                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-gray-100 focus:bg-gray-100"
-                        >
-                          <div className="text-sm font-medium leading-none">
-                            Ресторант
-                          </div>
-                          <p className="text-sm leading-snug text-gray-600">
-                            Вкусна храна и напитки
-                          </p>
-                        </Link>
-                      </div>
-                    </div>
-                  </NavigationMenuContent>
-                </NavigationMenuItem>
-              </NavigationMenuList>
-            </NavigationMenu>
-
-            <Link
-              href="/about"
-              className={cn(
-                "inline-flex h-9 items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100",
-                pathname === "/about" && "bg-gray-100"
-              )}
-            >
-              За Нас
-            </Link>
-
-            <Link
-              href="/contact"
-              className={cn(
-                "inline-flex h-9 items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100",
-                pathname === "/contact" && "bg-gray-100"
-              )}
-            >
-              Контакти
-            </Link>
-          </nav>
         </div>
+      </header>
+
+      <div
+        className={`mobile-panel ${isMobileOpen ? "open" : ""}`}
+        id="mobilePanel"
+        style={accentStyle}
+        aria-hidden={!isMobileOpen}
+        inert={!isMobileOpen}
+      >
+        <div className="panel-top">
+          <Link
+            className="brand"
+            href="/"
+            data-wipe
+            data-color={accents.supermarket}
+          >
+            <strong>{brand.name}</strong>
+            <span>{brand.legalForm}</span>
+          </Link>
+          <button
+            className="icon-btn"
+            type="button"
+            aria-label="Затвори меню"
+            onClick={() => setIsMobileOpen(false)}
+          >
+            ×
+          </button>
+        </div>
+        <nav className="panel-links" aria-label="Мобилна навигация">
+          {mobileLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              data-wipe
+              data-color={getRouteAccent(link.href)}
+            >
+              {link.label}
+            </Link>
+          ))}
+        </nav>
+        <button
+          className="btn color mobile-search-btn"
+          type="button"
+          onClick={() => {
+            setIsMobileOpen(false);
+            openSearch();
+          }}
+        >
+          Търсене
+        </button>
       </div>
 
-      <AnimatePresence>
-        {isMobileMenuOpen && (
-          <motion.nav
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden border-t"
+      <div
+        className={`search-panel ${isSearchOpen ? "open" : ""}`}
+        id="searchPanel"
+        style={accentStyle}
+        aria-hidden={!isSearchOpen}
+        inert={!isSearchOpen}
+      >
+        <div className="panel-top">
+          <strong>Търсене</strong>
+          <button
+            className="icon-btn"
+            type="button"
+            aria-label="Затвори търсене"
+            onClick={closeSearch}
           >
-            <div className="container mx-auto px-4 py-4 flex flex-col gap-2">
+            ×
+          </button>
+        </div>
+        <div className="search-box">
+          <input
+            id="siteSearch"
+            ref={searchInputRef}
+            placeholder="Какво търсите?"
+          />
+          <div className="search-results">
+            {searchLinks.map((link) => (
               <Link
-                href="/"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="block px-4 py-3 rounded-lg hover:bg-gray-100 transition-colors"
+                key={link.href}
+                href={link.href}
+                data-wipe
+                data-color={getRouteAccent(link.href)}
               >
-                Начало
+                {link.label}
               </Link>
-              <div className="px-4 py-2 font-semibold text-gray-500">
-                Магазини
-              </div>
-              <Link
-                href="/supermarket"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="block px-4 py-2 ml-4 rounded-lg hover:bg-gray-100 transition-colors text-sm"
-              >
-                Хранителен
-              </Link>
-              <Link
-                href="/industrial"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="block px-4 py-2 ml-4 rounded-lg hover:bg-gray-100 transition-colors text-sm"
-              >
-                Индустриален
-              </Link>
-              <Link
-                href="/construction"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="block px-4 py-2 ml-4 rounded-lg hover:bg-gray-100 transition-colors text-sm"
-              >
-                Строителен
-              </Link>
-              <Link
-                href="/restaurant"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="block px-4 py-2 ml-4 rounded-lg hover:bg-gray-100 transition-colors text-sm"
-              >
-                Ресторант
-              </Link>
-              <Link
-                href="/about"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="block px-4 py-3 rounded-lg hover:bg-gray-100 transition-colors"
-              >
-                За Нас
-              </Link>
-              <Link
-                href="/contact"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="block px-4 py-3 rounded-lg hover:bg-gray-100 transition-colors"
-              >
-                Контакти
-              </Link>
-            </div>
-          </motion.nav>
-        )}
-      </AnimatePresence>
-    </header>
+            ))}
+          </div>
+        </div>
+      </div>
+    </>
   );
 }
