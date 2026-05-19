@@ -718,50 +718,73 @@ section[id] {
 }
 
 .brochure-dialog {
-  max-width: min(1040px, calc(100vw - 32px));
-  max-height: min(92dvh, 980px);
+  max-width: min(920px, calc(100vw - 32px));
+  max-height: min(90dvh, 860px);
   overflow: auto;
-  background: #f7f5f2;
+  background: #fffdfc;
   color: #111111;
-  border: 4px solid #111111;
-  border-radius: 18px;
-  box-shadow: 12px 12px 0 #111111;
+  border: 1px solid #d8d0c6;
+  border-radius: 24px;
+  box-shadow: 0 22px 70px rgba(26, 26, 26, 0.22);
+  padding: clamp(20px, 2.6vw, 28px);
+}
+
+.brochure-dialog-head {
+  gap: 8px;
+  padding-right: 28px;
+}
+
+.brochure-dialog-title {
+  color: #171514;
+  font-family: var(--font-display);
+  font-size: clamp(32px, 4vw, 52px);
+  line-height: 0.95;
+  letter-spacing: -0.05em;
+}
+
+.brochure-dialog-description {
+  color: #5c554f;
+  font-size: clamp(15px, 1.4vw, 18px);
+  line-height: 1.5;
 }
 
 .brochure-editor {
   display: grid;
-  grid-template-columns: minmax(260px, 0.9fr) minmax(280px, 1fr);
-  gap: 22px;
+  grid-template-columns: minmax(260px, 0.82fr) minmax(320px, 1fr);
+  gap: clamp(18px, 2.2vw, 24px);
   align-items: start;
 }
 
 .brochure-preview-wrap {
   display: grid;
   place-items: center;
-  background: #e8ded0;
-  border: 3px solid #111111;
-  border-radius: 16px;
-  padding: 18px;
+  background:
+    linear-gradient(135deg, rgba(229, 62, 62, 0.08), transparent 42%),
+    #f4eee7;
+  border: 1px solid #ded4c8;
+  border-radius: 22px;
+  padding: clamp(14px, 2vw, 20px);
 }
 
 .brochure-preview {
-  width: min(100%, 360px);
-  aspect-ratio: 1;
-  border-radius: 4px;
-  border: 3px solid #111111;
+  width: min(100%, 300px);
+  aspect-ratio: 4 / 5;
+  border-radius: 22px;
+  border: 1px solid rgba(26, 26, 26, 0.14);
   background: #f7f5f2;
   color: #111111;
   overflow: hidden;
-  padding: 24px;
-  display: grid;
-  align-content: start;
-  gap: 12px;
-  box-shadow: 8px 8px 0 #111111;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  box-shadow: 0 14px 34px rgba(26, 26, 26, 0.16);
 }
 
 .brochure-preview.dark {
-  background: #111111;
+  background: #24201c;
   color: #f7f5f2;
+  border-color: rgba(255, 255, 255, 0.16);
 }
 
 .brochure-preview.brand {
@@ -770,19 +793,19 @@ section[id] {
 }
 
 .brochure-preview-top {
-  height: 10px;
-  margin: -24px -24px 8px;
+  height: 7px;
+  border-radius: 999px;
   background: var(--brochure-accent);
 }
 
 .brochure-preview-image {
-  min-height: 116px;
-  border-radius: 2px;
-  border: 3px solid currentColor;
+  min-height: 86px;
+  border-radius: 16px;
+  border: 1px solid rgba(26, 26, 26, 0.12);
   display: grid;
   place-items: center;
   background: #ffffff;
-  color: currentColor;
+  color: #393430;
   font-weight: 900;
   text-align: center;
   padding: 12px;
@@ -790,42 +813,57 @@ section[id] {
 
 .brochure-preview.dark .brochure-preview-image,
 .brochure-preview.brand .brochure-preview-image {
-  color: #111111;
+  color: #211e1b;
+  border-color: rgba(255, 255, 255, 0.28);
 }
 
 .brochure-preview span {
   width: fit-content;
-  border-radius: 0;
-  border: 2px solid #111111;
+  border-radius: 999px;
   background: var(--brochure-accent);
   color: white;
-  padding: 6px 10px;
+  padding: 6px 11px;
   font-weight: 900;
-  font-size: 13px;
+  font-size: 12px;
+  letter-spacing: 0.02em;
 }
 
 .brochure-preview h3 {
   color: currentColor;
-  font-size: clamp(24px, 4vw, 36px);
+  font-size: clamp(23px, 2.7vw, 30px);
+  line-height: 1;
 }
 
 .brochure-preview p {
   color: currentColor;
-  opacity: 0.8;
+  opacity: 0.86;
+  font-size: 13.5px;
+  line-height: 1.38;
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
 }
 
 .brochure-preview footer {
-  border-top: 2px solid var(--brochure-accent);
+  border-top: 1px solid color-mix(in srgb, var(--brochure-accent) 55%, transparent);
   padding-top: 12px;
   display: grid;
   gap: 4px;
+  margin-top: auto;
+}
+
+.brochure-preview footer small {
+  color: currentColor;
+  opacity: 0.78;
 }
 
 .brochure-controls {
-  background: #ffffff;
-  border: 3px solid #111111;
-  border-radius: 12px;
-  padding: 18px;
+  background: #fffdfc;
+  border: 1px solid #ded4c8;
+  border-radius: 20px;
+  padding: clamp(15px, 1.8vw, 20px);
+  box-shadow: 0 10px 28px rgba(26, 26, 26, 0.07);
 }
 
 .brochure-controls,
@@ -835,7 +873,21 @@ section[id] {
 }
 
 .brochure-controls {
-  gap: 16px;
+  gap: 13px;
+}
+
+.brochure-field label,
+.brochure-switch label {
+  color: #211e1b;
+  font-weight: 800;
+}
+
+.brochure-field input,
+.brochure-field textarea,
+.brochure-field button {
+  border-color: #d9d0c4;
+  background: #ffffff;
+  color: #171514;
 }
 
 .brochure-row {
@@ -850,7 +902,7 @@ section[id] {
   gap: 16px;
   align-items: center;
   border-top: 1px solid #d9d0c4;
-  padding-top: 10px;
+  padding-top: 12px;
 }
 
 .brochure-actions,
@@ -860,13 +912,33 @@ section[id] {
   flex-wrap: wrap;
 }
 
+.brochure-actions {
+  align-items: center;
+  padding-top: 2px;
+}
+
+.brochure-actions button {
+  min-height: 42px;
+  border-radius: 999px;
+  font-weight: 800;
+}
+
 .social-shortcuts a {
-  border: 2px solid #111111;
-  border-radius: 0;
+  border: 1px solid #d9d0c4;
+  border-radius: 999px;
   background: #ffffff;
   color: #111111;
-  padding: 8px 12px;
+  padding: 9px 14px;
   font-weight: 800;
+  font-size: 14px;
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.social-shortcuts a:hover {
+  border-color: #111111;
+  transform: translateY(-1px);
 }
 
 .cta-dark,
@@ -1034,20 +1106,62 @@ section[id] {
 
 .faq-list {
   background: var(--surface);
-  border: 1px solid var(--ui-border);
+  border: 1px solid var(--border-strong);
   border-radius: var(--radius-card);
-  padding: 8px 22px;
+  padding: 0 clamp(18px, 2vw, 28px);
+  box-shadow: var(--shadow-soft);
+  overflow: hidden;
+}
+
+.faq-item {
+  border-color: var(--ui-border);
+}
+
+.faq-question {
+  color: var(--fg);
+  padding-block: 22px;
+  font-size: clamp(20px, 2.1vw, 30px);
+  font-weight: 900;
+  line-height: 1.12;
+  text-decoration: none;
+}
+
+.faq-question:hover {
+  color: var(--accent-on-bg);
+  text-decoration: none;
+}
+
+.faq-question svg {
+  color: var(--accent-on-bg);
+  width: 20px;
+  height: 20px;
 }
 
 .faq-list small {
   display: block;
-  color: var(--theme-accent);
+  color: var(--accent-on-bg);
   font-weight: 900;
   margin-bottom: 4px;
+  font-size: 13px;
+  letter-spacing: 0.02em;
 }
 
 .faq-list p {
-  color: var(--muted);
+  color: var(--body);
+  max-width: 74ch;
+}
+
+.faq-answer {
+  padding-bottom: 22px;
+}
+
+.faq-answer p {
+  border-left: 4px solid var(--theme-accent);
+  background: var(--accent-soft);
+  border-radius: 0 18px 18px 0;
+  padding: 16px 18px;
+  font-size: clamp(16px, 1.2vw, 18px);
+  line-height: 1.6;
 }
 
 .contact-layout {

@@ -32,14 +32,14 @@ export function FAQSection({
 
         <Accordion className="faq-list" type="single" collapsible>
           {faqs.map((faq) => (
-            <AccordionItem key={faq.id} value={faq.id}>
-              <AccordionTrigger>
+            <AccordionItem className="faq-item" key={faq.id} value={faq.id}>
+              <AccordionTrigger className="faq-question">
                 <span>
                   {faq.category && <small>{faq.category}</small>}
                   {faq.question}
                 </span>
               </AccordionTrigger>
-              <AccordionContent>
+              <AccordionContent className="faq-answer">
                 <p>{faq.answer}</p>
               </AccordionContent>
             </AccordionItem>

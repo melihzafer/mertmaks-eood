@@ -174,9 +174,9 @@ export function BrochureShareButton({
         </Button>
       </DialogTrigger>
       <DialogContent className="brochure-dialog">
-        <DialogHeader>
-          <DialogTitle>Брошура за споделяне</DialogTitle>
-          <DialogDescription>
+        <DialogHeader className="brochure-dialog-head">
+          <DialogTitle className="brochure-dialog-title">Брошура за споделяне</DialogTitle>
+          <DialogDescription className="brochure-dialog-description">
             Настройте визията, изтеглете PNG или споделете директно от устройството.
           </DialogDescription>
         </DialogHeader>
@@ -197,6 +197,7 @@ export function BrochureShareButton({
               <footer>
                 <b>{item.storeName ?? "MERTMAX"}</b>
                 {design.showContact && item.storePhone && <small>{item.storePhone}</small>}
+                {design.showValidity && item.validTo && <small>Валидно до {item.validTo}</small>}
               </footer>
             </div>
           </div>
