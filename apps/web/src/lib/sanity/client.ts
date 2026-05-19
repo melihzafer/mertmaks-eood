@@ -12,7 +12,7 @@ export const sanityClient = isSanityConfigured
       projectId: sanityProjectId,
       dataset: sanityDataset,
       apiVersion: sanityApiVersion,
-      useCdn: true,
+      useCdn: false,
       token: sanityReadToken,
       perspective: "published",
       stega: false,

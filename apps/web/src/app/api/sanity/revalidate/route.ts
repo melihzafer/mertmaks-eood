@@ -8,14 +8,21 @@ const allowedTags = new Set<string>(Object.values(contentTags));
 const tagsByDocumentType: Record<string, string[]> = {
   siteSettings: [contentTags.siteSettings],
   navigationItem: [contentTags.navigation],
-  store: [contentTags.stores],
+  store: [
+    contentTags.stores,
+    contentTags.contact,
+    contentTags.divisions,
+    contentTags.home,
+    contentTags.promotions,
+    contentTags.products,
+  ],
   homePage: [contentTags.home],
   contactPage: [contentTags.contact],
   restaurantPage: [contentTags.restaurant],
   divisionPage: [contentTags.divisions],
-  promotion: [contentTags.promotions],
+  promotion: [contentTags.promotions, contentTags.home],
   product: [contentTags.products],
-  category: [contentTags.products],
+  category: [contentTags.products, contentTags.promotions, contentTags.home],
   faq: [contentTags.faqs],
 };
 
@@ -32,7 +39,8 @@ export async function POST(request: Request) {
     _type?: string;
   };
   const requestedTags =
-    body.tags ?? (body.tag ? [body.tag] : body._type ? tagsByDocumentType[body._type] : []);
+    body.tags ??
+    (body.tag ? [body.tag] : body._type ? tagsByDocumentType[body._type] : []);
   const tags = requestedTags.filter((tag) => allowedTags.has(tag));
 
   if (tags.length === 0) {
