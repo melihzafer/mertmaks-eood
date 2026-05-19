@@ -45,16 +45,16 @@ export const supermarketPage: SupermarketPageData = {
   hero: {
     icon: ShoppingCart,
     title: "Супермаркет MERTMAX",
-    subtitle: "Свежи и качествени продукти за вашето семейство",
+    subtitle: "Свежи продукти за дома и семейството",
     description:
-      "Ежедневни доставки на свежи хранителни стоки, месо, млечни продукти и много други",
+      "Хранителни стоки, месо, млечни продукти, напитки и основни покупки за всеки ден",
   },
   categories: {
-    title: "Категории Продукти",
-    subtitle: "Открийте нашата широка гама от качествени хранителни продукти",
+    title: "Категории продукти",
+    subtitle: "Основните хранителни продукти са подредени по лесни категории",
     items: [
       {
-        name: "Плодове и Зеленчуци",
+        name: "Плодове и зеленчуци",
         icon: Apple,
         items: [
           "Свежи плодове",
@@ -65,7 +65,7 @@ export const supermarketPage: SupermarketPageData = {
         ],
       },
       {
-        name: "Месо и Колбаси",
+        name: "Месо и колбаси",
         icon: Beef,
         items: [
           "Прясно месо",
@@ -76,7 +76,7 @@ export const supermarketPage: SupermarketPageData = {
         ],
       },
       {
-        name: "Млечни Продукти",
+        name: "Млечни продукти",
         icon: Milk,
         items: [
           "Мляко и кисело мляко",
@@ -87,7 +87,7 @@ export const supermarketPage: SupermarketPageData = {
         ],
       },
       {
-        name: "Хлебни Изделия",
+        name: "Хлебни изделия",
         icon: Sandwich,
         items: [
           "Пресен хляб",
@@ -109,7 +109,7 @@ export const supermarketPage: SupermarketPageData = {
         ],
       },
       {
-        name: "Консерви и Подправки",
+        name: "Консерви и подправки",
         icon: Package,
         items: [
           "Консервирани продукти",
@@ -122,22 +122,22 @@ export const supermarketPage: SupermarketPageData = {
     ],
   },
   features: {
-    title: "Защо Да Изберете Нас",
+    title: "Защо клиентите идват при нас",
     items: [
       {
         icon: "✓",
-        title: "Свежи Продукти",
-        desc: "Ежедневни доставки на свежи плодове, зеленчуци и месо",
+        title: "Свежи продукти",
+        desc: "Плодове, зеленчуци и месо, които се зареждат редовно",
       },
       {
         icon: "€",
-        title: "Конкурентни Цени",
-        desc: "Отлично съотношение качество-цена",
+        title: "Добри цени",
+        desc: "Практичен избор за ежедневната семейна кошница",
       },
       {
         icon: "♥",
-        title: "Любезно Обслужване",
-        desc: "Нашият екип винаги е готов да ви помогне",
+        title: "Любезно обслужване",
+        desc: "Екипът помага, когато търсите нещо конкретно",
       },
     ],
   },

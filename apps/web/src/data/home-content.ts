@@ -48,11 +48,11 @@ export interface HeroContent {
 }
 
 export const heroContent: HeroContent = {
-  title: "MERTMAX: Сърцето на Самуил",
-  subtitle: "Вашият доверен партньор в Самуил и Разград",
+  title: "MERTMAX, сърцето на Самуил",
+  subtitle: "Местни магазини за ежедневието в Самуил и Разград",
   cta: {
     primary: {
-      text: "Разгледайте Магазините",
+      text: "Разгледайте магазините",
       href: "#divisions",
     },
     secondary: {
@@ -68,7 +68,7 @@ export const divisions: DivisionData[] = [
   {
     title: "Супермаркет",
     description:
-      "Свежи хранителни продукти, месо, млечни продукти и всичко необходимо за вашето ежедневие.",
+      "Свежи хранителни продукти, месо, млечни стоки и всичко нужно за деня.",
     image:
       "https://images.unsplash.com/photo-1714224247661-ee250f55a842?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxncm9jZXJ5JTIwc3VwZXJtYXJrZXQlMjBmcmVzaCUyMHByb2R1Y2V8ZW58MXx8fHwxNzYyNTQwMDAwfDA&ixlib=rb-4.1.0&q=80&w=1080",
     href: "/supermarket",
@@ -78,7 +78,7 @@ export const divisions: DivisionData[] = [
   {
     title: "Домашни потреби",
     description:
-      "Нехранителни стоки, текстил, посуда, козметика и дребни потреби за дома.",
+      "Посуда, текстил, козметика и дребни стоки, които често трябват у дома.",
     image:
       "https://images.unsplash.com/photo-1613489763341-1a3603e11d61?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxpbmR1c3RyaWFsJTIwZ29vZHMlMjBoYXJkd2FyZSUyMHN0b3JlfGVufDF8fHx8MTc2MjU0MDAwMXww&ixlib=rb-4.1.0&q=80&w=1080",
     href: "/industrial",
@@ -88,7 +88,7 @@ export const divisions: DivisionData[] = [
   {
     title: "Строителство",
     description:
-      "Професионални строителни материали, инструменти и решения за всеки проект.",
+      "Строителни материали, инструменти и консумативи за ремонт и обект.",
     image:
       "https://images.unsplash.com/photo-1758609554573-81474880be44?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb25zdHJ1Y3Rpb24lMjBtYXRlcmlhbHMlMjBidWlsZGluZyUyMHN1cHBsaWVzfGVufDF8fHx8MTc2MjU0MDAwMXww&ixlib=rb-4.1.0&q=80&w=1080",
     href: "/construction",
@@ -97,8 +97,7 @@ export const divisions: DivisionData[] = [
   },
   {
     title: "Ресторант",
-    description:
-      "Традиционна българска кухня с уникална атмосфера и автентични рецепти.",
+    description: "Готвена българска кухня и спокойно място за обяд или вечеря.",
     image:
       "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxyZXN0YXVyYW50JTIwZGluaW5nJTIwdHJhZGl0aW9uYWwlMjBidWxnYXJpYW58ZW58MXx8fHwxNzYyNTQwMDAyfDA&ixlib=rb-4.1.0&q=80&w=1080",
     href: "/restaurant",
@@ -107,11 +106,11 @@ export const divisions: DivisionData[] = [
   },
 ];
 
-// Mock promotions data - In production, this would come from Firestore
+// Mock promotions data. In production, this would come from Firestore.
 export const promotions: PromotionData[] = [
   {
     id: 1,
-    title: "Свежи Плодове",
+    title: "Свежи плодове",
     description: "20% отстъпка на сезонни плодове",
     price: "2.99 лв/кг",
     originalPrice: "3.99 лв/кг",
@@ -133,7 +132,7 @@ export const promotions: PromotionData[] = [
   },
   {
     id: 3,
-    title: "Боя за Стени",
+    title: "Боя за стени",
     description: "15% отстъпка на всички интериорни бои",
     price: "12.99 лв/л",
     originalPrice: "14.99 лв/л",
@@ -152,9 +151,9 @@ export interface CTAContent {
 }
 
 export const ctaContent: CTAContent = {
-  title: "Готови ли сте да започнем?",
+  title: "Елате на място или ни пишете.",
   description:
-    "Посетете един от нашите магазини или се свържете с нас за повече информация.",
+    "Посетете някой от обектите или се свържете с нас за точна информация.",
   buttonText: "Свържете се с нас",
   buttonHref: "/contact",
 };

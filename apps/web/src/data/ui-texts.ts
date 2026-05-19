@@ -6,9 +6,9 @@
 export const uiTexts = {
   // Search
   search: {
-    placeholder: "Търсете продукти или информация...",
+    placeholder: "Потърсете продукт или информация",
     noResults: "Няма намерени резултати",
-    loading: "Търсене...",
+    loading: "Търсене",
   },
 
   // Navigation
@@ -27,10 +27,10 @@ export const uiTexts = {
 
   // Distance & Location
   location: {
-    checkDistance: "Проверете разстоянието ми",
-    calculating: "Изчисляване...",
-    permissionDenied: "Моля, разрешете достъп до локацията",
-    error: "Грешка при определяне на локацията",
+    checkDistance: "Провери разстоянието",
+    calculating: "Изчисляване",
+    permissionDenied: "Разрешете достъп до локацията",
+    error: "Не успяхме да определим локацията",
     userLocation: "Вашата локация",
   },
 
@@ -50,8 +50,8 @@ export const uiTexts = {
       placeholder: "Как можем да ви помогнем?",
     },
     submit: "Изпрати",
-    submitting: "Изпращане...",
-    success: "Съобщението е изпратено успешно!",
+    submitting: "Изпращане",
+    success: "Съобщението е изпратено.",
     error: "Грешка при изпращане. Моля, опитайте отново.",
   },
 
@@ -60,14 +60,14 @@ export const uiTexts = {
     learnMore: "Научете повече",
     viewAll: "Вижте всички",
     contactUs: "Свържете се с нас",
-    getDirections: "Вземете маршрут",
-    callNow: "Обадете се сега",
-    sendEmail: "Изпратете имейл",
+    getDirections: "Отвори маршрут",
+    callNow: "Обади се",
+    sendEmail: "Изпрати имейл",
   },
 
   // Sections
   sections: {
-    promotions: "Текущи промоции",
+    promotions: "Актуални промоции",
     ourStores: "Нашите магазини",
     divisions: "Нашите отдели",
     contactInfo: "Информация за контакт",

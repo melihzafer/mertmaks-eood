@@ -1,180 +1,188 @@
 export const searchData = {
   products: [
     {
-      id: 'product-1',
-      name: "Свежи Плодове и Зеленчуци",
+      id: "product-1",
+      name: "Свежи плодове и зеленчуци",
       category: "Супермаркет",
-      keywords: ["ябълки", "круши", "домати", "краставици", "морков", "зеленчуци", "плодове"],
+      keywords: [
+        "ябълки",
+        "круши",
+        "домати",
+        "краставици",
+        "морков",
+        "зеленчуци",
+        "плодове",
+      ],
       store: "grocery" as const,
       color: "#E53E3E",
-      link: "/supermarket"
+      link: "/supermarket",
     },
     {
-      id: 'product-2',
-      name: "Мляко и Млечни Продукти",
+      id: "product-2",
+      name: "Мляко и млечни продукти",
       category: "Супермаркет",
       keywords: ["мляко", "сирене", "кашкавал", "йогурт", "масло"],
       store: "grocery" as const,
       color: "#E53E3E",
-      link: "/supermarket"
+      link: "/supermarket",
     },
     {
-      id: 'product-3',
-      name: "Месо и Месни Продукти",
+      id: "product-3",
+      name: "Месо и месни продукти",
       category: "Супермаркет",
       keywords: ["свинско", "телешко", "пилешко", "колбаси", "наденици"],
       store: "grocery" as const,
       color: "#E53E3E",
-      link: "/supermarket"
+      link: "/supermarket",
     },
     {
-      id: 'product-4',
-      name: "Хляб и Тестени Изделия",
+      id: "product-4",
+      name: "Хляб и тестени изделия",
       category: "Супермаркет",
       keywords: ["хляб", "кифли", "макарони", "спагети", "баница"],
       store: "grocery" as const,
       color: "#E53E3E",
-      link: "/supermarket"
+      link: "/supermarket",
     },
     {
-      id: 'product-5',
+      id: "product-5",
       name: "Кухненски прибори и посуда",
       category: "Домашни потреби",
       keywords: ["чаши", "чинии", "прибори", "купички", "посуда"],
       store: "industrial" as const,
       color: "#D53F8C",
-      link: "/industrial"
+      link: "/industrial",
     },
     {
-      id: 'product-6',
+      id: "product-6",
       name: "Текстил за дома",
       category: "Домашни потреби",
       keywords: ["кърпи", "спално бельо", "завеси", "текстил"],
       store: "industrial" as const,
       color: "#D53F8C",
-      link: "/industrial"
+      link: "/industrial",
     },
     {
-      id: 'product-7',
+      id: "product-7",
       name: "Козметика и парфюмерия",
       category: "Домашни потреби",
       keywords: ["козметика", "парфюмерия", "хигиена", "аксесоари"],
       store: "industrial" as const,
       color: "#D53F8C",
-      link: "/industrial"
+      link: "/industrial",
     },
     {
-      id: 'product-8',
+      id: "product-8",
       name: "Канцелария и дребни стоки",
       category: "Домашни потреби",
       keywords: ["тетрадки", "химикали", "канцелария", "дребни стоки"],
       store: "industrial" as const,
       color: "#D53F8C",
-      link: "/industrial"
+      link: "/industrial",
     },
     {
-      id: 'product-9',
-      name: "Тухли и Блокчета",
+      id: "product-9",
+      name: "Тухли и блокове",
       category: "Строителство",
       keywords: ["тухли", "блокове", "газобетон", "керемиди"],
       store: "construction" as const,
       color: "#2563EB",
-      link: "/construction"
+      link: "/construction",
     },
     {
-      id: 'product-10',
-      name: "Циментови Материали",
+      id: "product-10",
+      name: "Цимент и сухи смеси",
       category: "Строителство",
       keywords: ["цимент", "варова", "гипс", "мазилка"],
       store: "construction" as const,
       color: "#2563EB",
-      link: "/construction"
+      link: "/construction",
     },
     {
-      id: 'product-11',
-      name: "Бои и Лакове",
+      id: "product-11",
+      name: "Бои и лакове",
       category: "Строителство",
       keywords: ["боя", "латекс", "лак", "грунд", "мазилка"],
       store: "construction" as const,
       color: "#2563EB",
-      link: "/construction"
+      link: "/construction",
     },
     {
-      id: 'product-12',
-      name: "Изолационни Материали",
+      id: "product-12",
+      name: "Изолационни материали",
       category: "Строителство",
       keywords: ["стиропор", "минерална вата", "изолация", "топлоизолация"],
       store: "construction" as const,
       color: "#2563EB",
-      link: "/construction"
-    }
+      link: "/construction",
+    },
   ],
   faqs: [
     {
-      id: 'faq-1',
+      id: "faq-1",
       name: "Какви са работните часове?",
       question: "Какви са работните часове?",
-      answer: "Всички магазини работят от Понеделник до Неделя, 8:00 - 20:00.",
+      answer:
+        "Магазините работят всеки ден. Проверете страницата за контакти за точните часове на всеки обект.",
       category: "FAQ",
       keywords: ["часове", "работно време", "график", "отворено", "затворено"],
       store: "grocery" as const,
-      link: "/"
+      link: "/",
     },
     {
-      id: 'faq-2',
+      id: "faq-2",
       name: "Имате ли доставка?",
       question: "Имате ли доставка?",
-      answer: "Да, предлагаме доставка за строителни материали при поръчка над 100 лв.",
+      answer:
+        "Да, има доставка за строителни материали. Условията зависят от поръчката и адреса.",
       category: "FAQ",
       keywords: ["доставка", "куриер", "транспорт", "довеждане"],
       store: "construction" as const,
-      link: "/construction"
+      link: "/construction",
     },
     {
-      id: 'faq-3',
+      id: "faq-3",
       name: "Приемате ли карти?",
       question: "Приемате ли карти?",
-      answer: "Да, приемаме всички видове кредитни и дебитни карти.",
+      answer: "Да, можете да платите с дебитна или кредитна карта.",
       category: "FAQ",
       keywords: ["карти", "плащане", "visa", "mastercard", "банкова карта"],
       store: "grocery" as const,
-      link: "/"
+      link: "/",
     },
     {
-      id: 'faq-4',
+      id: "faq-4",
       name: "Имате ли паркинг?",
       question: "Имате ли паркинг?",
-      answer: "Да, всички магазини разполагат с безплатен паркинг за клиенти.",
+      answer: "Да, има места за паркиране около обектите.",
       category: "FAQ",
       keywords: ["паркинг", "място за паркиране", "кола", "автомобил"],
       store: "grocery" as const,
-      link: "/"
+      link: "/",
     },
     {
-      id: 'faq-5',
+      id: "faq-5",
       name: "Къде се намирате?",
       question: "Къде се намирате?",
-      answer: "Всички наши магазини се намират в с. Самуил, обл. Разград. Вижте точни адреси на страницата Контакти.",
+      answer:
+        "Обектите са в с. Самуил, област Разград. Точните адреси са на страницата Контакти.",
       category: "FAQ",
       keywords: ["адрес", "местоположение", "къде", "намират", "самуил"],
       store: "grocery" as const,
-      link: "/"
+      link: "/",
     },
     {
-      id: 'faq-6',
+      id: "faq-6",
       name: "Имате ли промоции?",
       question: "Имате ли промоции?",
-      answer: "Да, проверявайте нашите седмични промоции на началната страница.",
+      answer: "Да. Актуалните промоции се показват на началната страница.",
       category: "FAQ",
       keywords: ["промоции", "отстъпки", "намаления", "оферти", "разпродажба"],
       store: "grocery" as const,
-      link: "/"
-    }
-  ]
+      link: "/",
+    },
+  ],
 };
 
 // Flatten the data for Fuse.js
-export const flatSearchData = [
-  ...searchData.products,
-  ...searchData.faqs
-];
+export const flatSearchData = [...searchData.products, ...searchData.faqs];

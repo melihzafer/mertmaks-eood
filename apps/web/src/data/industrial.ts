@@ -1,6 +1,13 @@
 // Home goods / non-food store page data
 
-import { Home, Shirt, Sparkles, NotebookPen, CookingPot, Package } from "lucide-react";
+import {
+  Home,
+  Shirt,
+  Sparkles,
+  NotebookPen,
+  CookingPot,
+  Package,
+} from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
 export interface Category {
@@ -39,7 +46,7 @@ export const industrialPage: IndustrialPageData = {
     title: "Домашни потреби MERTMAX",
     subtitle: "Нехранителни стоки за дома и ежедневието",
     description:
-      "Посуда, текстил, козметика, канцелария и дребни полезни находки на достъпни цени",
+      "Посуда, текстил, козметика, канцелария и дребни полезни стоки на достъпни цени",
   },
   categories: {
     title: "Категории продукти",
@@ -119,7 +126,7 @@ export const industrialPage: IndustrialPageData = {
       {
         icon: "⭐",
         title: "Много избор",
-        desc: "Дребни и практични продукти за дома на едно място",
+        desc: "Практични продукти за дома, събрани на едно място",
       },
       {
         icon: "✓",

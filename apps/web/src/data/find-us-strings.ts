@@ -13,24 +13,25 @@ export const findUsStrings = {
 
   // Picker
   pickerHeading: "Изберете обект",
-  pickerSubheading: "Изберете магазина, до който искате да навигирате с камерата.",
+  pickerSubheading:
+    "Изберете магазина, до който искате да стигнете с камерата.",
   useNearest: "Използвай най-близкия",
   startARNavigation: "Стартирай AR навигация",
   nearestLabel: "Най-близо",
   distanceAway: "на разстояние",
-  mapUnavailable: "Картата не успя да се зареди. Изберете обект от списъка по-долу.",
+  mapUnavailable: "Картата не се зареди. Изберете обект от списъка.",
 
   // Preflight
   preflightHeading: "Подготовка",
-  preflightSubheading: "Позволете достъп до камерата, локацията и компаса.",
-  requestingCamera: "Достъп до камерата…",
-  requestingGeo: "Откриване на вашата локация…",
-  requestingCompass: "Включване на компаса…",
+  preflightSubheading: "Разрешете достъп до камерата, локацията и компаса.",
+  requestingCamera: "Достъп до камерата",
+  requestingGeo: "Откриване на вашата локация",
+  requestingCompass: "Включване на компаса",
   retry: "Опитай отново",
   cancel: "Отказ",
 
   // AR HUD
-  calibrating: "Калибриране на компаса…",
+  calibrating: "Калибриране на компаса",
   arrived: "Пристигнахте",
   accuracyLow: "Слаб GPS сигнал",
   pointPhone: "Насочете телефона напред",
@@ -38,10 +39,11 @@ export const findUsStrings = {
   // Fallbacks
   insecureHeading: "Необходим е HTTPS",
   insecureBody:
-    "AR навигацията изисква защитена връзка. Отворете сайта през HTTPS, за да продължите.",
+    "AR навигацията работи само през защитена връзка. Отворете сайта през HTTPS.",
 
   noCameraHeading: "Камерата не е достъпна",
-  noCameraBody: "Не успяхме да получим достъп до камерата. Показваме карта с упътване.",
+  noCameraBody:
+    "Няма достъп до камерата. Вместо това показваме карта с упътване.",
   openDirections: "Отвори упътване",
 
   noGeoHeading: "Локацията е отказана",
@@ -50,7 +52,7 @@ export const findUsStrings = {
   enableLocation: "Активирай локацията",
 
   errorHeading: "Нещо се обърка",
-  errorBody: "Възникна грешка с камерата или сензорите. Опитайте отново.",
+  errorBody: "Има проблем с камерата или сензорите. Опитайте отново.",
 } as const;
 
 export type FindUsStringKey = keyof typeof findUsStrings;
