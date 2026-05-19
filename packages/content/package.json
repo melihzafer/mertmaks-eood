@@ -1,0 +1,25 @@
+{
+  "name": "@mertmaks/content",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Shared Sanity schemas, GROQ queries, and content contracts for MERTMAX",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./schemas": "./src/schemas/index.ts",
+    "./desk": "./src/desk.ts",
+    "./queries": "./src/queries/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "import:static": "node scripts/import-static-content.mjs"
+  },
+  "peerDependencies": {
+    "sanity": "^5.25.1"
+  },
+  "devDependencies": {
+    "@sanity/client": "^7.22.0",
+    "@types/node": "^22.10.5",
+    "typescript": "^5.8.3"
+  }
+}
