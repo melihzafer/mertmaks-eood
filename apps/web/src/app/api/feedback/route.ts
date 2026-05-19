@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 import { z } from "zod";
+import { escapeHtml } from "@/lib/html";
 
 const resend = process.env.RESEND_API_KEY
   ? new Resend(process.env.RESEND_API_KEY)
@@ -21,10 +22,21 @@ const categoryNames = {
 
 const ratingEmojis = ["😡", "😞", "😐", "😊", "🤩"];
 
-const rateLimit = new Map();
+const rateLimit = new Map<string, { count: number; resetTime: number }>();
+let lastPrune = 0;
+
+function pruneRateLimit(now: number) {
+  if (now - lastPrune < 300000) return;
+  lastPrune = now;
+
+  rateLimit.forEach((limit, ip) => {
+    if (now > limit.resetTime) rateLimit.delete(ip);
+  });
+}
 
 function checkRateLimit(ip: string) {
   const now = Date.now();
+  pruneRateLimit(now);
   const limit = rateLimit.get(ip);
   if (!limit || now > limit.resetTime) {
     rateLimit.set(ip, { count: 1, resetTime: now + 60000 });
@@ -50,6 +62,10 @@ export async function POST(request: NextRequest) {
 
     const body = await request.json();
     const validatedData = feedbackSchema.parse(body);
+    const safeComment = validatedData.comment
+      ? escapeHtml(validatedData.comment)
+      : undefined;
+    const safeIp = escapeHtml(ip);
 
     // If no Resend API key, just log to console
     if (!resend) {
@@ -86,14 +102,14 @@ export async function POST(request: NextRequest) {
               ? `
           <div style="background: white; padding: 20px; border-left: 4px solid #8b5cf6; margin: 20px 0;">
             <h3 style="margin-top: 0;">Коментар:</h3>
-            <p style="line-height: 1.6;">${validatedData.comment}</p>
+            <p style="line-height: 1.6;">${safeComment}</p>
           </div>
           `
               : '<p style="color: #6b7280; font-style: italic;">Без коментар</p>'
           }
           <p style="color: #6b7280; font-size: 12px;">
             Получено на: ${new Date().toLocaleString("bg-BG")}<br>
-            IP адрес: ${ip}
+            IP адрес: ${safeIp}
           </p>
         </div>
       `,

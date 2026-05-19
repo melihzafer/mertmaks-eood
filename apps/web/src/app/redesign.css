@@ -708,6 +708,167 @@ section[id] {
   font-weight: 900;
 }
 
+.brochure-trigger {
+  justify-self: start;
+  margin-top: 6px;
+  border: 2px solid color-mix(in srgb, var(--card-color) 58%, #111111);
+  background: #ffffff;
+  color: #111111;
+  font-weight: 900;
+}
+
+.brochure-dialog {
+  max-width: min(1040px, calc(100vw - 32px));
+  max-height: min(92dvh, 980px);
+  overflow: auto;
+  background: #f7f5f2;
+  color: #111111;
+  border: 4px solid #111111;
+  border-radius: 18px;
+  box-shadow: 12px 12px 0 #111111;
+}
+
+.brochure-editor {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.9fr) minmax(280px, 1fr);
+  gap: 22px;
+  align-items: start;
+}
+
+.brochure-preview-wrap {
+  display: grid;
+  place-items: center;
+  background: #e8ded0;
+  border: 3px solid #111111;
+  border-radius: 16px;
+  padding: 18px;
+}
+
+.brochure-preview {
+  width: min(100%, 360px);
+  aspect-ratio: 1;
+  border-radius: 4px;
+  border: 3px solid #111111;
+  background: #f7f5f2;
+  color: #111111;
+  overflow: hidden;
+  padding: 24px;
+  display: grid;
+  align-content: start;
+  gap: 12px;
+  box-shadow: 8px 8px 0 #111111;
+}
+
+.brochure-preview.dark {
+  background: #111111;
+  color: #f7f5f2;
+}
+
+.brochure-preview.brand {
+  background: var(--brochure-accent);
+  color: #ffffff;
+}
+
+.brochure-preview-top {
+  height: 10px;
+  margin: -24px -24px 8px;
+  background: var(--brochure-accent);
+}
+
+.brochure-preview-image {
+  min-height: 116px;
+  border-radius: 2px;
+  border: 3px solid currentColor;
+  display: grid;
+  place-items: center;
+  background: #ffffff;
+  color: currentColor;
+  font-weight: 900;
+  text-align: center;
+  padding: 12px;
+}
+
+.brochure-preview.dark .brochure-preview-image,
+.brochure-preview.brand .brochure-preview-image {
+  color: #111111;
+}
+
+.brochure-preview span {
+  width: fit-content;
+  border-radius: 0;
+  border: 2px solid #111111;
+  background: var(--brochure-accent);
+  color: white;
+  padding: 6px 10px;
+  font-weight: 900;
+  font-size: 13px;
+}
+
+.brochure-preview h3 {
+  color: currentColor;
+  font-size: clamp(24px, 4vw, 36px);
+}
+
+.brochure-preview p {
+  color: currentColor;
+  opacity: 0.8;
+}
+
+.brochure-preview footer {
+  border-top: 2px solid var(--brochure-accent);
+  padding-top: 12px;
+  display: grid;
+  gap: 4px;
+}
+
+.brochure-controls {
+  background: #ffffff;
+  border: 3px solid #111111;
+  border-radius: 12px;
+  padding: 18px;
+}
+
+.brochure-controls,
+.brochure-field {
+  display: grid;
+  gap: 10px;
+}
+
+.brochure-controls {
+  gap: 16px;
+}
+
+.brochure-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.brochure-switch {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+  border-top: 1px solid #d9d0c4;
+  padding-top: 10px;
+}
+
+.brochure-actions,
+.social-shortcuts {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.social-shortcuts a {
+  border: 2px solid #111111;
+  border-radius: 0;
+  background: #ffffff;
+  color: #111111;
+  padding: 8px 12px;
+  font-weight: 800;
+}
+
 .cta-dark,
 .footer {
   background: var(--fg);
@@ -861,6 +1022,32 @@ section[id] {
   font-family: var(--font-display);
   font-size: 54px;
   display: block;
+}
+
+.store-commerce-grid,
+.faq-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.82fr) minmax(320px, 1.18fr);
+  gap: 28px;
+  align-items: start;
+}
+
+.faq-list {
+  background: var(--surface);
+  border: 1px solid var(--ui-border);
+  border-radius: var(--radius-card);
+  padding: 8px 22px;
+}
+
+.faq-list small {
+  display: block;
+  color: var(--theme-accent);
+  font-weight: 900;
+  margin-bottom: 4px;
+}
+
+.faq-list p {
+  color: var(--muted);
 }
 
 .contact-layout {
@@ -2112,7 +2299,9 @@ section[id] {
 @media (max-width: 1180px) {
   .hero-home,
   .cta-box,
-  .contact-layout {
+  .contact-layout,
+  .store-commerce-grid,
+  .faq-layout {
     grid-template-columns: 1fr;
   }
 
@@ -2178,6 +2367,7 @@ section[id] {
   .division-stripes,
   .division-grid,
   .promo-grid,
+  .brochure-editor,
   .stats,
   .features,
   .footer-grid,
@@ -2197,6 +2387,10 @@ section[id] {
 
   .division-card {
     min-height: 450px;
+  }
+
+  .brochure-row {
+    grid-template-columns: 1fr;
   }
 
   .contact-hero {

@@ -8,7 +8,7 @@ export interface SearchItem {
   name: string;
   category: string;
   keywords: string[];
-  store: "grocery" | "industrial" | "construction";
+  store: "grocery" | "industrial" | "construction" | "restaurant";
   color?: string;
   link: string;
   question?: string;
@@ -27,6 +27,8 @@ interface SanitySearchIndex {
   faqs?: Array<{
     _id?: string;
     question?: string;
+    answer?: string;
+    category?: string;
     keywords?: string[];
     link?: string;
   }>;
@@ -35,6 +37,7 @@ interface SanitySearchIndex {
 function toLegacyStore(store?: string): SearchItem["store"] {
   if (store === "industrial") return "industrial";
   if (store === "construction") return "construction";
+  if (store === "restaurant") return "restaurant";
   return "grocery";
 }
 
@@ -59,8 +62,8 @@ function mapSearchIndex(index?: SanitySearchIndex | null): SearchItem[] {
     id: faq._id ?? `cms-faq-${i}`,
     name: faq.question ?? "Въпрос",
     question: faq.question ?? "Въпрос",
-    answer: "",
-    category: "FAQ",
+    answer: faq.answer ?? "",
+    category: faq.category ?? "FAQ",
     keywords: faq.keywords ?? [],
     store: "grocery" as const,
     link: faq.link ?? "/",

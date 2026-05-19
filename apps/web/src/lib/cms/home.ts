@@ -1,8 +1,14 @@
 import { accents, homePage as staticHomePage } from "@/data/redesign-content";
 import { contentTags, featuredPromotionsQuery, homePageQuery } from "@mertmaks/content/queries";
+import type { BrochureShareItem } from "@/lib/brochure";
 import { fetchSanity } from "@/lib/sanity/fetch";
+import { sanityImageUrl } from "@/lib/sanity/image";
 
-export type HomePageModel = typeof staticHomePage;
+export type HomePromotionModel = (typeof staticHomePage.promotions)[number] &
+  BrochureShareItem;
+export type HomePageModel = Omit<typeof staticHomePage, "promotions"> & {
+  promotions: HomePromotionModel[];
+};
 
 interface SanityHomePage {
   heroEyebrow?: string;
@@ -16,13 +22,25 @@ interface SanityHomePage {
 }
 
 interface SanityPromotion {
+  _id?: string;
   title?: string;
   description?: string;
   label?: string;
   discount?: number;
+  validFrom?: string;
+  validTo?: string;
+  terms?: string[];
+  image?: unknown;
+  shareTitle?: string;
+  shareDescription?: string;
+  shareImage?: unknown;
+  brochureAccent?: string;
   store?: {
+    name?: string;
+    slug?: { current?: string };
     type?: "supermarket" | "industrial" | "construction" | "restaurant";
     accent?: string;
+    phone?: string;
   };
   category?: {
     title?: string;
@@ -46,10 +64,23 @@ const categoryByStoreType = {
 function mapPromotion(promotion: SanityPromotion, index: number) {
   const fallback = staticHomePage.promotions[index] ?? staticHomePage.promotions[0];
   const storeType = promotion.store?.type;
+  const storeSlug = promotion.store?.slug?.current ?? storeType ?? "supermarket";
+  const imageUrl =
+    sanityImageUrl(promotion.shareImage ?? promotion.image)
+      ?.width(1200)
+      .height(900)
+      .fit("crop")
+      .url() ?? undefined;
+  const title = promotion.shareTitle ?? promotion.title ?? fallback.title;
+  const description =
+    promotion.shareDescription ?? promotion.description ?? fallback.description;
 
   return {
+    id: promotion._id ?? `home-promotion-${index}`,
+    kind: "promotion" as const,
     category: storeType ? categoryByStoreType[storeType] : fallback.category,
     color:
+      promotion.brochureAccent ??
       promotion.store?.accent ??
       (storeType ? colorByStoreType[storeType] : undefined) ??
       fallback.color,
@@ -58,8 +89,36 @@ function mapPromotion(promotion: SanityPromotion, index: number) {
       (promotion.discount ? `${promotion.discount}% отстъпка` : undefined) ??
       fallback.label,
     visual: promotion.category?.title ?? fallback.visual,
-    title: promotion.title ?? fallback.title,
-    description: promotion.description ?? fallback.description,
+    title,
+    description,
+    storeName: promotion.store?.name,
+    storeSlug,
+    storePhone: promotion.store?.phone,
+    accentColor:
+      promotion.brochureAccent ??
+      promotion.store?.accent ??
+      (storeType ? colorByStoreType[storeType] : undefined) ??
+      fallback.color,
+    imageUrl,
+    validFrom: promotion.validFrom,
+    validTo: promotion.validTo,
+    canonicalUrl: `/${storeSlug}`,
+    terms: promotion.terms ?? [],
+  };
+}
+
+function mapStaticPromotion(
+  promotion: (typeof staticHomePage.promotions)[number],
+  index: number,
+): HomePromotionModel {
+  return {
+    ...promotion,
+    id: `static-home-promotion-${index}`,
+    kind: "promotion",
+    storeSlug: "/",
+    accentColor: promotion.color,
+    canonicalUrl: "/",
+    terms: [],
   };
 }
 
@@ -86,7 +145,7 @@ function mergeHomePage(
     stats: page?.stats?.length ? page.stats : staticHomePage.stats,
     promotions: promotions?.length
       ? promotions.map(mapPromotion)
-      : staticHomePage.promotions,
+      : staticHomePage.promotions.map(mapStaticPromotion),
     cta: {
       ...staticHomePage.cta,
       title: page?.ctaTitle ?? staticHomePage.cta.title,

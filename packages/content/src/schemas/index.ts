@@ -18,6 +18,19 @@ const weekdays = [
 ];
 
 const requiredString = (Rule: StringRule) => Rule.required();
+const optionalTime = (Rule: StringRule) =>
+  Rule.regex(/^([01]\d|2[0-3]):[0-5]\d$/, {
+    name: "час",
+    invert: false,
+  }).error("Използвайте формат HH:MM, например 08:30.");
+const optionalPhone = (Rule: StringRule) =>
+  Rule.regex(/^\+?[0-9\s().-]{7,24}$/).warning(
+    "Проверете телефона. Пример: +359 89 476 6273.",
+  );
+const optionalColor = (Rule: StringRule) =>
+  Rule.regex(/^#([0-9a-f]{3}|[0-9a-f]{6})$/i).warning(
+    "Използвайте HEX цвят, например #E53E3E.",
+  );
 
 export const link = defineType({
   name: "link",
@@ -90,12 +103,14 @@ export const hourRange = defineType({
       title: "Отваря",
       type: "string",
       initialValue: "08:00",
+      validation: optionalTime,
     }),
     defineField({
       name: "close",
       title: "Затваря",
       type: "string",
       initialValue: "18:00",
+      validation: optionalTime,
     }),
   ],
   preview: {
@@ -213,11 +228,17 @@ export const store = defineType({
   fields: [
     defineField({ name: "name", title: "Име", type: "string", validation: requiredString }),
     defineField({ name: "slug", title: "Slug", type: "slug", options: { source: "name" } }),
-    defineField({ name: "type", title: "Тип", type: "string", options: { list: storeTypes } }),
+    defineField({
+      name: "type",
+      title: "Тип",
+      type: "string",
+      options: { list: storeTypes },
+      validation: requiredString,
+    }),
     defineField({ name: "address", title: "Адрес", type: "string" }),
     defineField({ name: "city", title: "Населено място", type: "string" }),
     defineField({ name: "region", title: "Област", type: "string" }),
-    defineField({ name: "phone", title: "Телефон", type: "string" }),
+    defineField({ name: "phone", title: "Телефон", type: "string", validation: optionalPhone }),
     defineField({ name: "email", title: "Имейл", type: "string" }),
     defineField({ name: "coordinates", title: "Координати", type: "geopoint" }),
     defineField({ name: "hours", title: "Работно време", type: "weeklyHours" }),
@@ -255,12 +276,32 @@ export const product = defineType({
     defineField({ name: "title", title: "Име", type: "string", validation: requiredString }),
     defineField({ name: "slug", title: "Slug", type: "slug", options: { source: "title" } }),
     defineField({ name: "description", title: "Описание", type: "text", rows: 4 }),
-    defineField({ name: "store", title: "Обект", type: "reference", to: [{ type: "store" }] }),
+    defineField({
+      name: "store",
+      title: "Обект",
+      type: "reference",
+      to: [{ type: "store" }],
+      validation: (Rule) => Rule.required(),
+    }),
     defineField({ name: "category", title: "Категория", type: "reference", to: [{ type: "category" }] }),
     defineField({ name: "image", title: "Основна снимка", type: "imageWithAlt" }),
     defineField({ name: "gallery", title: "Галерия", type: "array", of: [{ type: "imageWithAlt" }] }),
     defineField({ name: "keywords", title: "Ключови думи за търсене", type: "array", of: [{ type: "string" }] }),
     defineField({ name: "offerLabel", title: "Етикет / цена за показване", type: "string" }),
+    defineField({ name: "shareTitle", title: "Заглавие за споделяне", type: "string" }),
+    defineField({
+      name: "shareDescription",
+      title: "Описание за брошура",
+      type: "text",
+      rows: 3,
+    }),
+    defineField({ name: "shareImage", title: "Снимка за брошура", type: "imageWithAlt" }),
+    defineField({
+      name: "brochureAccent",
+      title: "Цвят за брошура",
+      type: "string",
+      validation: optionalColor,
+    }),
     defineField({ name: "featured", title: "Препоръчан", type: "boolean", initialValue: false }),
     defineField({ name: "visible", title: "Видим", type: "boolean", initialValue: true }),
   ],
@@ -273,7 +314,13 @@ export const promotion = defineType({
   fields: [
     defineField({ name: "title", title: "Заглавие", type: "string", validation: requiredString }),
     defineField({ name: "description", title: "Описание", type: "text", rows: 3 }),
-    defineField({ name: "store", title: "Обект", type: "reference", to: [{ type: "store" }] }),
+    defineField({
+      name: "store",
+      title: "Обект",
+      type: "reference",
+      to: [{ type: "store" }],
+      validation: (Rule) => Rule.required(),
+    }),
     defineField({ name: "category", title: "Категория", type: "reference", to: [{ type: "category" }] }),
     defineField({ name: "products", title: "Свързани продукти", type: "array", of: [{ type: "reference", to: [{ type: "product" }] }] }),
     defineField({ name: "label", title: "Етикет", type: "string" }),
@@ -283,9 +330,39 @@ export const promotion = defineType({
     defineField({ name: "active", title: "Активна", type: "boolean", initialValue: true }),
     defineField({ name: "featured", title: "На начална страница", type: "boolean", initialValue: false }),
     defineField({ name: "image", title: "Снимка", type: "imageWithAlt" }),
+    defineField({ name: "shareTitle", title: "Заглавие за споделяне", type: "string" }),
+    defineField({
+      name: "shareDescription",
+      title: "Описание за брошура",
+      type: "text",
+      rows: 3,
+    }),
+    defineField({ name: "shareImage", title: "Снимка за брошура", type: "imageWithAlt" }),
+    defineField({
+      name: "brochureAccent",
+      title: "Цвят за брошура",
+      type: "string",
+      validation: optionalColor,
+    }),
     defineField({ name: "terms", title: "Условия", type: "array", of: [{ type: "string" }] }),
     defineField({ name: "order", title: "Подредба", type: "number", initialValue: 0 }),
   ],
+  validation: (Rule) =>
+    Rule.custom((promotion) => {
+      if (
+        promotion &&
+        typeof promotion === "object" &&
+        "validFrom" in promotion &&
+        "validTo" in promotion &&
+        promotion.validFrom &&
+        promotion.validTo &&
+        String(promotion.validFrom) > String(promotion.validTo)
+      ) {
+        return "Крайната дата трябва да е след началната.";
+      }
+
+      return true;
+    }),
   preview: {
     select: { title: "title", active: "active", validTo: "validTo" },
     prepare({ title, active, validTo }) {
@@ -379,8 +456,10 @@ export const faq = defineType({
   fields: [
     defineField({ name: "question", title: "Въпрос", type: "string", validation: requiredString }),
     defineField({ name: "answer", title: "Отговор", type: "text", rows: 4 }),
+    defineField({ name: "category", title: "Категория", type: "string" }),
     defineField({ name: "keywords", title: "Ключови думи", type: "array", of: [{ type: "string" }] }),
     defineField({ name: "link", title: "Връзка", type: "string" }),
+    defineField({ name: "order", title: "Подредба", type: "number", initialValue: 0 }),
     defineField({ name: "visible", title: "Видим", type: "boolean", initialValue: true }),
   ],
 });

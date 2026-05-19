@@ -18,10 +18,11 @@ interface StoreInfoProps {
  * - Address with map icon
  */
 export function StoreInfo({ store }: StoreInfoProps) {
-  const [status, setStatus] = useState(() => getStoreStatus(store));
+  const [status, setStatus] = useState<ReturnType<typeof getStoreStatus> | null>(null);
   
   // Update status every minute
   useEffect(() => {
+    setStatus(getStoreStatus(store));
     const interval = setInterval(() => {
       setStatus(getStoreStatus(store));
     }, 60000); // Update every 60 seconds
@@ -37,9 +38,9 @@ export function StoreInfo({ store }: StoreInfoProps) {
       <div className="mb-8">
         <h2 className="text-3xl font-bold text-gray-900 mb-3">{store.name}</h2>
         <div className="flex items-center gap-2">
-          <div className={`w-3 h-3 rounded-full ${status.isOpen ? 'bg-green-500' : 'bg-red-500'} animate-pulse`} />
-          <span className={`text-lg font-semibold ${status.isOpen ? 'text-green-700' : 'text-red-700'}`}>
-            {status.message}
+          <div className={`w-3 h-3 rounded-full ${status?.isOpen ? 'bg-green-500' : 'bg-red-500'} animate-pulse`} />
+          <span className={`text-lg font-semibold ${status?.isOpen ? 'text-green-700' : 'text-red-700'}`}>
+            {status?.message ?? 'Проверка на работното време'}
           </span>
         </div>
       </div>
@@ -116,4 +117,3 @@ export function StoreInfo({ store }: StoreInfoProps) {
     </div>
   );
 }
-

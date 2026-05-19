@@ -1,6 +1,9 @@
 import type { CSSProperties } from "react";
-import { accents } from "@/data/redesign-content";
+import { FAQSection } from "@/components/features/FAQSection";
+import { StoreInfo } from "@/components/features/StoreInfo";
+import { StorePromotionsProducts } from "@/components/features/StorePromotionsProducts";
 import { getRestaurantPageModel } from "@/lib/cms/restaurant";
+import { getStoreCommerceModel } from "@/lib/cms/store-commerce";
 
 type CardColorStyle = CSSProperties & {
   "--theme-accent"?: string;
@@ -8,7 +11,10 @@ type CardColorStyle = CSSProperties & {
 };
 
 export default async function RestaurantPage() {
-  const restaurantPage = await getRestaurantPageModel();
+  const [restaurantPage, commerce] = await Promise.all([
+    getRestaurantPageModel(),
+    getStoreCommerceModel("restaurant"),
+  ]);
 
   return (
     <main style={{ "--theme-accent": restaurantPage.accent } as CardColorStyle}>
@@ -52,27 +58,27 @@ export default async function RestaurantPage() {
       </section>
 
       <section className="section-tight rule">
-        <div className="container grid-12">
-          <div style={{ gridColumn: "span 5" }}>
-            <h2>Работно време</h2>
+        <div className="container store-commerce-grid">
+          <div>
+            <div className="eyebrow">Контакт и работно време</div>
+            <h2>Проверете Делиорман преди посещение.</h2>
             <p className="lead">
-              Всеки ден, с удобно обслужване за местни гости и пътуващи.
+              Телефонът и часовете са видими тук, а собственикът може да ги променя
+              директно от Sanity.
             </p>
           </div>
-          <div className="store-list" style={{ gridColumn: "span 7" }}>
-            <div
-              className="store-card"
-              style={{ "--card-color": accents.restaurant } as CardColorStyle}
-            >
-              <h3>Делиорман</h3>
-              <p>с. Самуил, до магазините МЕРТМАКС</p>
-              <p>
-                <b>Понеделник - Неделя:</b> текущо работно време на място
-              </p>
-            </div>
-          </div>
+          <StoreInfo store={commerce.store} />
         </div>
       </section>
+
+      <StorePromotionsProducts
+        title="Меню предложения и услуги"
+        description="Актуални предложения от ресторанта, готови за споделяне като брошура."
+        promotions={commerce.promotions}
+        products={commerce.products}
+      />
+
+      <FAQSection faqs={commerce.faqs} />
     </main>
   );
 }

@@ -1,5 +1,9 @@
 import type { CSSProperties } from "react";
 import type { DivisionPageModel } from "@/lib/cms/divisions";
+import type { StoreCommerceModel } from "@/lib/cms/store-commerce";
+import { FAQSection } from "@/components/features/FAQSection";
+import { StoreInfo } from "@/components/features/StoreInfo";
+import { StorePromotionsProducts } from "@/components/features/StorePromotionsProducts";
 
 type AccentStyle = CSSProperties & {
   "--theme-accent"?: string;
@@ -8,9 +12,10 @@ type AccentStyle = CSSProperties & {
 
 interface DivisionDetailPageProps {
   page: DivisionPageModel;
+  commerce?: StoreCommerceModel;
 }
 
-export function DivisionDetailPage({ page }: DivisionDetailPageProps) {
+export function DivisionDetailPage({ page, commerce }: DivisionDetailPageProps) {
   const style = {
     "--theme-accent": page.accent,
     "--diagonal-color": "diagonal" in page ? page.diagonal : page.accent,
@@ -59,6 +64,31 @@ export function DivisionDetailPage({ page }: DivisionDetailPageProps) {
           </div>
         </div>
       </section>
+
+      {commerce && (
+        <section className="section-tight rule">
+          <div className="container store-commerce-grid">
+            <div>
+              <div className="eyebrow">Контакт и работно време</div>
+              <h2>Проверете обекта преди посещение.</h2>
+              <p className="lead">
+                Телефонът, адресът и часовете са отделни за всеки магазин и могат да се
+                обновяват от Sanity.
+              </p>
+            </div>
+            <StoreInfo store={commerce.store} />
+          </div>
+        </section>
+      )}
+
+      {commerce && (
+        <StorePromotionsProducts
+          promotions={commerce.promotions}
+          products={commerce.products}
+        />
+      )}
+
+      {commerce && <FAQSection faqs={commerce.faqs} />}
 
       <section className="feature-strip">
         <div className="features">

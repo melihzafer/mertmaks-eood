@@ -1,6 +1,7 @@
-﻿import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 import { z } from "zod";
+import { escapeHtml } from "@/lib/html";
 
 const resend = process.env.RESEND_API_KEY
   ? new Resend(process.env.RESEND_API_KEY)
@@ -20,10 +21,21 @@ const storeNames = {
   construction: "Строителен магазин",
 };
 
-const rateLimit = new Map();
+const rateLimit = new Map<string, { count: number; resetTime: number }>();
+let lastPrune = 0;
+
+function pruneRateLimit(now: number) {
+  if (now - lastPrune < 300000) return;
+  lastPrune = now;
+
+  rateLimit.forEach((limit, ip) => {
+    if (now > limit.resetTime) rateLimit.delete(ip);
+  });
+}
 
 function checkRateLimit(ip: string) {
   const now = Date.now();
+  pruneRateLimit(now);
   const limit = rateLimit.get(ip);
   if (!limit || now > limit.resetTime) {
     rateLimit.set(ip, { count: 1, resetTime: now + 60000 });
@@ -49,6 +61,11 @@ export async function POST(request: NextRequest) {
 
     const body = await request.json();
     const validatedData = contactSchema.parse(body);
+    const safeName = escapeHtml(validatedData.name);
+    const safeEmail = escapeHtml(validatedData.email);
+    const safePhone = validatedData.phone ? escapeHtml(validatedData.phone) : undefined;
+    const safeMessage = escapeHtml(validatedData.message);
+    const safeIp = escapeHtml(ip);
 
     // If no Resend API key, just log to console
     if (!resend) {
@@ -72,18 +89,18 @@ export async function POST(request: NextRequest) {
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h2 style="color: #2563eb;">Ново контактно съобщение</h2>
           <div style="background: #f3f4f6; padding: 20px; border-radius: 8px; margin: 20px 0;">
-            <p><strong>Име:</strong> ${validatedData.name}</p>
-            <p><strong>Имейл:</strong> <a href="mailto:${validatedData.email}">${validatedData.email}</a></p>
-            ${validatedData.phone ? `<p><strong>Телефон:</strong> ${validatedData.phone}</p>` : ""}
+            <p><strong>Име:</strong> ${safeName}</p>
+            <p><strong>Имейл:</strong> <a href="mailto:${safeEmail}">${safeEmail}</a></p>
+            ${safePhone ? `<p><strong>Телефон:</strong> ${safePhone}</p>` : ""}
             ${validatedData.store ? `<p><strong>Магазин:</strong> ${storeNames[validatedData.store]}</p>` : ""}
           </div>
           <div style="background: white; padding: 20px; border-left: 4px solid #2563eb; margin: 20px 0;">
             <h3 style="margin-top: 0;">Съобщение:</h3>
-            <p style="line-height: 1.6;">${validatedData.message}</p>
+            <p style="line-height: 1.6;">${safeMessage}</p>
           </div>
           <p style="color: #6b7280; font-size: 12px;">
             Изпратено на: ${new Date().toLocaleString("bg-BG")}<br>
-            IP адрес: ${ip}
+            IP адрес: ${safeIp}
           </p>
         </div>
       `,

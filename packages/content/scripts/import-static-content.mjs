@@ -89,24 +89,72 @@ function storeDocument(store) {
   };
 }
 
-function categoryDocument(promotion) {
+function categoryDocument(storeId, category) {
   return {
-    _id: categoryId(promotion.store, promotion.category),
+    _id: categoryId(storeId, category),
     _type: "category",
-    title: promotion.category,
+    title: category,
     slug: {
       _type: "slug",
-      current: slugify(promotion.category),
+      current: slugify(category),
     },
     store: {
       _type: "reference",
-      _ref: `store-${promotion.store}`,
+      _ref: `store-${storeId}`,
     },
     visible: true,
   };
 }
 
-function promotionDocument(promotion) {
+function productDocument(product) {
+  return {
+    _id: `product-${product.id}`,
+    _type: "product",
+    title: product.title,
+    slug: {
+      _type: "slug",
+      current: slugify(product.title),
+    },
+    description: product.description,
+    store: {
+      _type: "reference",
+      _ref: `store-${product.store}`,
+    },
+    category: {
+      _type: "reference",
+      _ref: categoryId(product.store, product.category),
+    },
+    keywords: product.keywords,
+    offerLabel: product.offerLabel,
+    shareTitle: product.title,
+    shareDescription: product.description,
+    featured: product.featured,
+    visible: product.visible,
+  };
+}
+
+function faqDocument(faq) {
+  return {
+    _id: `faq-${faq.id}`,
+    _type: "faq",
+    question: faq.question,
+    answer: faq.answer,
+    category: faq.category,
+    keywords: faq.keywords,
+    link: faq.link,
+    order: faq.order,
+    visible: faq.visible,
+  };
+}
+
+function promotionDocument(promotion, products) {
+  const relatedProducts = products
+    .filter(
+      (product) =>
+        product.store === promotion.store && product.category === promotion.category,
+    )
+    .slice(0, 4);
+
   return {
     _id: `promotion-${promotion.id}`,
     _type: "promotion",
@@ -120,6 +168,11 @@ function promotionDocument(promotion) {
       _type: "reference",
       _ref: categoryId(promotion.store, promotion.category),
     },
+    products: relatedProducts.map((product) => ({
+      _type: "reference",
+      _ref: `product-${product.id}`,
+      _key: product.id,
+    })),
     label:
       promotion.discount > 0
         ? `${promotion.discount}% отстъпка`
@@ -129,21 +182,32 @@ function promotionDocument(promotion) {
     validTo: promotion.validTo,
     active: promotion.active,
     featured: promotion.featured,
+    shareTitle: promotion.title,
+    shareDescription: promotion.description,
     terms: promotion.terms,
     order: 0,
   };
 }
 
 async function main() {
-  const [{ stores }, promotions] = await Promise.all([
+  const [{ stores }, promotions, commerce] = await Promise.all([
     readJson("stores.json"),
     readJsonl("promotions.jsonl"),
+    readJson("store-commerce.json"),
   ]);
+  const products = commerce.products ?? [];
+  const faqs = commerce.faqs ?? [];
+  const categoryPairs = [
+    ...promotions.map((promotion) => [promotion.store, promotion.category]),
+    ...products.map((product) => [product.store, product.category]),
+  ];
 
   const documents = [
     ...stores.map(storeDocument),
-    ...promotions.map(categoryDocument),
-    ...promotions.map(promotionDocument),
+    ...categoryPairs.map(([storeId, category]) => categoryDocument(storeId, category)),
+    ...products.map(productDocument),
+    ...promotions.map((promotion) => promotionDocument(promotion, products)),
+    ...faqs.map(faqDocument),
   ];
 
   const uniqueDocuments = Array.from(

@@ -32,6 +32,16 @@ export interface Store {
 }
 
 type DayOfWeek = 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday';
+const STORE_TIME_ZONE = 'Europe/Sofia';
+const weekdayByEnglishName: Record<string, DayOfWeek> = {
+  Sunday: 'sunday',
+  Monday: 'monday',
+  Tuesday: 'tuesday',
+  Wednesday: 'wednesday',
+  Thursday: 'thursday',
+  Friday: 'friday',
+  Saturday: 'saturday',
+};
 
 /**
  * Get all stores
@@ -50,16 +60,23 @@ export function getStore(id: string): Store | undefined {
 /**
  * Get current day of week in lowercase
  */
-function getCurrentDay(): DayOfWeek {
-  const days: DayOfWeek[] = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
-  const now = new Date();
-  return days[now.getDay()];
+function getCurrentDay(now: Date = new Date()): DayOfWeek {
+  const weekday = new Intl.DateTimeFormat('en-US', {
+    timeZone: STORE_TIME_ZONE,
+    weekday: 'long',
+  }).format(now);
+
+  return weekdayByEnglishName[weekday] ?? 'monday';
 }
 
 /**
  * Parse time string (HH:MM) to minutes since midnight
  */
 function timeToMinutes(time: string): number {
+  if (!/^([01]\d|2[0-3]):[0-5]\d$/.test(time)) {
+    throw new Error(`Invalid store hour "${time}". Expected HH:MM.`);
+  }
+
   const [hours, minutes] = time.split(':').map(Number);
   return hours * 60 + minutes;
 }
@@ -67,23 +84,31 @@ function timeToMinutes(time: string): number {
 /**
  * Get current time in minutes since midnight
  */
-function getCurrentTimeInMinutes(): number {
-  const now = new Date();
-  return now.getHours() * 60 + now.getMinutes();
+function getCurrentTimeInMinutes(now: Date = new Date()): number {
+  const parts = new Intl.DateTimeFormat('en-GB', {
+    timeZone: STORE_TIME_ZONE,
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+  }).formatToParts(now);
+  const hour = Number(parts.find((part) => part.type === 'hour')?.value ?? 0);
+  const minute = Number(parts.find((part) => part.type === 'minute')?.value ?? 0);
+
+  return hour * 60 + minute;
 }
 
 /**
  * Check if a store is currently open
  */
 export function isStoreOpen(store: Store, now: Date = new Date()): boolean {
-  const day = getCurrentDay();
+  const day = getCurrentDay(now);
   const hours = store.hours[day];
   
   if (hours.closed) {
     return false;
   }
   
-  const currentMinutes = getCurrentTimeInMinutes();
+  const currentMinutes = getCurrentTimeInMinutes(now);
   const openMinutes = timeToMinutes(hours.open);
   const closeMinutes = timeToMinutes(hours.close);
   
@@ -93,12 +118,12 @@ export function isStoreOpen(store: Store, now: Date = new Date()): boolean {
 /**
  * Get the opening status message for a store
  */
-export function getStoreStatus(store: Store): { 
-  isOpen: boolean; 
-  message: string; 
+export function getStoreStatus(store: Store, now: Date = new Date()): {
+  isOpen: boolean;
+  message: string;
   nextChange?: string;
 } {
-  const day = getCurrentDay();
+  const day = getCurrentDay(now);
   const hours = store.hours[day];
   
   if (hours.closed) {
@@ -108,7 +133,7 @@ export function getStoreStatus(store: Store): {
     };
   }
   
-  const open = isStoreOpen(store);
+  const open = isStoreOpen(store, now);
   
   if (open) {
     return {
@@ -118,7 +143,7 @@ export function getStoreStatus(store: Store): {
     };
   }
   
-  const currentMinutes = getCurrentTimeInMinutes();
+  const currentMinutes = getCurrentTimeInMinutes(now);
   const openMinutes = timeToMinutes(hours.open);
   
   if (currentMinutes < openMinutes) {
@@ -167,6 +192,21 @@ export function getFormattedHours(store: Store): Array<{
  */
 export function getStoresByType(type: Store['type']): Store[] {
   return storesData.stores.filter(store => store.type === type) as Store[];
+}
+
+export function getStoreTodayIsoDate(now: Date = new Date()): string {
+  const parts = new Intl.DateTimeFormat('en-CA', {
+    timeZone: STORE_TIME_ZONE,
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).formatToParts(now);
+  const year = parts.find((part) => part.type === 'year')?.value;
+  const month = parts.find((part) => part.type === 'month')?.value;
+  const day = parts.find((part) => part.type === 'day')?.value;
+
+  if (!year || !month || !day) return now.toISOString().slice(0, 10);
+  return `${year}-${month}-${day}`;
 }
 
 /**

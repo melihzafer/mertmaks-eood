@@ -5,6 +5,7 @@ import type { CSSProperties } from "react";
 import { useState } from "react";
 import { accents } from "@/data/redesign-content";
 import type { HomePageModel } from "@/lib/cms/home";
+import { BrochureShareButton } from "@/components/features/brochure-sharing/BrochureShareButton";
 
 type CardColorStyle = CSSProperties & {
   "--card-color"?: string;
@@ -152,6 +153,7 @@ export function HomePageClient({ homePage }: HomePageClientProps) {
                   <span className="price">{promo.label}</span>
                   <h3>{promo.title}</h3>
                   <p>{promo.description}</p>
+                  <BrochureShareButton item={promo} />
                 </div>
               </article>
             ))}

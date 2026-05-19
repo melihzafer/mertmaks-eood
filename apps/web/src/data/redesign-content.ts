@@ -15,6 +15,7 @@ export const searchLinks = [
   { href: "/supermarket", label: "Хранителни стоки" },
   { href: "/construction", label: "Строителни материали" },
   { href: "/restaurant", label: "Ресторант Делиорман" },
+  { href: "/faq", label: "Често задавани въпроси" },
   { href: "/contact", label: "Адрес в Самуил" },
 ];
 
@@ -60,6 +61,7 @@ export const mobileLinks = [
   { href: "/industrial", label: "Домашни" },
   { href: "/construction", label: "Строителство" },
   { href: "/restaurant", label: "Ресторант" },
+  { href: "/faq", label: "FAQ" },
   { href: "/contact", label: "Контакти" },
 ];
 
@@ -68,6 +70,7 @@ export const footerLinks = [
   { href: "/industrial", label: "Домашни потреби", color: accents.industrial },
   { href: "/construction", label: "Строителство", color: accents.construction },
   { href: "/restaurant", label: "Ресторант", color: accents.restaurant },
+  { href: "/faq", label: "FAQ", color: accents.supermarket },
 ];
 
 export const homePage = {

@@ -36,6 +36,110 @@ export const divisionPageByStoreQuery = `*[_type == "divisionPage" && store->slu
   store->
 }`;
 
+export const storeCommercePageQuery = `{
+  "page": *[_type == "divisionPage" && store->slug.current == $slug][0]{
+    ...,
+    store->
+  },
+  "store": *[_type == "store" && slug.current == $slug][0],
+  "promotions": *[
+    _type == "promotion" &&
+    active == true &&
+    store->slug.current == $slug &&
+    (!defined(validFrom) || validFrom <= $today) &&
+    (!defined(validTo) || validTo >= $today)
+  ] | order(order asc, validTo asc){
+    _id,
+    title,
+    description,
+    label,
+    discount,
+    validFrom,
+    validTo,
+    terms,
+    image,
+    shareTitle,
+    shareDescription,
+    shareImage,
+    brochureAccent,
+    store->{
+      _id,
+      name,
+      slug,
+      type,
+      phone,
+      email,
+      hours,
+      accent
+    },
+    category->{title, slug},
+    products[]->{
+      _id,
+      title,
+      slug,
+      description,
+      offerLabel,
+      image,
+      shareTitle,
+      shareDescription,
+      shareImage,
+      brochureAccent,
+      category->{title, slug},
+      store->{
+        _id,
+        name,
+        slug,
+        type,
+        phone,
+        email,
+        hours,
+        accent
+      }
+    }
+  },
+  "products": *[
+    _type == "product" &&
+    visible == true &&
+    featured == true &&
+    store->slug.current == $slug
+  ] | order(_updatedAt desc)[0...8]{
+    _id,
+    title,
+    slug,
+    description,
+    offerLabel,
+    image,
+    shareTitle,
+    shareDescription,
+    shareImage,
+    brochureAccent,
+    category->{title, slug},
+    store->{
+      _id,
+      name,
+      slug,
+      type,
+      phone,
+      email,
+      hours,
+      accent
+    }
+  },
+  "faqs": *[
+    _type == "faq" &&
+    visible == true &&
+    (!defined(link) || link in ["/", "/" + $slug])
+  ] | order(order asc, _createdAt asc){
+    _id,
+    question,
+    answer,
+    category,
+    keywords,
+    link,
+    order
+  }
+}`;
+
 export const restaurantPageQuery = `*[_type == "restaurantPage"][0]`;
 
 export const featuredPromotionsQuery = `*[
@@ -45,10 +149,45 @@ export const featuredPromotionsQuery = `*[
   (!defined(validFrom) || validFrom <= $today) &&
   (!defined(validTo) || validTo >= $today)
 ] | order(order asc, validTo asc){
-  ...,
+  _id,
+  title,
+  description,
+  label,
+  discount,
+  validFrom,
+  validTo,
+  terms,
+  image,
+  shareTitle,
+  shareDescription,
+  shareImage,
+  brochureAccent,
   store->,
   category->,
-  products[]->
+  products[]->{
+    _id,
+    title,
+    slug,
+    description,
+    offerLabel,
+    image,
+    shareTitle,
+    shareDescription,
+    shareImage,
+    brochureAccent,
+    category->,
+    store->
+  }
+}`;
+
+export const faqQuery = `*[_type == "faq" && visible == true] | order(order asc, _createdAt asc){
+  _id,
+  question,
+  answer,
+  category,
+  keywords,
+  link,
+  order
 }`;
 
 export const searchIndexQuery = `{
@@ -65,6 +204,7 @@ export const searchIndexQuery = `{
     _id,
     question,
     answer,
+    category,
     keywords,
     link
   }

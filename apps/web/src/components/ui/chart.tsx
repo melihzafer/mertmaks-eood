@@ -7,6 +7,9 @@ import { cn } from "./utils";
 
 // Format: { THEME_NAME: CSS_SELECTOR }
 const THEMES = { light: "", dark: ".dark" } as const;
+const cssNamePattern = /^[a-z0-9_-]+$/i;
+const cssColorPattern =
+  /^(#[0-9a-f]{3,8}|rgb\(\s*\d{1,3}\s+\d{1,3}\s+\d{1,3}\s*(?:\/\s*(?:0|1|0?\.\d+|[1-9]\d?%))?\s*\)|rgba\(\s*\d{1,3}\s*,\s*\d{1,3}\s*,\s*\d{1,3}\s*,\s*(?:0|1|0?\.\d+)\s*\)|hsl\(\s*\d{1,3}\s+\d{1,3}%\s+\d{1,3}%\s*(?:\/\s*(?:0|1|0?\.\d+|[1-9]\d?%))?\s*\)|var\(--[a-z0-9_-]+\))$/i;
 
 export type ChartConfig = {
   [k in string]: {
@@ -23,6 +26,12 @@ type ChartContextProps = {
 };
 
 const ChartContext = React.createContext<ChartContextProps | null>(null);
+
+function safeCssColorVariable(key: string, color: string) {
+  if (!cssNamePattern.test(key) || !cssColorPattern.test(color.trim())) return null;
+
+  return `  --color-${key}: ${color.trim()};`;
+}
 
 function useChart() {
   const context = React.useContext(ChartContext);
@@ -90,7 +99,7 @@ ${colorConfig
     const color =
       itemConfig.theme?.[theme as keyof typeof itemConfig.theme] ||
       itemConfig.color;
-    return color ? `  --color-${key}: ${color};` : null;
+    return color ? safeCssColorVariable(key, color) : null;
   })
   .join("\n")}
 }
@@ -351,4 +360,3 @@ export {
   ChartLegendContent,
   ChartStyle,
 };
-
