@@ -44,7 +44,11 @@ function slugify(value) {
 }
 
 function categoryId(storeId, category) {
-  return `category-${storeId}-${slugify(category) || "uncategorized"}`;
+  const encoded = Buffer.from(category || "uncategorized", "utf8")
+    .toString("base64url")
+    .slice(0, 48);
+
+  return `category-${storeId}-${encoded}`;
 }
 
 async function readJson(fileName) {
