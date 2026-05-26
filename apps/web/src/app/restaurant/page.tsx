@@ -4,6 +4,7 @@ import { StoreInfo } from "@/components/features/StoreInfo";
 import { StorePromotionsProducts } from "@/components/features/StorePromotionsProducts";
 import { getRestaurantPageModel } from "@/lib/cms/restaurant";
 import { getStoreCommerceModel } from "@/lib/cms/store-commerce";
+import SingleStoreMapClient from "@/components/features/SingleStoreMapClient";
 
 type CardColorStyle = CSSProperties & {
   "--theme-accent"?: string;
@@ -30,12 +31,9 @@ export default async function RestaurantPage() {
 
       <section className="section">
         <div className="container">
-          <div className="indexed-head">
-            <div className="big-index">04</div>
-            <div>
-              <div className="eyebrow">Меню акценти</div>
-              <h2>Познати вкусове, поднесени спокойно.</h2>
-            </div>
+          <div className="indexed-head-compact">
+            <div className="eyebrow">01 / Меню акценти</div>
+            <h2>Познати вкусове, поднесени спокойно.</h2>
           </div>
 
           <div className="promo-grid">
@@ -58,16 +56,23 @@ export default async function RestaurantPage() {
       </section>
 
       <section className="section-tight rule">
-        <div className="container store-commerce-grid">
-          <div>
-            <div className="eyebrow">Контакт и работно време</div>
-            <h2>Проверете Делиорман преди посещение.</h2>
-            <p className="lead">
-              Телефонът и часовете са видими тук, а собственикът може да ги променя
-              директно от Sanity.
-            </p>
+        <div className="container">
+          <div className="store-commerce-grid">
+            <div className="store-commerce-left">
+              <div className="indexed-head-compact" style={{ marginBottom: "24px" }}>
+                <div className="eyebrow">Контакт и работно време</div>
+                <h2>Проверете Делиорман преди посещение.</h2>
+                <p className="lead">
+                  Телефонът и часовете са видими тук, а собственикът може да ги променя
+                  директно от Sanity.
+                </p>
+              </div>
+              <div className="leaflet-frame" style={{ height: "450px", minHeight: "400px" }}>
+                <SingleStoreMapClient stores={[commerce.store]} height="100%" />
+              </div>
+            </div>
+            <StoreInfo store={commerce.store} />
           </div>
-          <StoreInfo store={commerce.store} />
         </div>
       </section>
 

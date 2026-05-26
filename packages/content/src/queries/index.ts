@@ -9,6 +9,10 @@ export const contentTags = {
   promotions: "promotions",
   products: "products",
   faqs: "faqs",
+  weeklyPromotions: "weekly-promotions",
+  monthlyPromotions: "monthly-promotions",
+  storeArticles: "store-articles",
+  newsletterSubscribers: "newsletter-subscribers",
 } as const;
 
 export const siteSettingsQuery = `*[_type == "siteSettings"][0]`;
@@ -209,3 +213,86 @@ export const searchIndexQuery = `{
     link
   }
 }`;
+
+export const weeklyPromotionsQuery = `*[
+  _type == "weeklyPromotion" &&
+  active == true &&
+  store->slug.current == $slug &&
+  (!defined(validFrom) || validFrom <= $today) &&
+  (!defined(validTo) || validTo >= $today)
+] | order(order asc, validTo asc){
+  _id,
+  title,
+  description,
+  label,
+  discount,
+  validFrom,
+  validTo,
+  terms,
+  image,
+  store->{
+    _id,
+    name,
+    slug,
+    type,
+    phone,
+    email,
+    hours,
+    accent
+  },
+  category->{title, slug}
+}`;
+
+export const monthlyPromotionsQuery = `*[
+  _type == "monthlyPromotion" &&
+  active == true &&
+  store->slug.current == $slug &&
+  (!defined(validFrom) || validFrom <= $today) &&
+  (!defined(validTo) || validTo >= $today)
+] | order(order asc, validTo asc){
+  _id,
+  title,
+  description,
+  label,
+  discount,
+  validFrom,
+  validTo,
+  terms,
+  image,
+  store->{
+    _id,
+    name,
+    slug,
+    type,
+    phone,
+    email,
+    hours,
+    accent
+  },
+  category->{title, slug}
+}`;
+
+export const storeArticlesQuery = `*[
+  _type == "storeArticle" &&
+  visible == true &&
+  store->slug.current == $slug
+] | order(publishedAt desc)[0...$limit]{
+  _id,
+  title,
+  slug,
+  excerpt,
+  "body": pt::text(body),
+  publishedAt,
+  image,
+  store->{
+    _id,
+    name,
+    slug,
+    type
+  }
+}`;
+
+export const newsletterSubscribersQuery = `*[
+  _type == "newsletterSubscriber" &&
+  active == true
+] | order(subscribedAt desc)`;

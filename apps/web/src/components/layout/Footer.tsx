@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { CSSProperties } from "react";
 import { brand, footerLinks } from "@/data/redesign-content";
+import { Logo } from "@/components/layout/Logo";
 
 type CardColorStyle = CSSProperties & {
   "--card-color"?: string;
@@ -11,7 +12,9 @@ export function Footer() {
     <footer className="footer">
       <div className="footer-grid">
         <div>
-          <h3>{brand.name}</h3>
+          <Link href="/" className="inline-block mb-2">
+            <Logo variant="long" />
+          </Link>
           <p>{brand.footerText}</p>
         </div>
         <div>

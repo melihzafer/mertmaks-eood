@@ -59,11 +59,11 @@ export function PrismCard({
   // Spring physics for smooth motion
   const springConfig = { stiffness: 150, damping: 20, mass: 0.5 };
   const rotateX = useSpring(
-    useTransform(motionY, [-0.5, 0.5], [10, -10]),
+    useTransform(motionY, [-0.25, 0.25], [5, -5]),
     springConfig
   );
   const rotateY = useSpring(
-    useTransform(motionX, [-0.5, 0.5], [-10, 10]),
+    useTransform(motionX, [-0.25, 0.25], [-5, 5]),
     springConfig
   );
 
@@ -113,8 +113,8 @@ export function PrismCard({
         // Beta: front-to-back tilt (-180 to 180)
         // Gamma: left-to-right tilt (-90 to 90)
         // Normalize to -0.5 to 0.5 range
-        const normalizedBeta = Math.max(-0.5, Math.min(0.5, event.beta / 180));
-        const normalizedGamma = Math.max(-0.5, Math.min(0.5, event.gamma / 90));
+        const normalizedBeta = Math.max(-0.25, Math.min(0.25, event.beta / 180));
+        const normalizedGamma = Math.max(-0.25, Math.min(0.25, event.gamma / 90));
 
         motionX.set(normalizedGamma);
         motionY.set(normalizedBeta);

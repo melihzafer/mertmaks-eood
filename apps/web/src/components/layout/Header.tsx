@@ -16,6 +16,7 @@ import {
 import { flatSearchData } from "@/data/search-data";
 import type { SearchItem } from "@/lib/cms/search";
 import { getRouteAccent } from "@/lib/route-accent";
+import { Logo } from "@/components/layout/Logo";
 
 type AccentStyle = CSSProperties & {
   "--theme-accent"?: string;
@@ -236,9 +237,10 @@ export function Header({ searchItems = flatSearchData }: HeaderProps) {
             href="/"
             data-wipe
             data-color={getRouteAccent("/")}
+            style={{ alignItems: "center" }}
           >
-            <strong>{brand.name}</strong>
-            <span>{brand.legalForm}</span>
+            <Logo variant="long" className="nav-logo-desktop" />
+            <Logo variant="short" className="nav-logo-mobile" />
           </Link>
 
           <nav className="nav-links" aria-label="Основна навигация">
@@ -338,9 +340,9 @@ export function Header({ searchItems = flatSearchData }: HeaderProps) {
             href="/"
             data-wipe
             data-color={getRouteAccent("/")}
+            style={{ alignItems: "center" }}
           >
-            <strong>{brand.name}</strong>
-            <span>{brand.legalForm}</span>
+            <Logo variant="short" />
           </Link>
           <button
             className="icon-btn"

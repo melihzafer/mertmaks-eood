@@ -33,38 +33,38 @@ export function StoreInfo({ store }: StoreInfoProps) {
   const formattedHours = getFormattedHours(store);
   
   return (
-    <div className="bg-white rounded-2xl shadow-lg p-8">
+    <div className="store-info-card">
       {/* Store Name & Status */}
-      <div className="mb-8">
-        <h2 className="text-3xl font-bold text-gray-900 mb-3">{store.name}</h2>
-        <div className="flex items-center gap-2">
-          <div className={`w-3 h-3 rounded-full ${status?.isOpen ? 'bg-green-500' : 'bg-red-500'} animate-pulse`} />
-          <span className={`text-lg font-semibold ${status?.isOpen ? 'text-green-700' : 'text-red-700'}`}>
+      <div>
+        <h2 className="store-info-title">{store.name}</h2>
+        <div className={`store-info-status ${status?.isOpen ? 'open' : 'closed'}`}>
+          <div className={`store-info-status-dot ${status?.isOpen ? 'open' : 'closed'} animate-pulse`} />
+          <span>
             {status?.message ?? 'Проверка на работното време'}
           </span>
         </div>
       </div>
       
       {/* Contact Info */}
-      <div className="space-y-4 mb-8 pb-8 border-b border-gray-200">
-        <div className="flex items-start gap-3">
-          <MapPin className="w-5 h-5 text-gray-500 mt-1 shrink-0" />
+      <div className="store-info-contact-list">
+        <div className="store-info-contact-item">
+          <MapPin className="w-5 h-5" />
           <div>
-            <p className="text-gray-900 font-medium">{store.address}</p>
-            <p className="text-gray-600 text-sm">{store.city}, {store.region}</p>
+            <p style={{ fontWeight: 600 }}>{store.address}</p>
+            <p className="muted" style={{ fontSize: '13px' }}>{store.city}, {store.region}</p>
           </div>
         </div>
         
-        <div className="flex items-center gap-3">
-          <Phone className="w-5 h-5 text-gray-500 shrink-0" />
-          <a href={`tel:${store.phone}`} className="text-gray-900 hover:text-red-600 transition-colors">
+        <div className="store-info-contact-item">
+          <Phone className="w-5 h-5" />
+          <a href={`tel:${store.phone}`}>
             {store.phone}
           </a>
         </div>
         
-        <div className="flex items-center gap-3">
-          <Mail className="w-5 h-5 text-gray-500 shrink-0" />
-          <a href={`mailto:${store.email}`} className="text-gray-900 hover:text-red-600 transition-colors">
+        <div className="store-info-contact-item">
+          <Mail className="w-5 h-5" />
+          <a href={`mailto:${store.email}`}>
             {store.email}
           </a>
         </div>
@@ -72,27 +72,19 @@ export function StoreInfo({ store }: StoreInfoProps) {
       
       {/* Business Hours */}
       <div>
-        <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+        <h3 className="store-info-section-title">
           <Clock className="w-5 h-5" />
           Работно време
         </h3>
         
-        <div className="space-y-2">
+        <div className="store-info-hours-list">
           {formattedHours.map((item) => (
             <div
               key={item.day}
-              className={`flex justify-between items-center p-3 rounded-lg transition-colors ${
-                item.isToday 
-                  ? 'bg-red-50 border-2 border-red-200' 
-                  : 'bg-gray-50'
-              }`}
+              className={`store-info-hours-row ${item.isToday ? 'today' : ''}`}
             >
-              <span className={`font-medium ${item.isToday ? 'text-red-900' : 'text-gray-700'}`}>
-                {item.day}
-              </span>
-              <span className={`${item.isToday ? 'text-red-700 font-semibold' : 'text-gray-600'}`}>
-                {item.hours}
-              </span>
+              <span>{item.day}</span>
+              <span>{item.hours}</span>
             </div>
           ))}
         </div>
@@ -100,14 +92,11 @@ export function StoreInfo({ store }: StoreInfoProps) {
       
       {/* Features */}
       {store.features && store.features.length > 0 && (
-        <div className="mt-8 pt-8 border-t border-gray-200">
-          <h3 className="text-xl font-bold text-gray-900 mb-4">Асортимент</h3>
-          <div className="flex flex-wrap gap-2">
+        <div className="store-info-features">
+          <h3 className="store-info-section-title">Асортимент</h3>
+          <div className="store-info-tags">
             {store.features.map((feature) => (
-              <span
-                key={feature}
-                className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm font-medium hover:bg-gray-200 transition-colors"
-              >
+              <span key={feature} className="store-info-tag">
                 {feature}
               </span>
             ))}

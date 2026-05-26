@@ -1,9 +1,17 @@
 import type { CSSProperties } from "react";
 import type { DivisionPageModel } from "@/lib/cms/divisions";
 import type { StoreCommerceModel } from "@/lib/cms/store-commerce";
+import type { DivisionOfferings } from "@/data/offerings";
+import type { WeeklyPromotion } from "@/data/weekly-promotions";
+import type { MonthlyPromotion } from "@/data/monthly-promotions";
+import type { StoreArticle } from "@/data/blog";
 import { FAQSection } from "@/components/features/FAQSection";
 import { StoreInfo } from "@/components/features/StoreInfo";
-import { StorePromotionsProducts } from "@/components/features/StorePromotionsProducts";
+import { OfferingsSection } from "@/components/features/OfferingsSection";
+import { UnifiedPromotionsSection } from "@/components/features/UnifiedPromotionsSection";
+import { StoreBlogSection } from "@/components/features/StoreBlogSection";
+import { NewsletterSubscribe } from "@/components/features/NewsletterSubscribe";
+import SingleStoreMapClient from "@/components/features/SingleStoreMapClient";
 
 type AccentStyle = CSSProperties & {
   "--theme-accent"?: string;
@@ -13,9 +21,20 @@ type AccentStyle = CSSProperties & {
 interface DivisionDetailPageProps {
   page: DivisionPageModel;
   commerce?: StoreCommerceModel;
+  offerings?: DivisionOfferings;
+  weeklyPromotions?: WeeklyPromotion[];
+  monthlyPromotions?: MonthlyPromotion[];
+  articles?: StoreArticle[];
 }
 
-export function DivisionDetailPage({ page, commerce }: DivisionDetailPageProps) {
+export function DivisionDetailPage({
+  page,
+  commerce,
+  offerings,
+  weeklyPromotions = [],
+  monthlyPromotions = [],
+  articles = [],
+}: DivisionDetailPageProps) {
   const style = {
     "--theme-accent": page.accent,
     "--diagonal-color": "diagonal" in page ? page.diagonal : page.accent,
@@ -34,15 +53,20 @@ export function DivisionDetailPage({ page, commerce }: DivisionDetailPageProps) 
         </div>
       </section>
 
+      <UnifiedPromotionsSection
+        weeklyPromotions={weeklyPromotions}
+        monthlyPromotions={monthlyPromotions}
+        brochurePromotions={commerce?.promotions ?? []}
+        brochureProducts={commerce?.products ?? []}
+        accentColor={page.accent}
+      />
+
       <section className="section">
         <div className="container">
           {"intro" in page && page.intro && (
-            <div className="indexed-head">
-              <div className="big-index">{page.intro.index}</div>
-              <div>
-                <div className="eyebrow">{page.intro.eyebrow}</div>
-                <h2>{page.intro.title}</h2>
-              </div>
+            <div className="indexed-head-compact">
+              <div className="eyebrow">{page.intro.index} / {page.intro.eyebrow}</div>
+              <h2>{page.intro.title}</h2>
             </div>
           )}
 
@@ -65,30 +89,36 @@ export function DivisionDetailPage({ page, commerce }: DivisionDetailPageProps) 
         </div>
       </section>
 
+      {offerings && <OfferingsSection offerings={offerings} />}
+
       {commerce && (
         <section className="section-tight rule">
-          <div className="container store-commerce-grid">
-            <div>
-              <div className="eyebrow">Контакт и работно време</div>
-              <h2>Проверете обекта преди посещение.</h2>
-              <p className="lead">
-                Телефонът, адресът и часовете са отделни за всеки магазин и могат да се
-                обновяват от Sanity.
-              </p>
+          <div className="container">
+            <div className="store-commerce-grid">
+              <div className="store-commerce-left">
+                <div className="indexed-head-compact" style={{ marginBottom: "24px" }}>
+                  <div className="eyebrow">Контакт и работно време</div>
+                  <h2>Проверете обекта преди посещение.</h2>
+                  <p className="lead">
+                    Телефонът, адресът и часовете са отделни за всеки магазин и могат да се
+                    обновяват от Sanity.
+                  </p>
+                </div>
+                <div className="leaflet-frame" style={{ height: "450px", minHeight: "400px" }}>
+                  <SingleStoreMapClient stores={[commerce.store]} height="100%" />
+                </div>
+              </div>
+              <StoreInfo store={commerce.store} />
             </div>
-            <StoreInfo store={commerce.store} />
           </div>
         </section>
       )}
 
-      {commerce && (
-        <StorePromotionsProducts
-          promotions={commerce.promotions}
-          products={commerce.products}
-        />
-      )}
+      <StoreBlogSection articles={articles} accentColor={page.accent} />
 
       {commerce && <FAQSection faqs={commerce.faqs} />}
+
+      <NewsletterSubscribe accentColor={page.accent} />
 
       <section className="feature-strip">
         <div className="features">

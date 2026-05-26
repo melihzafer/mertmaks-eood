@@ -1,12 +1,30 @@
 import { DivisionDetailPage } from "@/components/features/DivisionDetailPage";
 import { getDivisionPageModel } from "@/lib/cms/divisions";
 import { getStoreCommerceModel } from "@/lib/cms/store-commerce";
+import { getOfferings } from "@/lib/cms/offerings";
+import { getWeeklyPromotions } from "@/lib/cms/weekly-promotions";
+import { getMonthlyPromotions } from "@/lib/cms/monthly-promotions";
+import { getStoreArticles } from "@/lib/cms/blog";
 
 export default async function SupermarketPage() {
-  const [page, commerce] = await Promise.all([
-    getDivisionPageModel("supermarket"),
-    getStoreCommerceModel("supermarket"),
-  ]);
+  const [page, commerce, offerings, weeklyPromos, monthlyPromos, articles] =
+    await Promise.all([
+      getDivisionPageModel("supermarket"),
+      getStoreCommerceModel("supermarket"),
+      getOfferings("supermarket"),
+      getWeeklyPromotions("supermarket"),
+      getMonthlyPromotions("supermarket"),
+      getStoreArticles("supermarket", 3),
+    ]);
 
-  return <DivisionDetailPage page={page} commerce={commerce} />;
+  return (
+    <DivisionDetailPage
+      page={page}
+      commerce={commerce}
+      offerings={offerings}
+      weeklyPromotions={weeklyPromos}
+      monthlyPromotions={monthlyPromos}
+      articles={articles}
+    />
+  );
 }
