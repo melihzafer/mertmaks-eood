@@ -20,18 +20,40 @@ export const structure: StructureResolver = (S) =>
       S.documentTypeListItem("category").title("Категории"),
       S.documentTypeListItem("product").title("Продукти / услуги"),
       S.listItem()
-        .title("Промоции по обекти")
+        .title("Промоции Супермаркет")
         .schemaType("promotion")
         .child(
-          S.documentTypeList("store")
-            .title("Изберете обект")
-            .child((storeId) =>
-              S.documentList()
-                .title("Промоции")
-                .schemaType("promotion")
-                .filter('_type == "promotion" && store._ref == $storeId')
-                .params({ storeId }),
-            ),
+          S.documentList()
+            .title("Промоции Супермаркет")
+            .schemaType("promotion")
+            .filter('_type == "promotion" && store._ref == "store-supermarket"')
+        ),
+      S.listItem()
+        .title("Промоции Домашни потреби")
+        .schemaType("promotion")
+        .child(
+          S.documentList()
+            .title("Промоции Домашни потреби")
+            .schemaType("promotion")
+            .filter('_type == "promotion" && store._ref == "store-industrial"')
+        ),
+      S.listItem()
+        .title("Промоции Строителен")
+        .schemaType("promotion")
+        .child(
+          S.documentList()
+            .title("Промоции Строителен")
+            .schemaType("promotion")
+            .filter('_type == "promotion" && store._ref == "store-construction"')
+        ),
+      S.listItem()
+        .title("Промоции Ресторант")
+        .schemaType("promotion")
+        .child(
+          S.documentList()
+            .title("Промоции Ресторант")
+            .schemaType("promotion")
+            .filter('_type == "promotion" && store._ref == "store-restaurant"')
         ),
       S.documentTypeListItem("navigationItem").title("Навигация"),
       S.documentTypeListItem("faq").title("FAQ"),
