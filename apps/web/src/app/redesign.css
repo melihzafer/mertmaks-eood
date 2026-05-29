@@ -3552,3 +3552,36 @@ input[type="search"]::-webkit-search-clear-button {
   color: var(--popover-foreground, #1a1a1a) !important;
 }
 
+/* Brochure template preview formatting */
+.brochure-preview.square {
+  aspect-ratio: 1 / 1;
+}
+
+.brochure-preview.square .brochure-preview-image {
+  aspect-ratio: 16 / 9;
+  min-height: unset;
+  height: auto;
+}
+
+.brochure-preview.story {
+  aspect-ratio: 9 / 16;
+  max-height: 400px;
+  width: auto;
+}
+
+.brochure-preview.story .brochure-preview-image {
+  aspect-ratio: 4 / 3;
+  min-height: unset;
+  height: auto;
+}
+
+.brochure-preview.landscape {
+  aspect-ratio: 16 / 9;
+}
+
+.brochure-preview.landscape .brochure-preview-image {
+  height: 60px;
+  min-height: unset;
+}
+
+

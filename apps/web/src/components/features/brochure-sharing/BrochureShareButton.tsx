@@ -184,7 +184,7 @@ export function BrochureShareButton({
         <div className="brochure-editor">
           <div className="brochure-preview-wrap">
             <div
-              className={`brochure-preview ${design.background}`}
+              className={`brochure-preview ${design.background} ${design.template}`}
               style={
                 { "--brochure-accent": sanitizeHexColor(design.accentColor) } as React.CSSProperties
               }
