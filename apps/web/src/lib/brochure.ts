@@ -50,6 +50,11 @@ export function sanitizeCanonicalPath(value?: string) {
 export function isAllowedBrochureImageUrl(value?: string) {
   if (!value) return false;
 
+  // Support local relative paths (e.g. /images/products/...)
+  if (value.startsWith("/") && !value.startsWith("//")) {
+    return true;
+  }
+
   try {
     const url = new URL(value);
     return url.protocol === "https:" && allowedImageHosts.has(url.hostname);
