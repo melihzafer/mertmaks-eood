@@ -151,7 +151,14 @@ export function HomePageClient({ homePage }: HomePageClientProps) {
                   <div className="promo-top" />
                   <div className="promo-image">{promo.visual}</div>
                   <div className="promo-content">
-                    <span className="price">{promo.label}</span>
+                    {promo.showPrice !== "hide" && (promo.newPrice || promo.oldPrice) ? (
+                      <div className="price-container flex items-center gap-1.5 font-bold mb-2">
+                        {promo.oldPrice && <span className="old-price line-through text-xs text-neutral-400 font-medium">{promo.oldPrice}</span>}
+                        {promo.newPrice && <span className="price font-black text-red-600">{promo.newPrice}</span>}
+                      </div>
+                    ) : (
+                      promo.label && <span className="price">{promo.label}</span>
+                    )}
                     <h3>{promo.title}</h3>
                     <p>{promo.description}</p>
                     <BrochureShareButton item={promo} />

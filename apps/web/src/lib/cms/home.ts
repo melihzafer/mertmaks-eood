@@ -27,6 +27,10 @@ interface SanityPromotion {
   description?: string;
   label?: string;
   discount?: number;
+  promoType?: string;
+  oldPrice?: string;
+  newPrice?: string;
+  showPrice?: string;
   validFrom?: string;
   validTo?: string;
   terms?: string[];
@@ -104,6 +108,10 @@ function mapPromotion(promotion: SanityPromotion, index: number) {
     validTo: promotion.validTo,
     canonicalUrl: `/${storeSlug}`,
     terms: promotion.terms ?? [],
+    promoType: promotion.promoType,
+    oldPrice: promotion.oldPrice,
+    newPrice: promotion.newPrice,
+    showPrice: promotion.showPrice,
   };
 }
 

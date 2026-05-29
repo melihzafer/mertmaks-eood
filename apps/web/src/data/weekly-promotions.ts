@@ -13,6 +13,10 @@ export interface WeeklyPromotion {
   active: boolean;
   image?: string;
   terms?: string[];
+  promoType?: string;
+  oldPrice?: string;
+  newPrice?: string;
+  showPrice?: string;
 }
 
 export const weeklyPromotions: WeeklyPromotion[] = [

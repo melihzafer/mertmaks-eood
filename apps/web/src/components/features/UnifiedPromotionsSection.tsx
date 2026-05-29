@@ -57,7 +57,7 @@ export function UnifiedPromotionsSection({
     title: promo.title,
     description: promo.description,
     label: promo.discount ? `-${promo.discount}%` : undefined,
-    category: promo.category || "Седмична оферта",
+    category: promo.promoType === "custom" ? undefined : (promo.category || "Седмична оферта"),
     storeName: "Супермаркет МЕРТМАКС",
     storeSlug: promo.store,
     accentColor: accentColor,
@@ -66,6 +66,10 @@ export function UnifiedPromotionsSection({
     validTo: promo.validTo,
     canonicalUrl: `/${promo.store}`,
     terms: promo.terms,
+    promoType: promo.promoType,
+    oldPrice: promo.oldPrice,
+    newPrice: promo.newPrice,
+    showPrice: promo.showPrice,
   }));
 
   // Map monthly promotions to BrochureShareItem format
@@ -75,7 +79,7 @@ export function UnifiedPromotionsSection({
     title: promo.title,
     description: promo.description,
     label: promo.discount ? `-${promo.discount}%` : undefined,
-    category: promo.category || "Месечна оферта",
+    category: promo.promoType === "custom" ? undefined : (promo.category || "Месечна оферта"),
     storeName: "Супермаркет МЕРТМАКС",
     storeSlug: promo.store,
     accentColor: accentColor,
@@ -84,12 +88,16 @@ export function UnifiedPromotionsSection({
     validTo: promo.validTo,
     canonicalUrl: `/${promo.store}`,
     terms: promo.terms,
+    promoType: promo.promoType,
+    oldPrice: promo.oldPrice,
+    newPrice: promo.newPrice,
+    showPrice: promo.showPrice,
   }));
 
   // Map brochure promotions to ensure category exists
   const brochureItems: BrochureShareItem[] = brochurePromotions.map((promo) => ({
     ...promo,
-    category: promo.category || "Брошура",
+    category: promo.promoType === "custom" ? undefined : (promo.category || "Брошура"),
   }));
 
   // Combine weekly, monthly, and brochure promotions into one list, deduplicating by ID
@@ -134,7 +142,14 @@ export function UnifiedPromotionsSection({
               <div className="promo-content">
                 <div className="flex items-center justify-between gap-2 flex-wrap" style={{ marginBottom: "6px" }}>
                   {item.category && <span className="promo-badge">{item.category}</span>}
-                  {item.label && <span className="price">{item.label}</span>}
+                  {item.showPrice !== "hide" && (item.newPrice || item.oldPrice) ? (
+                    <div className="price-container flex items-center gap-1.5 font-bold">
+                      {item.oldPrice && <span className="old-price line-through text-xs text-neutral-400 font-medium">{item.oldPrice}</span>}
+                      {item.newPrice && <span className="price font-black text-red-600">{item.newPrice}</span>}
+                    </div>
+                  ) : (
+                    item.label && <span className="price">{item.label}</span>
+                  )}
                 </div>
                 <h3 className="line-clamp-2">{item.title}</h3>
                 {item.description && <p className="line-clamp-2">{item.description}</p>}

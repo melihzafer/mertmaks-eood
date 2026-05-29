@@ -59,6 +59,10 @@ interface SanityCommerceItem {
   description?: string;
   label?: string;
   discount?: number;
+  promoType?: string;
+  oldPrice?: string;
+  newPrice?: string;
+  showPrice?: string;
   validFrom?: string;
   validTo?: string;
   terms?: string[];
@@ -175,6 +179,10 @@ function mapCmsItem(
     validTo: item.validTo,
     canonicalUrl: `/${storeSlug}`,
     terms: item.terms ?? [],
+    promoType: item.promoType,
+    oldPrice: item.oldPrice,
+    newPrice: item.newPrice,
+    showPrice: item.showPrice,
   };
 }
 

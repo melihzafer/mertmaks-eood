@@ -13,6 +13,10 @@ export interface MonthlyPromotion {
   active: boolean;
   image?: string;
   terms?: string[];
+  promoType?: string;
+  oldPrice?: string;
+  newPrice?: string;
+  showPrice?: string;
 }
 
 export const monthlyPromotions: MonthlyPromotion[] = [

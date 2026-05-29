@@ -14,6 +14,10 @@ interface SanityWeeklyPromotion {
   description?: string;
   label?: string;
   discount?: number;
+  promoType?: string;
+  oldPrice?: string;
+  newPrice?: string;
+  showPrice?: string;
   validFrom?: string;
   validTo?: string;
   terms?: string[];
@@ -49,6 +53,10 @@ function mapWeeklyPromotion(item: SanityWeeklyPromotion): WeeklyPromotion {
     active: true,
     image: imageUrl(item.image) || getFallbackImage(storeSlug, categoryTitle),
     terms: item.terms,
+    promoType: item.promoType,
+    oldPrice: item.oldPrice,
+    newPrice: item.newPrice,
+    showPrice: item.showPrice,
   };
 }
 

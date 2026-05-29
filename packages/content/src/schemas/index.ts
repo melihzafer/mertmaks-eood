@@ -322,6 +322,7 @@ export const promotion = defineType({
         list: [
           { title: "Седмична оферта", value: "weekly" },
           { title: "Месечна оферта", value: "monthly" },
+          { title: "Друга / Специфична", value: "custom" },
         ],
         layout: "radio",
       },
@@ -339,6 +340,31 @@ export const promotion = defineType({
     defineField({ name: "products", title: "Свързани продукти", type: "array", of: [{ type: "reference", to: [{ type: "product" }] }] }),
     defineField({ name: "label", title: "Етикет", type: "string" }),
     defineField({ name: "discount", title: "Отстъпка %", type: "number" }),
+    defineField({
+      name: "oldPrice",
+      title: "Стара цена",
+      type: "string",
+      description: "Пример: 2.50 лв. или 2.50",
+    }),
+    defineField({
+      name: "newPrice",
+      title: "Нова цена",
+      type: "string",
+      description: "Пример: 1.99 лв. или 1.99",
+    }),
+    defineField({
+      name: "showPrice",
+      title: "Показване на цена",
+      type: "string",
+      options: {
+        list: [
+          { title: "Покажи цена", value: "show" },
+          { title: "Скрий цена", value: "hide" },
+        ],
+        layout: "radio",
+      },
+      initialValue: "show",
+    }),
     defineField({ name: "validFrom", title: "Валидна от", type: "date" }),
     defineField({ name: "validTo", title: "Валидна до", type: "date" }),
     defineField({ name: "active", title: "Активна", type: "boolean", initialValue: true }),
@@ -380,7 +406,12 @@ export const promotion = defineType({
   preview: {
     select: { title: "title", active: "active", validTo: "validTo", promoType: "promoType" },
     prepare({ title, active, validTo, promoType }) {
-      const typeLabel = promoType === "monthly" ? "Месечна" : "Седмична";
+      const typeLabel =
+        promoType === "monthly"
+          ? "Месечна"
+          : promoType === "custom"
+          ? "Друга"
+          : "Седмична";
       return {
         title,
         subtitle: `${typeLabel} | ${active ? "Активна" : "Скрита"}${validTo ? ` до ${validTo}` : ""}`,

@@ -16,6 +16,10 @@ export interface BrochureShareItem {
   validTo?: string;
   canonicalUrl: string;
   terms?: string[];
+  promoType?: string;
+  oldPrice?: string;
+  newPrice?: string;
+  showPrice?: string;
 }
 
 export type BrochureTemplate = "square" | "story" | "landscape";
