@@ -3,6 +3,7 @@ import { contentTags, featuredPromotionsQuery, homePageQuery } from "@mertmaks/c
 import type { BrochureShareItem } from "@/lib/brochure";
 import { fetchSanity } from "@/lib/sanity/fetch";
 import { sanityImageUrl } from "@/lib/sanity/image";
+import { formatPrice } from "@/lib/utils";
 
 export type HomePromotionModel = (typeof staticHomePage.promotions)[number] &
   BrochureShareItem;
@@ -109,8 +110,8 @@ function mapPromotion(promotion: SanityPromotion, index: number) {
     canonicalUrl: `/${storeSlug}`,
     terms: promotion.terms ?? [],
     promoType: promotion.promoType,
-    oldPrice: promotion.oldPrice,
-    newPrice: promotion.newPrice,
+    oldPrice: formatPrice(promotion.oldPrice),
+    newPrice: formatPrice(promotion.newPrice),
     showPrice: promotion.showPrice,
   };
 }

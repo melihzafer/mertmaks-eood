@@ -5,6 +5,7 @@ import {
   contentTags,
   weeklyPromotionsQuery,
 } from "@mertmaks/content/queries";
+import { formatPrice } from "@/lib/utils";
 
 type StoreSlug = "supermarket" | "industrial" | "construction";
 
@@ -54,8 +55,8 @@ function mapWeeklyPromotion(item: SanityWeeklyPromotion): WeeklyPromotion {
     image: imageUrl(item.image) || getFallbackImage(storeSlug, categoryTitle),
     terms: item.terms,
     promoType: item.promoType,
-    oldPrice: item.oldPrice,
-    newPrice: item.newPrice,
+    oldPrice: formatPrice(item.oldPrice),
+    newPrice: formatPrice(item.newPrice),
     showPrice: item.showPrice,
   };
 }

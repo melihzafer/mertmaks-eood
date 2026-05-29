@@ -9,6 +9,7 @@ import {
   faqQuery,
   storeCommercePageQuery,
 } from "@mertmaks/content/queries";
+import { formatPrice } from "@/lib/utils";
 
 type StoreSlug = "supermarket" | "industrial" | "construction" | "restaurant";
 
@@ -180,8 +181,8 @@ function mapCmsItem(
     canonicalUrl: `/${storeSlug}`,
     terms: item.terms ?? [],
     promoType: item.promoType,
-    oldPrice: item.oldPrice,
-    newPrice: item.newPrice,
+    oldPrice: formatPrice(item.oldPrice),
+    newPrice: formatPrice(item.newPrice),
     showPrice: item.showPrice,
   };
 }
