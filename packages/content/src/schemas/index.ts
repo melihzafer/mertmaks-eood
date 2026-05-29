@@ -315,6 +315,20 @@ export const promotion = defineType({
     defineField({ name: "title", title: "Заглавие", type: "string", validation: requiredString }),
     defineField({ name: "description", title: "Описание", type: "text", rows: 3 }),
     defineField({
+      name: "promoType",
+      title: "Тип промоция",
+      type: "string",
+      options: {
+        list: [
+          { title: "Седмична оферта", value: "weekly" },
+          { title: "Месечна оферта", value: "monthly" },
+        ],
+        layout: "radio",
+      },
+      validation: (Rule) => Rule.required(),
+      initialValue: "weekly",
+    }),
+    defineField({
       name: "store",
       title: "Обект",
       type: "reference",
@@ -364,26 +378,15 @@ export const promotion = defineType({
       return true;
     }),
   preview: {
-    select: { title: "title", active: "active", validTo: "validTo" },
-    prepare({ title, active, validTo }) {
+    select: { title: "title", active: "active", validTo: "validTo", promoType: "promoType" },
+    prepare({ title, active, validTo, promoType }) {
+      const typeLabel = promoType === "monthly" ? "Месечна" : "Седмична";
       return {
         title,
-        subtitle: `${active ? "Активна" : "Скрита"}${validTo ? ` до ${validTo}` : ""}`,
+        subtitle: `${typeLabel} | ${active ? "Активна" : "Скрита"}${validTo ? ` до ${validTo}` : ""}`,
       };
     },
   },
-});
-
-export const weeklyPromotion = defineType({
-  ...promotion,
-  name: "weeklyPromotion",
-  title: "Седмична промоция",
-});
-
-export const monthlyPromotion = defineType({
-  ...promotion,
-  name: "monthlyPromotion",
-  title: "Месечна оферта",
 });
 
 export const homePage = defineType({
@@ -491,8 +494,6 @@ export const schemaTypes = [
   category,
   product,
   promotion,
-  weeklyPromotion,
-  monthlyPromotion,
   homePage,
   divisionPage,
   contactPage,

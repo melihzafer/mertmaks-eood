@@ -36,14 +36,23 @@ function categoryId(storeId: string, category: string) {
 }
 
 async function seed() {
+  console.log("Cleaning up old weeklyPromotion and monthlyPromotion documents...");
+  try {
+    await client.delete({ query: '*[_type in ["weeklyPromotion", "monthlyPromotion"]]' });
+    console.log("Cleanup complete.");
+  } catch (err) {
+    console.warn("Failed to clean up old documents (they might not exist yet):", err);
+  }
+
   const transaction = client.transaction();
 
   console.log("Preparing weekly promotions...");
   for (const promo of weeklyPromotions) {
     const id = `weeklyPromotion-${promo.id ?? promo.title.replace(/\s+/g, "-").toLowerCase()}`;
     const doc: any = {
-      _type: "weeklyPromotion",
+      _type: "promotion",
       _id: id,
+      promoType: "weekly",
       title: promo.title,
       description: promo.description ?? "",
       validFrom: promo.validFrom,
@@ -72,8 +81,9 @@ async function seed() {
   for (const promo of monthlyPromotions) {
     const id = `monthlyPromotion-${promo.id ?? promo.title.replace(/\s+/g, "-").toLowerCase()}`;
     const doc: any = {
-      _type: "monthlyPromotion",
+      _type: "promotion",
       _id: id,
+      promoType: "monthly",
       title: promo.title,
       description: promo.description ?? "",
       validFrom: promo.validFrom,

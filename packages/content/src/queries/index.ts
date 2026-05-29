@@ -215,7 +215,8 @@ export const searchIndexQuery = `{
 }`;
 
 export const weeklyPromotionsQuery = `*[
-  _type == "weeklyPromotion" &&
+  _type == "promotion" &&
+  promoType == "weekly" &&
   active == true &&
   store->slug.current == $slug &&
   (!defined(validFrom) || validFrom <= $today) &&
@@ -244,7 +245,8 @@ export const weeklyPromotionsQuery = `*[
 }`;
 
 export const monthlyPromotionsQuery = `*[
-  _type == "monthlyPromotion" &&
+  _type == "promotion" &&
+  promoType == "monthly" &&
   active == true &&
   store->slug.current == $slug &&
   (!defined(validFrom) || validFrom <= $today) &&

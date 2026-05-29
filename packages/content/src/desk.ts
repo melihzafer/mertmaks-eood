@@ -19,9 +19,20 @@ export const structure: StructureResolver = (S) =>
       S.documentTypeListItem("divisionPage").title("Страници на обекти"),
       S.documentTypeListItem("category").title("Категории"),
       S.documentTypeListItem("product").title("Продукти / услуги"),
-      S.documentTypeListItem("promotion").title("Промоции"),
-      S.documentTypeListItem("weeklyPromotion").title("Седмични промоции"),
-      S.documentTypeListItem("monthlyPromotion").title("Месечни промоции"),
+      S.listItem()
+        .title("Промоции по обекти")
+        .schemaType("promotion")
+        .child(
+          S.documentTypeList("store")
+            .title("Изберете обект")
+            .child((storeId) =>
+              S.documentList()
+                .title("Промоции")
+                .schemaType("promotion")
+                .filter('_type == "promotion" && store._ref == $storeId')
+                .params({ storeId }),
+            ),
+        ),
       S.documentTypeListItem("navigationItem").title("Навигация"),
       S.documentTypeListItem("faq").title("FAQ"),
     ]);
