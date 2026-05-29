@@ -344,13 +344,13 @@ export const promotion = defineType({
       name: "oldPrice",
       title: "Стара цена",
       type: "string",
-      description: "Пример: 2.50 лв. или 2.50",
+      description: "Пример: 2.50 € или 2.50",
     }),
     defineField({
       name: "newPrice",
       title: "Нова цена",
       type: "string",
-      description: "Пример: 1.99 лв. или 1.99",
+      description: "Пример: 1.99 € или 1.99",
     }),
     defineField({
       name: "showPrice",

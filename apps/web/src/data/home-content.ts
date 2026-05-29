@@ -112,8 +112,8 @@ export const promotions: PromotionData[] = [
     id: 1,
     title: "Свежи плодове",
     description: "20% отстъпка на сезонни плодове",
-    price: "2.99 лв/кг",
-    originalPrice: "3.99 лв/кг",
+    price: "2.99 €/кг",
+    originalPrice: "3.99 €/кг",
     image:
       "https://images.unsplash.com/photo-1610832958506-aa56368176cf?w=400&h=300&fit=crop",
     color: "#E53E3E",
@@ -123,8 +123,8 @@ export const promotions: PromotionData[] = [
     id: 2,
     title: "Домашни потреби",
     description: "Подбрани дребни стоки за кухнята и дома",
-    price: "79.99 лв",
-    originalPrice: "99.99 лв",
+    price: "79.99 €",
+    originalPrice: "99.99 €",
     image:
       "https://images.unsplash.com/photo-1504148455328-c376907d081c?w=400&h=300&fit=crop",
     color: "#D53F8C",
@@ -134,8 +134,8 @@ export const promotions: PromotionData[] = [
     id: 3,
     title: "Боя за стени",
     description: "15% отстъпка на всички интериорни бои",
-    price: "12.99 лв/л",
-    originalPrice: "14.99 лв/л",
+    price: "12.99 €/л",
+    originalPrice: "14.99 €/л",
     image:
       "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=400&h=300&fit=crop",
     color: "#2563EB",
