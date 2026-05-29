@@ -195,6 +195,7 @@ function mapStaticProduct(
     storeSlug,
     storePhone: store.phone,
     accentColor: storeAccentBySlug[storeSlug],
+    imageUrl: (product as any).imageUrl,
     canonicalUrl: `/${storeSlug}`,
     terms: [],
   };

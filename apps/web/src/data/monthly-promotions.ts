@@ -25,7 +25,7 @@ export const monthlyPromotions: MonthlyPromotion[] = [
     validFrom: "2026-05-01",
     validTo: "2026-05-31",
     active: true,
-    image: "https://images.unsplash.com/photo-1628088062854-d1870b4553da?w=800&h=600&fit=crop",
+    image: "/images/products/dairy.png",
     terms: ["Валидно през май", "Не се комбинира с други промоции"],
   },
   {
@@ -37,7 +37,7 @@ export const monthlyPromotions: MonthlyPromotion[] = [
     validFrom: "2026-05-01",
     validTo: "2026-05-31",
     active: true,
-    image: "https://images.unsplash.com/photo-1562259949-e8e7689d7828?w=800&h=600&fit=crop",
+    image: "/images/products/paints.png",
     terms: ["Валидно за избрани марки", "Цветовете се уточняват на място"],
   },
   {
@@ -49,7 +49,7 @@ export const monthlyPromotions: MonthlyPromotion[] = [
     validFrom: "2026-05-01",
     validTo: "2026-05-31",
     active: true,
-    image: "https://images.unsplash.com/photo-1540555700478-4be289fbec6a?w=800&h=600&fit=crop",
+    image: "/images/products/textiles.png",
     terms: ["Важи за наличните цветове и размери", "Не се комбинира с други промоции"],
   },
 ];

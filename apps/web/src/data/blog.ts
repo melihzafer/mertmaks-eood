@@ -21,7 +21,7 @@ export const storeArticles: StoreArticle[] = [
     body: "Свежите продукти се познават по цвета, аромата и твърдостта. Плодовете не трябва да имат прекалено много петна, а зеленчуците — да са стегнати. В MERTMAX зареждаме всеки ден, за да има свежест на щанда.",
     store: "supermarket",
     publishedAt: "2026-05-10",
-    image: "https://images.unsplash.com/photo-1610832958506-aa56368176cf?w=800&h=600&fit=crop",
+    image: "/images/products/fruits_veg.png",
   },
   {
     id: "blog-super-002",
@@ -31,7 +31,7 @@ export const storeArticles: StoreArticle[] = [
     body: "Мляко, кисело мляко, сирене и кашкавал са продукти, които почти всяко семейство купува редовно. Препоръчваме да проверявате срока на годност и да съхранявате правилно у дома.",
     store: "supermarket",
     publishedAt: "2026-05-15",
-    image: "https://images.unsplash.com/photo-1628088062854-d1870b4553da?w=800&h=600&fit=crop",
+    image: "/images/products/dairy.png",
   },
   {
     id: "blog-cons-001",
@@ -41,7 +41,7 @@ export const storeArticles: StoreArticle[] = [
     body: "Летният ремонт изисква добро планиране. Започнете със списък на материалите — бои, грундове, четки, шпакловка. При нас ще намерите основните неща, а ако не сте сигурни — попитайте на място.",
     store: "construction",
     publishedAt: "2026-05-08",
-    image: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=800&h=600&fit=crop",
+    image: "/images/products/paints.png",
   },
   {
     id: "blog-cons-002",
@@ -51,7 +51,7 @@ export const storeArticles: StoreArticle[] = [
     body: "Отвертки, чук, нивелир и винтоверт — това е минимумът, с който може да се справите с повечето битови задачи. В строителния магазин на MERTMAX имаме избор за всеки бюджет.",
     store: "construction",
     publishedAt: "2026-05-18",
-    image: "https://images.unsplash.com/photo-1572981779307-38b8cabb2407?w=800&h=600&fit=crop",
+    image: "/images/products/tools.png",
   },
   {
     id: "blog-ind-001",
@@ -61,7 +61,7 @@ export const storeArticles: StoreArticle[] = [
     body: "Кутии за съхранение, комплекти чаши и прибори — малки покупки, които правят ежедневието по-лесно. В магазина за домашни потреби подбираме практични неща на нормални цени.",
     store: "industrial",
     publishedAt: "2026-05-12",
-    image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&h=600&fit=crop",
+    image: "/images/products/kitchenware.png",
   },
   {
     id: "blog-ind-002",
@@ -71,7 +71,7 @@ export const storeArticles: StoreArticle[] = [
     body: "Плътността, мекотата и устойчивостта на пране са важни показатели. При нас ще намерите кърпи, спално бельо и дребен текстил, подбрани за ежедневна употреба.",
     store: "industrial",
     publishedAt: "2026-05-20",
-    image: "https://images.unsplash.com/photo-1540555700478-4be289fbec6a?w=800&h=600&fit=crop",
+    image: "/images/products/textiles.png",
   },
 ];
 

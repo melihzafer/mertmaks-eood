@@ -20,6 +20,12 @@ export default async function RestaurantPage() {
   return (
     <main style={{ "--theme-accent": restaurantPage.accent } as CardColorStyle}>
       <section className="division-hero">
+        {restaurantPage.image && (
+          <div
+            className="division-hero-image"
+            style={{ backgroundImage: `url(${restaurantPage.image})` }}
+          />
+        )}
         <div className="container">
           <div className="eyebrow" style={{ color: "#F7F5F2" }}>
             {restaurantPage.heroIndex}

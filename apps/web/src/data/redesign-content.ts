@@ -216,6 +216,7 @@ export const homePage = {
 export const divisionPages = {
   supermarket: {
     accent: accents.supermarket,
+    image: "/images/supermarket.png",
     heroIndex: "01 / Супермаркет",
     title: "Всичко за ежедневната трапеза.",
     description:
@@ -275,6 +276,7 @@ export const divisionPages = {
   industrial: {
     accent: accents.industrial,
     diagonal: accents.industrialAccent,
+    image: "/images/industrial.png",
     heroIndex: "02 / Домашни потреби",
     title: "Нехранителни стоки за дома и всеки ден.",
     description:
@@ -339,6 +341,7 @@ export const divisionPages = {
   construction: {
     accent: accents.construction,
     diagonal: accents.constructionAccent,
+    image: "/images/construction.png",
     heroIndex: "03 / Строителен магазин",
     title: "Магазин за ремонт, двор и строеж.",
     description:
@@ -399,6 +402,7 @@ export type DivisionPageKey = keyof typeof divisionPages;
 
 export const restaurantPage = {
   accent: accents.restaurant,
+  image: "/images/restaurant.png",
   heroIndex: "04 / Ресторант Делиорман",
   title: "Топла кухня и място за срещи.",
   description:

@@ -44,6 +44,12 @@ export function DivisionDetailPage({
     <main style={style}>
       <section className="division-hero">
         {"diagonal" in page && <div className="diagonal" />}
+        {"image" in page && page.image && (
+          <div
+            className="division-hero-image"
+            style={{ backgroundImage: `url(${page.image})` }}
+          />
+        )}
         <div className="container">
           <div className="eyebrow" style={{ color: "white" }}>
             {page.heroIndex}

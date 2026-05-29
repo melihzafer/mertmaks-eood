@@ -25,7 +25,7 @@ export const weeklyPromotions: WeeklyPromotion[] = [
     validFrom: "2026-05-01",
     validTo: "2026-08-31",
     active: true,
-    image: "https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=800&h=600&fit=crop",
+    image: "/images/products/beverages.png",
     terms: ["Валидно само в супермаркета", "Не се комбинира с други промоции", "Офертата важи до изчерпване на количествата"],
   },
   {
@@ -37,7 +37,7 @@ export const weeklyPromotions: WeeklyPromotion[] = [
     validFrom: "2026-05-01",
     validTo: "2026-07-31",
     active: true,
-    image: "https://images.unsplash.com/photo-1610832958506-aa56368176cf?w=800&h=600&fit=crop",
+    image: "/images/products/fruits_veg.png",
     terms: ["Свежестта се проверява всеки ден", "Асортиментът се сменя според сезона"],
   },
   {
@@ -49,7 +49,7 @@ export const weeklyPromotions: WeeklyPromotion[] = [
     validFrom: "2026-05-01",
     validTo: "2026-08-31",
     active: true,
-    image: "https://images.unsplash.com/photo-1572981779307-38b8cabb2407?w=800&h=600&fit=crop",
+    image: "/images/products/tools.png",
     terms: ["Консултация при избор", "Гаранцията зависи от продукта"],
   },
   {
@@ -61,7 +61,7 @@ export const weeklyPromotions: WeeklyPromotion[] = [
     validFrom: "2026-05-01",
     validTo: "2026-09-30",
     active: true,
-    image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&h=600&fit=crop",
+    image: "/images/products/kitchenware.png",
     terms: ["Важи за избрани артикули", "Количество според наличността"],
   },
 ];
