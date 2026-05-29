@@ -112,54 +112,56 @@ export function HomePageClient({ homePage }: HomePageClientProps) {
         </div>
       </section>
 
-      <section className="section-tight">
-        <div className="container">
-          <div className="promo-toolbar">
-            <div>
-              <div className="eyebrow">Live promotions</div>
-              <h2>Акценти тази седмица</h2>
+      {homePage.promotions.length > 0 && (
+        <section className="section-tight">
+          <div className="container">
+            <div className="promo-toolbar">
+              <div>
+                <div className="eyebrow">Live promotions</div>
+                <h2>Акценти тази седмица</h2>
+              </div>
+              <div className="filter-row" data-filter-group>
+                {[
+                  ["all", "Всички"],
+                  ["food", "Храни"],
+                  ["tools", "Инструменти"],
+                  ["home", "Дом"],
+                ].map(([value, label]) => (
+                  <button
+                    key={value}
+                    className={`filter ${activeFilter === value ? "active" : ""}`}
+                    type="button"
+                    data-filter={value}
+                    onClick={() => setActiveFilter(value)}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
             </div>
-            <div className="filter-row" data-filter-group>
-              {[
-                ["all", "Всички"],
-                ["food", "Храни"],
-                ["tools", "Инструменти"],
-                ["home", "Дом"],
-              ].map(([value, label]) => (
-                <button
-                  key={value}
-                  className={`filter ${activeFilter === value ? "active" : ""}`}
-                  type="button"
-                  data-filter={value}
-                  onClick={() => setActiveFilter(value)}
+
+            <div className="promo-grid">
+              {visiblePromotions.map((promo) => (
+                <article
+                  key={promo.title}
+                  className="promo-card"
+                  data-category={promo.category}
+                  style={{ "--card-color": promo.color } as CardColorStyle}
                 >
-                  {label}
-                </button>
+                  <div className="promo-top" />
+                  <div className="promo-image">{promo.visual}</div>
+                  <div className="promo-content">
+                    <span className="price">{promo.label}</span>
+                    <h3>{promo.title}</h3>
+                    <p>{promo.description}</p>
+                    <BrochureShareButton item={promo} />
+                  </div>
+                </article>
               ))}
             </div>
           </div>
-
-          <div className="promo-grid">
-            {visiblePromotions.map((promo) => (
-              <article
-                key={promo.title}
-                className="promo-card"
-                data-category={promo.category}
-                style={{ "--card-color": promo.color } as CardColorStyle}
-              >
-                <div className="promo-top" />
-                <div className="promo-image">{promo.visual}</div>
-                <div className="promo-content">
-                  <span className="price">{promo.label}</span>
-                  <h3>{promo.title}</h3>
-                  <p>{promo.description}</p>
-                  <BrochureShareButton item={promo} />
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       <section className="cta-dark section">
         <div className="cta-box">

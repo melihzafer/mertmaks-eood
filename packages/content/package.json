@@ -12,7 +12,8 @@
   },
   "scripts": {
     "typecheck": "tsc --noEmit",
-    "import:static": "node scripts/import-static-content.mjs"
+    "import:static": "node scripts/import-static-content.mjs",
+    "seed:promotions": "npx tsx scripts/seed-promotions.ts"
   },
   "peerDependencies": {
     "sanity": "^5.25.1"

@@ -1,5 +1,4 @@
 import type { MonthlyPromotion } from "@/data/monthly-promotions";
-import { getMonthlyPromotionsForStore } from "@/data/monthly-promotions";
 import { fetchSanity } from "@/lib/sanity/fetch";
 import { sanityImageUrl, getFallbackImage } from "@/lib/sanity/image";
 import {
@@ -70,5 +69,5 @@ export async function getMonthlyPromotions(
     return items.map(mapMonthlyPromotion);
   }
 
-  return getMonthlyPromotionsForStore(slug);
+  return [];
 }

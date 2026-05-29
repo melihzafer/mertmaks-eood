@@ -1,5 +1,4 @@
 import type { WeeklyPromotion } from "@/data/weekly-promotions";
-import { getWeeklyPromotionsForStore } from "@/data/weekly-promotions";
 import { fetchSanity } from "@/lib/sanity/fetch";
 import { sanityImageUrl, getFallbackImage } from "@/lib/sanity/image";
 import {
@@ -70,5 +69,5 @@ export async function getWeeklyPromotions(
     return items.map(mapWeeklyPromotion);
   }
 
-  return getWeeklyPromotionsForStore(slug);
+  return [];
 }

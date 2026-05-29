@@ -374,6 +374,18 @@ export const promotion = defineType({
   },
 });
 
+export const weeklyPromotion = defineType({
+  ...promotion,
+  name: "weeklyPromotion",
+  title: "Седмична промоция",
+});
+
+export const monthlyPromotion = defineType({
+  ...promotion,
+  name: "monthlyPromotion",
+  title: "Месечна оферта",
+});
+
 export const homePage = defineType({
   name: "homePage",
   title: "Начална страница",
@@ -479,6 +491,8 @@ export const schemaTypes = [
   category,
   product,
   promotion,
+  weeklyPromotion,
+  monthlyPromotion,
   homePage,
   divisionPage,
   contactPage,

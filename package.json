@@ -21,7 +21,8 @@
     "test": "npm run test --workspace @mertmaks/web",
     "test:e2e": "npm run test:e2e --workspace @mertmaks/web",
     "compile:scss": "npm run compile:scss --workspace @mertmaks/web",
-    "sanity:import": "npm run import:static --workspace @mertmaks/content"
+    "sanity:import": "npm run import:static --workspace @mertmaks/content",
+    "sanity:seed-promotions": "npm run seed:promotions --workspace @mertmaks/content"
   },
   "engines": {
     "node": ">=20.0.0",

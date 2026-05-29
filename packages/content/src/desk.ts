@@ -20,6 +20,8 @@ export const structure: StructureResolver = (S) =>
       S.documentTypeListItem("category").title("Категории"),
       S.documentTypeListItem("product").title("Продукти / услуги"),
       S.documentTypeListItem("promotion").title("Промоции"),
+      S.documentTypeListItem("weeklyPromotion").title("Седмични промоции"),
+      S.documentTypeListItem("monthlyPromotion").title("Месечни промоции"),
       S.documentTypeListItem("navigationItem").title("Навигация"),
       S.documentTypeListItem("faq").title("FAQ"),
     ]);

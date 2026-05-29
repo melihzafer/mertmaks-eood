@@ -145,7 +145,7 @@ function mergeHomePage(
     stats: page?.stats?.length ? page.stats : staticHomePage.stats,
     promotions: promotions?.length
       ? promotions.map(mapPromotion)
-      : staticHomePage.promotions.map(mapStaticPromotion),
+      : [],
     cta: {
       ...staticHomePage.cta,
       title: page?.ctaTitle ?? staticHomePage.cta.title,

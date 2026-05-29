@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 import { promises as fs } from "fs";
 import path from "path";
-import { getWeeklyPromotionsForStore } from "@/data/weekly-promotions";
+import { getWeeklyPromotions } from "@/lib/cms/weekly-promotions";
 import { renderWeeklyEmailHtml } from "@/lib/email/weekly-template";
 
 const resend = process.env.RESEND_API_KEY
@@ -53,9 +53,9 @@ export async function GET(request: NextRequest) {
 
     // Fetch weekly promotions for all stores
     const storeSlugs = ["supermarket", "industrial", "construction"] as const;
-    const weeklyPromosByStore: Record<string, ReturnType<typeof getWeeklyPromotionsForStore>> = {};
+    const weeklyPromosByStore: Record<string, any[]> = {};
     for (const slug of storeSlugs) {
-      weeklyPromosByStore[slug] = getWeeklyPromotionsForStore(slug);
+      weeklyPromosByStore[slug] = await getWeeklyPromotions(slug);
     }
 
     const results: { email: string; status: string }[] = [];
