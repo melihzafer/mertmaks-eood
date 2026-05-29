@@ -92,8 +92,16 @@ export function UnifiedPromotionsSection({
     category: promo.category || "Брошура",
   }));
 
-  // Combine weekly, monthly, and brochure promotions into one section
-  const allPromotions = [...weeklyItems, ...monthlyItems, ...brochureItems];
+  // Combine weekly, monthly, and brochure promotions into one list, deduplicating by ID
+  const seenIds = new Set<string>();
+  const allPromotions: BrochureShareItem[] = [];
+
+  for (const item of [...weeklyItems, ...monthlyItems, ...brochureItems]) {
+    if (!seenIds.has(item.id)) {
+      seenIds.add(item.id);
+      allPromotions.push(item);
+    }
+  }
 
   if (allPromotions.length === 0) return null;
 
