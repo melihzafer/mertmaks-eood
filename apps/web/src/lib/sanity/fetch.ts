@@ -27,7 +27,9 @@ export async function fetchSanity<T>(
   const fetcher = () => client.fetch<T>(query, params, { cache: "no-store" });
 
   try {
-    if (process.env.NODE_ENV !== "production") {
+    // If not in production, or if SANITY_REVALIDATE_SECRET is not configured for webhooks,
+    // fetch fresh data on every request to avoid stale content.
+    if (process.env.NODE_ENV !== "production" || !process.env.SANITY_REVALIDATE_SECRET) {
       return await fetcher();
     }
 
