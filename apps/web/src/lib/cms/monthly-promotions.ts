@@ -1,7 +1,7 @@
 import type { MonthlyPromotion } from "@/data/monthly-promotions";
 import { getMonthlyPromotionsForStore } from "@/data/monthly-promotions";
 import { fetchSanity } from "@/lib/sanity/fetch";
-import { sanityImageUrl } from "@/lib/sanity/image";
+import { sanityImageUrl, getFallbackImage } from "@/lib/sanity/image";
 import {
   contentTags,
   monthlyPromotionsQuery,
@@ -37,17 +37,18 @@ function imageUrl(source: unknown) {
 
 function mapMonthlyPromotion(item: SanityMonthlyPromotion): MonthlyPromotion {
   const storeSlug = (item.store?.slug?.current ?? "supermarket") as StoreSlug;
+  const categoryTitle = item.category?.title ?? "Общо";
   return {
     id: item._id ?? `cms-monthly-${storeSlug}`,
     title: item.title ?? "Месечна оферта",
     description: item.description ?? "",
     store: storeSlug,
-    category: item.category?.title ?? "Общо",
+    category: categoryTitle,
     discount: item.discount,
     validFrom: item.validFrom ?? new Date().toISOString().slice(0, 10),
     validTo: item.validTo ?? new Date().toISOString().slice(0, 10),
     active: true,
-    image: imageUrl(item.image),
+    image: imageUrl(item.image) || getFallbackImage(storeSlug, categoryTitle),
     terms: item.terms,
   };
 }

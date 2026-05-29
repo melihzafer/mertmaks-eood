@@ -1,7 +1,7 @@
 import commerceData from "@/data/store-commerce.json";
 import { accents } from "@/data/redesign-content";
 import { getStore, getStoreTodayIsoDate, type Store } from "@/lib/stores";
-import { sanityImageUrl } from "@/lib/sanity/image";
+import { sanityImageUrl, getFallbackImage } from "@/lib/sanity/image";
 import { fetchSanity } from "@/lib/sanity/fetch";
 import type { BrochureShareItem } from "@/lib/brochure";
 import {
@@ -170,7 +170,7 @@ function mapCmsItem(
       item.store?.accent ??
       storeAccentBySlug[storeSlug] ??
       storeAccentBySlug.supermarket,
-    imageUrl: imageUrl(item.shareImage ?? item.image),
+    imageUrl: imageUrl(item.shareImage ?? item.image) || getFallbackImage(storeSlug, item.category?.title),
     validFrom: item.validFrom,
     validTo: item.validTo,
     canonicalUrl: `/${storeSlug}`,

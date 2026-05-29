@@ -1,7 +1,7 @@
 import type { WeeklyPromotion } from "@/data/weekly-promotions";
 import { getWeeklyPromotionsForStore } from "@/data/weekly-promotions";
 import { fetchSanity } from "@/lib/sanity/fetch";
-import { sanityImageUrl } from "@/lib/sanity/image";
+import { sanityImageUrl, getFallbackImage } from "@/lib/sanity/image";
 import {
   contentTags,
   weeklyPromotionsQuery,
@@ -37,17 +37,18 @@ function imageUrl(source: unknown) {
 
 function mapWeeklyPromotion(item: SanityWeeklyPromotion): WeeklyPromotion {
   const storeSlug = (item.store?.slug?.current ?? "supermarket") as StoreSlug;
+  const categoryTitle = item.category?.title ?? "Общо";
   return {
     id: item._id ?? `cms-weekly-${storeSlug}`,
     title: item.title ?? "Седмична оферта",
     description: item.description ?? "",
     store: storeSlug,
-    category: item.category?.title ?? "Общо",
+    category: categoryTitle,
     discount: item.discount,
     validFrom: item.validFrom ?? new Date().toISOString().slice(0, 10),
     validTo: item.validTo ?? new Date().toISOString().slice(0, 10),
     active: true,
-    image: imageUrl(item.image),
+    image: imageUrl(item.image) || getFallbackImage(storeSlug, categoryTitle),
     terms: item.terms,
   };
 }
