@@ -149,7 +149,24 @@ export function HomePageClient({ homePage }: HomePageClientProps) {
                   style={{ "--card-color": promo.color } as CardColorStyle}
                 >
                   <div className="promo-top" />
-                  <div className="promo-image">{promo.visual}</div>
+                  <div className="promo-image relative overflow-hidden flex items-center justify-center">
+                    {promo.imageUrl ? (
+                      <img
+                        src={promo.imageUrl}
+                        alt={promo.title}
+                        style={{
+                          position: "absolute",
+                          inset: 0,
+                          width: "100%",
+                          height: "100%",
+                          objectFit: "cover",
+                          borderRadius: "inherit",
+                        }}
+                      />
+                    ) : (
+                      promo.visual
+                    )}
+                  </div>
                   <div className="promo-content">
                     {promo.showPrice !== "hide" && (promo.newPrice || promo.oldPrice) ? (
                       <div className="price-container flex items-center gap-1.5 font-bold mb-2">

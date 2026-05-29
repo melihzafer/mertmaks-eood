@@ -190,7 +190,17 @@ export function BrochureShareButton({
               }
             >
               <div className="brochure-preview-top" />
-              <div className="brochure-preview-image">{item.category ?? "MERTMAX"}</div>
+              <div className="brochure-preview-image relative overflow-hidden flex items-center justify-center" style={{ padding: 0 }}>
+                {item.imageUrl ? (
+                  <img
+                    src={item.imageUrl}
+                    alt={item.title}
+                    style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: "inherit" }}
+                  />
+                ) : (
+                  item.category ?? "MERTMAX"
+                )}
+              </div>
               <span>{item.label ?? item.category ?? "предложение"}</span>
               <h3>{design.headline}</h3>
               {design.note && <p>{design.note}</p>}
