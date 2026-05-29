@@ -3541,3 +3541,14 @@ input[type="search"]::-webkit-search-clear-button {
     margin: 0;
   }
 }
+
+/* Fix dropdown menu / select popover backgrounds */
+[data-slot="select-content"],
+.bg-popover {
+  background-color: var(--popover, #ffffff) !important;
+}
+
+.text-popover-foreground {
+  color: var(--popover-foreground, #1a1a1a) !important;
+}
+

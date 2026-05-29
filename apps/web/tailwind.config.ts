@@ -17,6 +17,8 @@ const config: Config = {
         construction: "rgb(var(--color-construction) / <alpha-value>)",
         "construction-accent":
           "rgb(var(--color-construction-accent) / <alpha-value>)",
+        popover: "var(--popover)",
+        "popover-foreground": "var(--popover-foreground)",
       },
       fontFamily: {
         sans: ["var(--font-inter)", "ui-sans-serif", "system-ui", "sans-serif"],
