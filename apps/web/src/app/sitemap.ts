@@ -10,7 +10,7 @@ const routes: Array<{ path: string; changeFrequency: MetadataRoute.Sitemap[numbe
   { path: "/contact", changeFrequency: "monthly", priority: 0.6 },
   { path: "/find-us", changeFrequency: "monthly", priority: 0.6 },
   { path: "/faq", changeFrequency: "monthly", priority: 0.5 },
-  { path: "/samuil-hub", changeFrequency: "monthly", priority: 0.5 },
+  { path: "/about", changeFrequency: "monthly", priority: 0.5 },
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {

@@ -47,7 +47,7 @@ export const footerQuickLinks: QuickLink[] = [
   {
     href: "/about",
     label: "За нас",
-    color: "#000000",
+    color: "#DD6B20",
   },
   {
     href: "/contact",

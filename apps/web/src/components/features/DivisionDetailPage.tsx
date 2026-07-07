@@ -51,11 +51,11 @@ export function DivisionDetailPage({
           />
         )}
         <div className="container">
-          <div className="eyebrow" style={{ color: "white" }}>
+          <div className="eyebrow" style={{ color: "var(--surface)" }}>
             {page.heroIndex}
           </div>
-          <h1>{page.title}</h1>
-          <p>{page.description}</p>
+          <h1 style={{ color: "var(--surface)" }}>{page.title}</h1>
+          <p style={{ color: "var(--muted-on-dark)" }}>{page.description}</p>
         </div>
       </section>
 

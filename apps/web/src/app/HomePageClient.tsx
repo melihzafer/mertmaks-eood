@@ -141,7 +141,31 @@ export function HomePageClient({ homePage }: HomePageClientProps) {
             </div>
 
             <div className="promo-grid">
-              {visiblePromotions.map((promo) => (
+              {visiblePromotions.length === 0 ? (
+                <div
+                  style={{
+                    gridColumn: "1 / -1",
+                    textAlign: "center",
+                    padding: "48px 24px",
+                    color: "var(--text-muted)",
+                    background: "var(--surface)",
+                    border: "1px dashed var(--ui-border)",
+                    borderRadius: "var(--radius-card)",
+                  }}
+                >
+                  <p style={{ fontWeight: 800, marginBottom: 8 }}>
+                    В момента няма оферти в тази категория
+                  </p>
+                  <button
+                    className="btn"
+                    type="button"
+                    onClick={() => setActiveFilter("all")}
+                  >
+                    Покажи всички
+                  </button>
+                </div>
+              ) : (
+                visiblePromotions.map((promo) => (
                 <article
                   key={promo.title}
                   className="promo-card"
@@ -181,7 +205,7 @@ export function HomePageClient({ homePage }: HomePageClientProps) {
                     <BrochureShareButton item={promo} />
                   </div>
                 </article>
-              ))}
+              )))}
             </div>
           </div>
         </section>

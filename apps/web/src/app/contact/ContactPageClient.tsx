@@ -7,6 +7,25 @@ import { useState } from "react";
 import { accents } from "@/data/redesign-content";
 import type { Store } from "@/lib/stores";
 import type { ContactPageModel } from "@/lib/cms/contact";
+import { z } from "zod";
+
+const contactSchema = z.object({
+  name: z.string().trim().min(2, "Името трябва да е поне 2 символа"),
+  email: z.string().trim().email("Моля, въведете валиден имейл адрес"),
+  phone: z
+    .string()
+    .trim()
+    .min(6, "Телефонът трябва да е поне 6 цифри")
+    .regex(
+      /^[0-9+\s()/-]+$/,
+      "Моля, въведете валиден телефонен номер",
+    ),
+  topic: z.string().trim().min(1, "Моля, изберете тема"),
+  message: z
+    .string()
+    .trim()
+    .min(10, "Съобщението трябва да е поне 10 символа"),
+});
 
 const LeafletMap = dynamic(() => import("@/components/features/LeafletMap"), {
   ssr: false,
@@ -57,19 +76,13 @@ export function ContactPageClient({
     event.preventDefault();
     if (isSubmitting) return;
 
-    const requiredFields: FormField[] = [
-      "name",
-      "email",
-      "phone",
-      "topic",
-      "message",
-    ];
-    const firstInvalid = requiredFields.find((field) => !form[field].trim());
-
-    if (firstInvalid) {
-      setInvalidField(firstInvalid);
-      setMessage("Моля, попълнете задължителните полета.");
-      document.getElementById(firstInvalid)?.focus();
+    const result = contactSchema.safeParse(form);
+    if (!result.success) {
+      const firstError = result.error.errors[0];
+      const field = firstError.path[0] as FormField;
+      setInvalidField(field);
+      setMessage(firstError.message);
+      document.getElementById(field)?.focus();
       return;
     }
 
@@ -91,6 +104,7 @@ export function ContactPageClient({
 
       setMessage(payload.message || "Съобщението е изпратено успешно.");
       setForm(initialForm);
+      window.setTimeout(() => setMessage(""), 5000);
     } catch (error) {
       setMessage(
         error instanceof Error
@@ -214,7 +228,6 @@ export function ContactPageClient({
             <form
               className="contact-form"
               id="contactForm"
-              noValidate
               onSubmit={handleSubmit}
             >
               <div className="field">
@@ -234,9 +247,11 @@ export function ContactPageClient({
                 <input
                   id="phone"
                   name="phone"
+                  type="tel"
                   inputMode="tel"
                   autoComplete="tel"
                   required
+                  pattern="[0-9+\s()/-]+"
                   value={form.phone}
                   aria-invalid={invalidField === "phone" ? "true" : undefined}
                   onChange={(event) => updateField("phone", event.target.value)}

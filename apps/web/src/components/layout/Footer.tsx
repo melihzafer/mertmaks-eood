@@ -57,7 +57,6 @@ export function Footer({
         <span>
           © {brand.name} {brand.legalForm}
         </span>
-        <span>Powered by Melih Hyusein</span>
       </div>
     </footer>
   );
