@@ -25,21 +25,39 @@ const tagsByDocumentType: Record<string, string[]> = {
     contentTags.divisions,
     contentTags.home,
     contentTags.promotions,
+    contentTags.weeklyPromotions,
+    contentTags.monthlyPromotions,
     contentTags.products,
+    contentTags.storeArticles,
   ],
   homePage: [contentTags.home],
   contactPage: [contentTags.contact],
   restaurantPage: [contentTags.restaurant],
   divisionPage: [contentTags.divisions],
-  promotion: [contentTags.promotions, contentTags.home, contentTags.divisions],
-  product: [
-    contentTags.products,
+  promotion: [
     contentTags.promotions,
+    contentTags.weeklyPromotions,
+    contentTags.monthlyPromotions,
     contentTags.home,
     contentTags.divisions,
   ],
-  category: [contentTags.products, contentTags.promotions, contentTags.home],
+  product: [
+    contentTags.products,
+    contentTags.promotions,
+    contentTags.weeklyPromotions,
+    contentTags.monthlyPromotions,
+    contentTags.home,
+    contentTags.divisions,
+  ],
+  category: [
+    contentTags.products,
+    contentTags.promotions,
+    contentTags.weeklyPromotions,
+    contentTags.monthlyPromotions,
+    contentTags.home,
+  ],
   faq: [contentTags.faqs, contentTags.divisions, contentTags.contact],
+  storeArticle: [contentTags.storeArticles, contentTags.divisions],
 };
 
 export async function POST(request: Request) {

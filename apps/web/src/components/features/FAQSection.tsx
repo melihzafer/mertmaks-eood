@@ -25,7 +25,7 @@ export function FAQSection({
     <section className="section-tight rule">
       <div className="container faq-layout">
         <div>
-          <div className="eyebrow">FAQ</div>
+          <div className="eyebrow">ЧЗВ</div>
           <h2>{title}</h2>
           <p className="lead">{description}</p>
         </div>

@@ -1,10 +1,22 @@
 import type { CSSProperties } from "react";
+import type { Metadata } from "next";
 import { accents, samuilHubPage } from "@/data/redesign-content";
+import { buildMetadata } from "@/lib/seo";
 
 type CardColorStyle = CSSProperties & {
   "--theme-accent"?: string;
   "--card-color"?: string;
 };
+
+export function generateMetadata(): Metadata {
+  return buildMetadata({
+    path: "/samuil-hub",
+    fallbackTitle: samuilHubPage.title || "За нас - Историята на МЕРТМАКС",
+    fallbackDescription:
+      samuilHubPage.lead ||
+      "Историята на МЕРТМАКС в село Самуил - от малък семеен магазин до три обекта под един покрив.",
+  });
+}
 
 export default function SamuilHubPage() {
   return (

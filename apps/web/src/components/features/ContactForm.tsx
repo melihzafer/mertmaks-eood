@@ -111,7 +111,7 @@ export default function ContactForm() {
             }
             disabled={loading}
             className="w-full"
-            placeholder="example@email.com"
+            placeholder="imeil@example.bg"
           />
         </div>
 

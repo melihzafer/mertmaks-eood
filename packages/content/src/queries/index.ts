@@ -31,6 +31,7 @@ export const homePageQuery = `*[_type == "homePage"][0]{
 }`;
 
 export const contactPageQuery = `{
+  "settings": *[_type == "siteSettings"][0],
   "page": *[_type == "contactPage"][0],
   "stores": *[_type == "store"] | order(name asc)
 }`;

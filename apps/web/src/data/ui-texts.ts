@@ -43,7 +43,7 @@ export const uiTexts = {
     },
     email: {
       label: "Имейл",
-      placeholder: "your.email@example.com",
+      placeholder: "imeil@example.bg",
     },
     message: {
       label: "Съобщение",

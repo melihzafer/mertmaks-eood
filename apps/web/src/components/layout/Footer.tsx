@@ -1,13 +1,26 @@
 import Link from "next/link";
 import type { CSSProperties } from "react";
-import { brand, footerLinks } from "@/data/redesign-content";
+import {
+  brand as staticBrand,
+  footerLinks as staticFooterLinks,
+} from "@/data/redesign-content";
+import type { LayoutBrand, LayoutLink } from "@/lib/cms/layout";
+import { getRouteAccent } from "@/lib/route-accent";
 import { Logo } from "@/components/layout/Logo";
 
 type CardColorStyle = CSSProperties & {
   "--card-color"?: string;
 };
 
-export function Footer() {
+interface FooterProps {
+  brand?: LayoutBrand;
+  footerLinks?: LayoutLink[];
+}
+
+export function Footer({
+  brand = staticBrand,
+  footerLinks = staticFooterLinks,
+}: FooterProps) {
   return (
     <footer className="footer">
       <div className="footer-grid">
@@ -24,8 +37,12 @@ export function Footer() {
               className="dot-link"
               href={link.href}
               data-wipe
-              data-color={link.color}
-              style={{ "--card-color": link.color } as CardColorStyle}
+              data-color={link.color || getRouteAccent(link.href)}
+              style={
+                {
+                  "--card-color": link.color || getRouteAccent(link.href),
+                } as CardColorStyle
+              }
             >
               {link.label}
             </Link>

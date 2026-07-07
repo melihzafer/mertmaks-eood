@@ -1,14 +1,17 @@
+import { cache } from "react";
 import { accents, homePage as staticHomePage } from "@/data/redesign-content";
 import { contentTags, featuredPromotionsQuery, homePageQuery } from "@mertmaks/content/queries";
 import type { BrochureShareItem } from "@/lib/brochure";
 import { fetchSanity } from "@/lib/sanity/fetch";
 import { sanityImageUrl } from "@/lib/sanity/image";
 import { formatPrice } from "@/lib/utils";
+import type { SeoInput } from "@/lib/seo";
 
 export type HomePromotionModel = (typeof staticHomePage.promotions)[number] &
   BrochureShareItem;
 export type HomePageModel = Omit<typeof staticHomePage, "promotions"> & {
   promotions: HomePromotionModel[];
+  seo?: SeoInput;
 };
 
 interface SanityHomePage {
@@ -18,8 +21,14 @@ interface SanityHomePage {
   primaryCta?: { label?: string; href?: string };
   secondaryCta?: { label?: string; href?: string };
   stats?: HomePageModel["stats"];
+  divisionCards?: Array<{
+    title?: string;
+    description?: string;
+    icon?: string;
+  }>;
   ctaTitle?: string;
   ctaDescription?: string;
+  seo?: SeoInput;
 }
 
 interface SanityPromotion {
@@ -131,6 +140,23 @@ function mapStaticPromotion(
   };
 }
 
+function mapDivisionCards(cards?: SanityHomePage["divisionCards"]) {
+  if (!cards?.length) return staticHomePage.divisions;
+
+  return staticHomePage.divisions.map((fallback, index) => {
+    const card = cards[index];
+
+    if (!card) return fallback;
+
+    return {
+      ...fallback,
+      visual: card.icon ?? fallback.visual,
+      title: card.title ?? fallback.title,
+      description: card.description ?? fallback.description,
+    };
+  });
+}
+
 function mergeHomePage(
   page?: SanityHomePage | null,
   promotions?: SanityPromotion[] | null,
@@ -152,6 +178,7 @@ function mergeHomePage(
       },
     },
     stats: page?.stats?.length ? page.stats : staticHomePage.stats,
+    divisions: mapDivisionCards(page?.divisionCards),
     promotions: promotions?.length
       ? promotions.map(mapPromotion)
       : [],
@@ -160,10 +187,11 @@ function mergeHomePage(
       title: page?.ctaTitle ?? staticHomePage.cta.title,
       description: page?.ctaDescription ?? staticHomePage.cta.description,
     },
+    seo: page?.seo,
   };
 }
 
-export async function getHomePageModel(): Promise<HomePageModel> {
+export const getHomePageModel = cache(async (): Promise<HomePageModel> => {
   const today = new Date().toISOString().slice(0, 10);
   const [page, promotions] = await Promise.all([
     fetchSanity<SanityHomePage>(homePageQuery, {
@@ -176,4 +204,4 @@ export async function getHomePageModel(): Promise<HomePageModel> {
   ]);
 
   return mergeHomePage(page, promotions);
-}
+});

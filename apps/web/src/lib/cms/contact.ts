@@ -1,8 +1,10 @@
+import { cache } from "react";
 import { contactPage as staticContactPage, brand as staticBrand } from "@/data/redesign-content";
 import storesData from "@/data/stores.json";
 import type { Store } from "@/lib/stores";
 import { contactPageQuery, contentTags } from "@mertmaks/content/queries";
 import { fetchSanity } from "@/lib/sanity/fetch";
+import type { SeoInput } from "@/lib/seo";
 
 type StaticContactPage = typeof staticContactPage;
 type StaticBrand = typeof staticBrand;
@@ -14,6 +16,7 @@ interface SanityContactPage {
   topics?: string[];
   mapTitle?: string;
   mapDescription?: string;
+  seo?: SeoInput;
 }
 
 interface SanityStore {
@@ -34,6 +37,14 @@ interface SanityStore {
 }
 
 interface SanityContactPayload {
+  settings?: {
+    brandName?: string;
+    legalForm?: string;
+    tagline?: string;
+    footerText?: string;
+    location?: string;
+    hoursSummary?: string;
+  } | null;
   page?: SanityContactPage | null;
   stores?: SanityStore[] | null;
 }
@@ -41,7 +52,10 @@ interface SanityContactPayload {
 export interface ContactPageModel {
   brand: StaticBrand;
   contactPage: StaticContactPage;
+  mapTitle: string;
+  mapDescription: string;
   stores: Store[];
+  seo?: SeoInput;
 }
 
 const staticStores = storesData.stores as Store[];
@@ -107,7 +121,19 @@ function mergeContactPage(page?: SanityContactPage | null): StaticContactPage {
   };
 }
 
-export async function getContactPageModel(): Promise<ContactPageModel> {
+function mergeBrand(settings?: SanityContactPayload["settings"]): StaticBrand {
+  return {
+    ...staticBrand,
+    name: settings?.brandName ?? staticBrand.name,
+    legalForm: settings?.legalForm ?? staticBrand.legalForm,
+    tagline: settings?.tagline ?? staticBrand.tagline,
+    footerText: settings?.footerText ?? staticBrand.footerText,
+    location: settings?.location ?? staticBrand.location,
+    hours: settings?.hoursSummary ?? staticBrand.hours,
+  };
+}
+
+export const getContactPageModel = cache(async (): Promise<ContactPageModel> => {
   const payload = await fetchSanity<SanityContactPayload>(contactPageQuery, {
     tags: [contentTags.contact, contentTags.stores],
   });
@@ -117,8 +143,13 @@ export async function getContactPageModel(): Promise<ContactPageModel> {
     .filter((store): store is Store => Boolean(store));
 
   return {
-    brand: staticBrand,
+    brand: mergeBrand(payload?.settings),
     contactPage: mergeContactPage(payload?.page),
+    mapTitle: payload?.page?.mapTitle ?? "с. Самуил, област Разград",
+    mapDescription:
+      payload?.page?.mapDescription ??
+      "Централна точка за ежедневни покупки, ремонтни материали, домашни потреби и топла храна.",
     stores: mergeStores(cmsStores),
+    seo: payload?.page?.seo,
   };
-}
+});

@@ -117,7 +117,7 @@ export function HomePageClient({ homePage }: HomePageClientProps) {
           <div className="container">
             <div className="promo-toolbar">
               <div>
-                <div className="eyebrow">Live promotions</div>
+                <div className="eyebrow">Актуални оферти</div>
                 <h2>Акценти тази седмица</h2>
               </div>
               <div className="filter-row" data-filter-group>

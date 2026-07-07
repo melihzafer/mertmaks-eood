@@ -69,6 +69,13 @@ export const seo = defineType({
       title: "Социална снимка",
       type: "imageWithAlt",
     }),
+    defineField({
+      name: "noIndex",
+      title: "Скрий от търсачки (noindex)",
+      type: "boolean",
+      initialValue: false,
+      description: "Включете, за да изключите страницата от индексиране в Google.",
+    }),
   ],
 });
 
@@ -510,6 +517,147 @@ export const faq = defineType({
   ],
 });
 
+export const storeArticle = defineType({
+  name: "storeArticle",
+  title: "Статия / новина",
+  type: "document",
+  fields: [
+    defineField({ name: "title", title: "Заглавие", type: "string", validation: requiredString }),
+    defineField({ name: "slug", title: "Slug", type: "slug", options: { source: "title" } }),
+    defineField({ name: "excerpt", title: "Кратко описание", type: "text", rows: 3 }),
+    defineField({
+      name: "body",
+      title: "Съдържание",
+      type: "array",
+      of: [{ type: "block" }],
+    }),
+    defineField({
+      name: "store",
+      title: "Обект",
+      type: "reference",
+      to: [{ type: "store" }],
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({ name: "image", title: "Снимка", type: "imageWithAlt" }),
+    defineField({ name: "publishedAt", title: "Публикувана на", type: "datetime" }),
+    defineField({ name: "visible", title: "Видима", type: "boolean", initialValue: true }),
+  ],
+  preview: {
+    select: { title: "title", subtitle: "store.name", media: "image" },
+  },
+});
+
+export const newsletterSubscriber = defineType({
+  name: "newsletterSubscriber",
+  title: "Абонат за бюлетин",
+  type: "document",
+  fields: [
+    defineField({ name: "email", title: "Имейл", type: "string", validation: requiredString }),
+    defineField({
+      name: "store",
+      title: "Интерес",
+      type: "string",
+      options: {
+        list: [
+          { title: "Всички обекти", value: "all" },
+          { title: "Супермаркет", value: "supermarket" },
+          { title: "Домашни потреби", value: "industrial" },
+          { title: "Строителство", value: "construction" },
+        ],
+      },
+      initialValue: "all",
+    }),
+    defineField({ name: "subscribedAt", title: "Абониран на", type: "datetime" }),
+    defineField({ name: "active", title: "Активен", type: "boolean", initialValue: true }),
+    defineField({ name: "source", title: "Източник", type: "string", initialValue: "website" }),
+  ],
+  preview: {
+    select: { title: "email", subtitle: "store" },
+  },
+});
+
+export const contactSubmission = defineType({
+  name: "contactSubmission",
+  title: "Контактно съобщение",
+  type: "document",
+  fields: [
+    defineField({ name: "name", title: "Име", type: "string", validation: requiredString }),
+    defineField({ name: "email", title: "Имейл", type: "string" }),
+    defineField({ name: "phone", title: "Телефон", type: "string", validation: optionalPhone }),
+    defineField({ name: "store", title: "Обект", type: "string" }),
+    defineField({ name: "topic", title: "Тема", type: "string" }),
+    defineField({ name: "message", title: "Съобщение", type: "text", rows: 5 }),
+    defineField({
+      name: "status",
+      title: "Статус",
+      type: "string",
+      options: {
+        list: [
+          { title: "Ново", value: "new" },
+          { title: "В обработка", value: "inProgress" },
+          { title: "Приключено", value: "resolved" },
+        ],
+      },
+      initialValue: "new",
+    }),
+    defineField({ name: "submittedAt", title: "Получено на", type: "datetime" }),
+    defineField({ name: "source", title: "Източник", type: "string", initialValue: "website" }),
+    defineField({ name: "path", title: "Страница", type: "string" }),
+    defineField({ name: "userAgent", title: "Браузър", type: "string" }),
+  ],
+  preview: {
+    select: { title: "name", subtitle: "submittedAt" },
+  },
+});
+
+export const feedbackSubmission = defineType({
+  name: "feedbackSubmission",
+  title: "Обратна връзка",
+  type: "document",
+  fields: [
+    defineField({ name: "rating", title: "Оценка", type: "number", validation: (Rule) => Rule.required().min(1).max(5) }),
+    defineField({
+      name: "category",
+      title: "Категория",
+      type: "string",
+      options: {
+        list: [
+          { title: "Обслужване", value: "service" },
+          { title: "Продукти", value: "products" },
+          { title: "Уебсайт", value: "website" },
+          { title: "Друго", value: "other" },
+        ],
+      },
+    }),
+    defineField({ name: "comment", title: "Коментар", type: "text", rows: 4 }),
+    defineField({
+      name: "status",
+      title: "Статус",
+      type: "string",
+      options: {
+        list: [
+          { title: "Ново", value: "new" },
+          { title: "Прегледано", value: "reviewed" },
+        ],
+      },
+      initialValue: "new",
+    }),
+    defineField({ name: "submittedAt", title: "Получено на", type: "datetime" }),
+    defineField({ name: "source", title: "Източник", type: "string", initialValue: "website" }),
+    defineField({ name: "path", title: "Страница", type: "string" }),
+    defineField({ name: "userAgent", title: "Браузър", type: "string" }),
+  ],
+  preview: {
+    select: { rating: "rating", category: "category", submittedAt: "submittedAt" },
+    prepare({ rating, category, submittedAt }) {
+      return {
+        title: `${rating ?? "-"} / 5`,
+        subtitle: [category, submittedAt].filter(Boolean).join(" | "),
+      };
+    },
+  },
+});
+
 export const schemaTypes = [
   link,
   seo,
@@ -530,4 +678,8 @@ export const schemaTypes = [
   contactPage,
   restaurantPage,
   faq,
+  storeArticle,
+  newsletterSubscriber,
+  contactSubmission,
+  feedbackSubmission,
 ];

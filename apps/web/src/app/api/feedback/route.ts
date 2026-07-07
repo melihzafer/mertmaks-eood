@@ -2,6 +2,10 @@ import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 import { z } from "zod";
 import { escapeHtml } from "@/lib/html";
+import {
+  canWriteSanity,
+  saveFeedbackSubmission,
+} from "@/lib/sanity/submissions";
 
 const resend = process.env.RESEND_API_KEY
   ? new Resend(process.env.RESEND_API_KEY)
@@ -47,6 +51,17 @@ function checkRateLimit(ip: string) {
   return true;
 }
 
+function getSourcePath(request: NextRequest) {
+  const referer = request.headers.get("referer");
+  if (!referer) return undefined;
+
+  try {
+    return new URL(referer).pathname;
+  } catch {
+    return undefined;
+  }
+}
+
 export async function POST(request: NextRequest) {
   try {
     const ip = request.headers.get("x-forwarded-for") || "unknown";
@@ -60,19 +75,50 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const body = await request.json();
+    let body: unknown;
+    try {
+      body = await request.json();
+    } catch {
+      return NextResponse.json(
+        { success: false, error: "Невалиден JSON payload." },
+        { status: 400 },
+      );
+    }
+
     const validatedData = feedbackSchema.parse(body);
     const safeComment = validatedData.comment
       ? escapeHtml(validatedData.comment)
       : undefined;
     const safeIp = escapeHtml(ip);
 
-    // If no Resend API key, just log to console
-    if (!resend) {
-      console.log(
-        "Feedback submission (no email sent - missing RESEND_API_KEY):",
-        validatedData
+    if (canWriteSanity()) {
+      try {
+        await saveFeedbackSubmission({
+          ...validatedData,
+          path: getSourcePath(request),
+          userAgent: request.headers.get("user-agent") ?? undefined,
+        });
+      } catch (error) {
+        console.error("Sanity feedback submission write failed.", error);
+        return NextResponse.json(
+          {
+            success: false,
+            error: "Грешка при записване. Моля, опитайте отново.",
+          },
+          { status: 500 },
+        );
+      }
+    } else if (!resend && process.env.NODE_ENV === "production") {
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Формата не е конфигурирана за запис.",
+        },
+        { status: 503 },
       );
+    }
+
+    if (!resend) {
       return NextResponse.json({
         success: true,
         message: "Благодарим ви за обратната връзка!",
@@ -126,7 +172,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    console.log("Feedback submission sent via email:", data);
+    console.log("Feedback submission notification sent.", { id: data?.id });
 
     return NextResponse.json({
       success: true,

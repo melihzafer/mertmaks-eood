@@ -15,6 +15,10 @@ apps/web/src/styles/utilities/compiled.css
 .env.local
 .env*.local
 
+# Playwright
+playwright-report
+test-results
+
 # IDE
 .vscode/*
 !.vscode/settings.json

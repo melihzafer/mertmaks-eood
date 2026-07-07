@@ -24,4 +24,8 @@ This directory should contain the following PWA icons:
 4. Place files in `/public/` directory
 
 ## Current Status
-⚠️ **Placeholder icons needed** - Generate branded icons before production deployment
+✅ **Branded icons generated** - Branded icons generated dynamically from `mmaks-short.svg` using Playwright rendering and Pillow packaging.
+- `/public/favicon.ico`: Multi-resolution favicon (16x16, 32x32, 48x48)
+- `/public/icons/mmaks-short.svg`: Theme-aware SVG favicon supporting light (#E53E3E) and dark (#F7F5F2) modes
+- `/public/icons/icon-192x192.png`: 192x192px app icon
+- `/public/icons/icon-512x512.png`: 512x512px app icon

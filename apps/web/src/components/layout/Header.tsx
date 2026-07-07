@@ -7,13 +7,13 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ChevronDown, Menu, Search, X } from "lucide-react";
 import Fuse from "fuse.js";
 import {
-  brand,
-  mobileLinks,
-  searchLinks,
+  mobileLinks as staticMobileLinks,
+  searchLinks as staticSearchLinks,
   searchPanelCopy,
-  storesMenuLinks,
+  storesMenuLinks as staticStoresMenuLinks,
 } from "@/data/redesign-content";
 import { flatSearchData } from "@/data/search-data";
+import type { LayoutLink } from "@/lib/cms/layout";
 import type { SearchItem } from "@/lib/cms/search";
 import { getRouteAccent } from "@/lib/route-accent";
 import { Logo } from "@/components/layout/Logo";
@@ -31,12 +31,27 @@ function isModifiedClick(event: MouseEvent | ReactMouseEvent) {
 }
 
 const STORE_ROUTES = ["/supermarket", "/industrial", "/construction", "/restaurant"];
+const DEFAULT_MAIN_LINKS: LayoutLink[] = [
+  { href: "/", label: "Начало" },
+  { href: "/samuil-hub", label: "За нас" },
+  { href: "/contact", label: "Контакти" },
+];
 
 interface HeaderProps {
   searchItems?: SearchItem[];
+  mainLinks?: LayoutLink[];
+  mobileLinks?: LayoutLink[];
+  storeLinks?: LayoutLink[];
+  searchLinks?: LayoutLink[];
 }
 
-export function Header({ searchItems = flatSearchData }: HeaderProps) {
+export function Header({
+  searchItems = flatSearchData,
+  mainLinks = DEFAULT_MAIN_LINKS,
+  mobileLinks = staticMobileLinks,
+  storeLinks = staticStoresMenuLinks,
+  searchLinks = staticSearchLinks,
+}: HeaderProps) {
   const pathname = usePathname();
   const router = useRouter();
   const [isScrolled, setIsScrolled] = useState(false);
@@ -54,39 +69,30 @@ export function Header({ searchItems = flatSearchData }: HeaderProps) {
   const accentStyle: AccentStyle = { "--theme-accent": accent };
 
   const isStoresActive = STORE_ROUTES.some((route) => pathname.startsWith(route));
+  const homeLink =
+    mainLinks.find((link) => link.href === "/") ?? DEFAULT_MAIN_LINKS[0];
+  const navLinks = mainLinks.filter(
+    (link) => link.href !== "/" && !STORE_ROUTES.includes(link.href),
+  );
 
-  const navLinks = [
-    { href: "/", label: "Начало", active: pathname === "/" },
-    {
-      href: "/samuil-hub",
-      label: "За нас",
-      active:
-        pathname.startsWith("/samuil-hub") || pathname.startsWith("/about"),
-    },
-    {
-      href: "/contact",
-      label: "Контакти",
-      active: pathname.startsWith("/contact"),
-    },
-  ];
-
-  const fuse = useRef<Fuse<SearchItem> | null>(null);
-  if (fuse.current === null) {
-    fuse.current = new Fuse<SearchItem>(searchItems, {
+  const fuse = useMemo(
+    () =>
+      new Fuse<SearchItem>(searchItems, {
       keys: ["name", "keywords", "category"],
       threshold: 0.4,
       includeScore: true,
-    });
-  }
+    }),
+    [searchItems],
+  );
 
   const searchResults = useMemo<SearchItem[]>(() => {
     const q = searchQuery.trim();
-    if (q.length < 2 || !fuse.current) return [];
-    return fuse.current
+    if (q.length < 2) return [];
+    return fuse
       .search(q)
       .slice(0, 8)
       .map((r) => r.item);
-  }, [searchQuery]);
+  }, [fuse, searchQuery]);
 
   const runWipe = useCallback(
     (href: string, color = accent) => {
@@ -209,7 +215,6 @@ export function Header({ searchItems = flatSearchData }: HeaderProps) {
       window.clearTimeout(timer);
       document.removeEventListener("keydown", onKey);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSearchOpen]);
 
   const handleSearchSubmit = (event: FormEvent) => {
@@ -219,6 +224,9 @@ export function Header({ searchItems = flatSearchData }: HeaderProps) {
       runWipe(first.link, getRouteAccent(first.link));
     }
   };
+
+  const isActiveLink = (href: string) =>
+    href === "/" ? pathname === "/" : pathname.startsWith(href);
 
   return (
     <>
@@ -245,12 +253,12 @@ export function Header({ searchItems = flatSearchData }: HeaderProps) {
 
           <nav className="nav-links" aria-label="Основна навигация">
             <Link
-              className={pathname === "/" ? "active" : undefined}
-              href="/"
+              className={isActiveLink(homeLink.href) ? "active" : undefined}
+              href={homeLink.href}
               data-wipe
-              data-color={getRouteAccent("/")}
+              data-color={homeLink.color || getRouteAccent(homeLink.href)}
             >
-              Начало
+              {homeLink.label}
             </Link>
 
             <div
@@ -272,15 +280,19 @@ export function Header({ searchItems = flatSearchData }: HeaderProps) {
                 role="menu"
                 aria-hidden={!isStoresOpen}
               >
-                {storesMenuLinks.map((link) => (
+                {storeLinks.map((link) => (
                   <Link
                     key={link.href}
                     role="menuitem"
                     href={link.href}
                     className="nav-dropdown-item"
                     data-wipe
-                    data-color={link.color}
-                    style={{ "--card-color": link.color } as CardColorStyle}
+                    data-color={link.color || getRouteAccent(link.href)}
+                    style={
+                      {
+                        "--card-color": link.color || getRouteAccent(link.href),
+                      } as CardColorStyle
+                    }
                     onClick={() => setIsStoresOpen(false)}
                   >
                     <span className="nav-dropdown-dot" aria-hidden="true" />
@@ -293,13 +305,13 @@ export function Header({ searchItems = flatSearchData }: HeaderProps) {
               </div>
             </div>
 
-            {navLinks.slice(1).map((link) => (
+            {navLinks.map((link) => (
               <Link
                 key={link.href}
-                className={link.active ? "active" : undefined}
+                className={isActiveLink(link.href) ? "active" : undefined}
                 href={link.href}
                 data-wipe
-                data-color={getRouteAccent(link.href)}
+                data-color={link.color || getRouteAccent(link.href)}
               >
                 {link.label}
               </Link>
@@ -359,7 +371,7 @@ export function Header({ searchItems = flatSearchData }: HeaderProps) {
               key={link.href}
               href={link.href}
               data-wipe
-              data-color={getRouteAccent(link.href)}
+              data-color={link.color || getRouteAccent(link.href)}
             >
               {link.label}
             </Link>
@@ -427,7 +439,7 @@ export function Header({ searchItems = flatSearchData }: HeaderProps) {
                   key={link.href}
                   href={link.href}
                   data-wipe
-                  data-color={getRouteAccent(link.href)}
+                  data-color={link.color || getRouteAccent(link.href)}
                 >
                   {link.label}
                 </Link>

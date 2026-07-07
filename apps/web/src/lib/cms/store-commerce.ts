@@ -1,3 +1,4 @@
+import { cache } from "react";
 import commerceData from "@/data/store-commerce.json";
 import { accents } from "@/data/redesign-content";
 import { getStore, getStoreTodayIsoDate, type Store } from "@/lib/stores";
@@ -240,44 +241,44 @@ function staticProductsForStore(slug: StoreSlug, store: Store): BrochureShareIte
     .map((product) => mapStaticProduct(product, store));
 }
 
-export async function getStoreCommerceModel(
-  slug: StoreSlug,
-): Promise<StoreCommerceModel> {
-  const today = getStoreTodayIsoDate();
-  const data = await fetchSanity<SanityStoreCommerceResponse>(storeCommercePageQuery, {
-    params: { slug, today },
-    tags: [
-      contentTags.stores,
-      contentTags.divisions,
-      contentTags.promotions,
-      contentTags.products,
-      contentTags.faqs,
-    ],
-  });
+export const getStoreCommerceModel = cache(
+  async (slug: StoreSlug): Promise<StoreCommerceModel> => {
+    const today = getStoreTodayIsoDate();
+    const data = await fetchSanity<SanityStoreCommerceResponse>(storeCommercePageQuery, {
+      params: { slug, today },
+      tags: [
+        contentTags.stores,
+        contentTags.divisions,
+        contentTags.promotions,
+        contentTags.products,
+        contentTags.faqs,
+      ],
+    });
 
-  const store = mapStore(slug, data?.store);
-  const promotions =
-    data?.promotions?.map((promotion, index) =>
-      mapCmsItem(promotion, store, "promotion", index),
-    ) ?? [];
-  const cmsProducts =
-    data?.products?.map((product, index) => mapCmsItem(product, store, "product", index)) ??
-    [];
-  const products = cmsProducts.length ? cmsProducts : staticProductsForStore(slug, store);
-  const faqs = data?.faqs?.length ? data.faqs.map(mapFaq) : staticFaqs(slug);
+    const store = mapStore(slug, data?.store);
+    const promotions =
+      data?.promotions?.map((promotion, index) =>
+        mapCmsItem(promotion, store, "promotion", index),
+      ) ?? [];
+    const cmsProducts =
+      data?.products?.map((product, index) => mapCmsItem(product, store, "product", index)) ??
+      [];
+    const products = cmsProducts.length ? cmsProducts : staticProductsForStore(slug, store);
+    const faqs = data?.faqs?.length ? data.faqs.map(mapFaq) : staticFaqs(slug);
 
-  return {
-    store,
-    promotions,
-    products,
-    faqs,
-  };
-}
+    return {
+      store,
+      promotions,
+      products,
+      faqs,
+    };
+  },
+);
 
-export async function getFaqItems(): Promise<FAQItem[]> {
+export const getFaqItems = cache(async (): Promise<FAQItem[]> => {
   const faqs = await fetchSanity<SanityFaq[]>(faqQuery, {
     tags: [contentTags.faqs],
   });
 
   return faqs?.length ? faqs.map(mapFaq) : staticFaqs();
-}
+});

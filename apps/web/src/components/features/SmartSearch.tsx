@@ -108,7 +108,7 @@ export function SmartSearch() {
                 type="text"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="Търсете продукти, магазини, FAQ..."
+                placeholder="Търсете продукти, магазини, ЧЗВ..."
                 className="flex-1 outline-none text-lg"
               />
               {query && (

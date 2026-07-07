@@ -72,9 +72,9 @@ export function WebARButton({
         <span className="floating-ar-trigger-icon" aria-hidden="true">
           <Scan size={18} />
         </span>
-        <span>3D VIEW</span>
+        <span>3D ПРЕГЛЕД</span>
       </motion.button>
-
+ 
       {isARActive && (
         <div className="fixed inset-0 z-50 bg-black">
           <button
@@ -100,7 +100,7 @@ export function WebARButton({
               style={{ width: "100%", height: "100%" }}
             >
               <div slot="ar-button" className="absolute bottom-8 left-1/2 -translate-x-1/2 bg-white text-black px-6 py-3 rounded-full font-bold shadow-lg cursor-pointer">
-                👋 View in your space
+                👋 Виж в твоя дом
               </div>
             </model-viewer>
           </div>

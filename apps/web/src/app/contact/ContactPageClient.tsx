@@ -22,10 +22,11 @@ type CardColorStyle = CSSProperties & {
   "--card-color"?: string;
 };
 
-type FormField = "name" | "phone" | "topic" | "message";
+type FormField = "name" | "email" | "phone" | "topic" | "message";
 
 const initialForm = {
   name: "",
+  email: "",
   phone: "",
   topic: "",
   message: "",
@@ -38,20 +39,31 @@ interface ContactPageClientProps extends ContactPageModel {
 export function ContactPageClient({
   brand,
   contactPage,
+  mapTitle,
+  mapDescription,
   stores,
 }: ContactPageClientProps) {
   const [form, setForm] = useState(initialForm);
   const [invalidField, setInvalidField] = useState<FormField | null>(null);
   const [message, setMessage] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const updateField = (field: FormField, value: string) => {
     setForm((current) => ({ ...current, [field]: value }));
     if (invalidField === field) setInvalidField(null);
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const requiredFields: FormField[] = ["name", "phone", "topic", "message"];
+    if (isSubmitting) return;
+
+    const requiredFields: FormField[] = [
+      "name",
+      "email",
+      "phone",
+      "topic",
+      "message",
+    ];
     const firstInvalid = requiredFields.find((field) => !form[field].trim());
 
     if (firstInvalid) {
@@ -62,8 +74,32 @@ export function ContactPageClient({
     }
 
     setInvalidField(null);
-    setMessage("Съобщението е подготвено за изпращане.");
-    setForm(initialForm);
+    setIsSubmitting(true);
+    setMessage("");
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      const payload = await response.json();
+
+      if (!response.ok) {
+        throw new Error(payload.error || "Възникна грешка.");
+      }
+
+      setMessage(payload.message || "Съобщението е изпратено успешно.");
+      setForm(initialForm);
+    } catch (error) {
+      setMessage(
+        error instanceof Error
+          ? error.message
+          : "Възникна грешка. Моля, опитайте отново.",
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -130,11 +166,8 @@ export function ContactPageClient({
           >
             <div className="map-content stack">
               <div className="eyebrow">Локация</div>
-              <h2>с. Самуил, област Разград</h2>
-              <p>
-                Централна точка за ежедневни покупки, ремонтни материали,
-                домашни потреби и топла храна.
-              </p>
+              <h2>{mapTitle}</h2>
+              <p>{mapDescription}</p>
             </div>
             <div className="leaflet-frame">
               <LeafletMap stores={stores} height="100%" />
@@ -212,6 +245,20 @@ export function ContactPageClient({
               </div>
 
               <div className="field">
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  autoComplete="email"
+                  required
+                  value={form.email}
+                  aria-invalid={invalidField === "email" ? "true" : undefined}
+                  onChange={(event) => updateField("email", event.target.value)}
+                />
+                <label htmlFor="email">Имейл</label>
+              </div>
+
+              <div className="field">
                 <select
                   id="topic"
                   name="topic"
@@ -242,8 +289,8 @@ export function ContactPageClient({
                 <label htmlFor="message">Съобщение</label>
               </div>
 
-              <button className="btn color" type="submit">
-                Подгответе съобщение
+              <button className="btn color" type="submit" disabled={isSubmitting}>
+                {isSubmitting ? "Изпращане..." : "Изпратете съобщение"}
               </button>
               <p className="form-message" aria-live="polite">
                 {message}

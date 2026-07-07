@@ -2,6 +2,10 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { promises as fs } from "fs";
 import path from "path";
+import {
+  canWriteSanity,
+  upsertNewsletterSubscriber,
+} from "@/lib/sanity/submissions";
 
 const subscribeSchema = z.object({
   email: z.string().email("Невалиден имейл адрес"),
@@ -41,13 +45,58 @@ async function saveSubscribers(subscribers: Subscriber[]): Promise<void> {
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
+    let body: unknown;
+    try {
+      body = await request.json();
+    } catch {
+      return NextResponse.json(
+        { success: false, error: "Невалиден JSON payload." },
+        { status: 400 },
+      );
+    }
+
     const validatedData = subscribeSchema.parse(body);
+    const email = validatedData.email.toLowerCase();
+
+    if (canWriteSanity()) {
+      try {
+        const result = await upsertNewsletterSubscriber({
+          email,
+          store: validatedData.store,
+        });
+
+        if (result?.status === "exists") {
+          return NextResponse.json(
+            { success: false, error: "Този имейл вече е абониран." },
+            { status: 409 },
+          );
+        }
+
+        return NextResponse.json({
+          success: true,
+          message: "Благодарим! Абонирахте се успешно.",
+        });
+      } catch (error) {
+        console.error("Sanity newsletter subscribe write failed.", error);
+        return NextResponse.json(
+          { success: false, error: "Грешка при записване. Моля, опитайте отново." },
+          { status: 500 },
+        );
+      }
+    } else if (process.env.NODE_ENV === "production") {
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Абонаментите не са конфигурирани. Моля, опитайте по-късно.",
+        },
+        { status: 503 },
+      );
+    }
 
     const subscribers = await getSubscribers();
 
     const exists = subscribers.some(
-      (s) => s.email.toLowerCase() === validatedData.email.toLowerCase() && s.active
+      (s) => s.email.toLowerCase() === email && s.active
     );
 
     if (exists) {
@@ -58,7 +107,7 @@ export async function POST(request: NextRequest) {
     }
 
     const newSubscriber: Subscriber = {
-      email: validatedData.email.toLowerCase(),
+      email,
       store: validatedData.store,
       subscribedAt: new Date().toISOString(),
       active: true,

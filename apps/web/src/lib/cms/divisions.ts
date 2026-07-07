@@ -1,9 +1,13 @@
+import { cache } from "react";
 import type { DivisionPageKey } from "@/data/redesign-content";
 import { divisionPages } from "@/data/redesign-content";
 import { divisionPageByStoreQuery, contentTags } from "@mertmaks/content/queries";
 import { fetchSanity } from "@/lib/sanity/fetch";
+import type { SeoInput } from "@/lib/seo";
 
-export type DivisionPageModel = (typeof divisionPages)[DivisionPageKey];
+export type DivisionPageModel = (typeof divisionPages)[DivisionPageKey] & {
+  seo?: SeoInput;
+};
 
 interface SanityDivisionPage {
   heroIndex?: string;
@@ -23,6 +27,7 @@ interface SanityDivisionPage {
     title?: string;
     description?: string;
   }>;
+  seo?: SeoInput;
 }
 
 function mapSanityDivisionPage(
@@ -71,16 +76,17 @@ function mapSanityDivisionPage(
               feature.description ?? fallback.features[index]?.description ?? "",
           }))
         : fallback.features,
+    seo: page.seo,
   } as DivisionPageModel;
 }
 
-export async function getDivisionPageModel(
-  key: DivisionPageKey,
-): Promise<DivisionPageModel> {
-  const page = await fetchSanity<SanityDivisionPage>(divisionPageByStoreQuery, {
-    params: { slug: key },
-    tags: [contentTags.divisions, `division:${key}`],
-  });
+export const getDivisionPageModel = cache(
+  async (key: DivisionPageKey): Promise<DivisionPageModel> => {
+    const page = await fetchSanity<SanityDivisionPage>(divisionPageByStoreQuery, {
+      params: { slug: key },
+      tags: [contentTags.divisions, `division:${key}`],
+    });
 
-  return mapSanityDivisionPage(key, page);
-}
+    return mapSanityDivisionPage(key, page);
+  },
+);

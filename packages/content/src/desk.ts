@@ -57,4 +57,9 @@ export const structure: StructureResolver = (S) =>
         ),
       S.documentTypeListItem("navigationItem").title("Навигация"),
       S.documentTypeListItem("faq").title("FAQ"),
+      S.documentTypeListItem("storeArticle").title("Статии / новини"),
+      S.divider(),
+      S.documentTypeListItem("contactSubmission").title("Контактни съобщения"),
+      S.documentTypeListItem("feedbackSubmission").title("Обратна връзка"),
+      S.documentTypeListItem("newsletterSubscriber").title("Абонати за бюлетин"),
     ]);

@@ -4,6 +4,7 @@ import { promises as fs } from "fs";
 import path from "path";
 import { getWeeklyPromotions } from "@/lib/cms/weekly-promotions";
 import { renderWeeklyEmailHtml } from "@/lib/email/weekly-template";
+import { getSanityNewsletterSubscribers } from "@/lib/sanity/submissions";
 
 const resend = process.env.RESEND_API_KEY
   ? new Resend(process.env.RESEND_API_KEY)
@@ -24,6 +25,9 @@ const subscribersPath = path.join(
 );
 
 async function getSubscribers(): Promise<Subscriber[]> {
+  const sanitySubscribers = await getSanityNewsletterSubscribers();
+  if (sanitySubscribers) return sanitySubscribers;
+
   try {
     const data = await fs.readFile(subscribersPath, "utf-8");
     return JSON.parse(data).subscribers ?? [];

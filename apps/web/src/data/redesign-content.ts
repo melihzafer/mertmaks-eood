@@ -61,7 +61,7 @@ export const mobileLinks = [
   { href: "/industrial", label: "Домашни" },
   { href: "/construction", label: "Строителство" },
   { href: "/restaurant", label: "Ресторант" },
-  { href: "/faq", label: "FAQ" },
+  { href: "/faq", label: "ЧЗВ" },
   { href: "/contact", label: "Контакти" },
 ];
 
@@ -70,7 +70,7 @@ export const footerLinks = [
   { href: "/industrial", label: "Домашни потреби", color: accents.industrial },
   { href: "/construction", label: "Строителство", color: accents.construction },
   { href: "/restaurant", label: "Ресторант", color: accents.restaurant },
-  { href: "/faq", label: "FAQ", color: accents.supermarket },
+  { href: "/faq", label: "ЧЗВ", color: accents.supermarket },
 ];
 
 export const homePage = {
