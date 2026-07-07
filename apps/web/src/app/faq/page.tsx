@@ -1,7 +1,9 @@
+import type { CSSProperties } from "react";
 import type { Metadata } from "next";
 import { FAQSection } from "@/components/features/FAQSection";
 import { getFaqItems } from "@/lib/cms/store-commerce";
 import { buildMetadata, faqPageJsonLd } from "@/lib/seo";
+import { accents } from "@/data/redesign-content";
 
 export function generateMetadata(): Metadata {
   return buildMetadata({
@@ -16,7 +18,9 @@ export default async function FAQPage() {
   const faqs = await getFaqItems();
 
   return (
-    <main>
+    <main
+      style={{ "--theme-accent": accents.supermarketAccent } as CSSProperties}
+    >
       <script
         type="application/ld+json"
         suppressHydrationWarning
@@ -28,11 +32,11 @@ export default async function FAQPage() {
       />
       <section className="division-hero">
         <div className="container">
-          <div className="eyebrow" style={{ color: "#F7F5F2" }}>
+          <div className="eyebrow" style={{ color: "var(--surface)" }}>
             ЧЗВ
           </div>
-          <h1 style={{ color: "#F7F5F2" }}>Често задавани въпроси</h1>
-          <p style={{ color: "#F7F5F2" }}>
+          <h1 style={{ color: "var(--surface)" }}>Често задавани въпроси</h1>
+          <p style={{ color: "var(--surface)" }}>
             Отговори за работно време, телефони, промоции, споделяне и поръчки.
           </p>
         </div>

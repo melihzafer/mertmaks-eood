@@ -33,7 +33,7 @@ function isModifiedClick(event: MouseEvent | ReactMouseEvent) {
 const STORE_ROUTES = ["/supermarket", "/industrial", "/construction", "/restaurant"];
 const DEFAULT_MAIN_LINKS: LayoutLink[] = [
   { href: "/", label: "Начало" },
-  { href: "/samuil-hub", label: "За нас" },
+  { href: "/about", label: "За нас" },
   { href: "/contact", label: "Контакти" },
 ];
 
@@ -101,9 +101,10 @@ export function Header({
       setIsStoresOpen(false);
       setWipeColor(color);
       setIsWiping(false);
+      window.scrollTo(0, 0);
       requestAnimationFrame(() => setIsWiping(true));
-      window.setTimeout(() => router.push(href), 310);
-      window.setTimeout(() => setIsWiping(false), 680);
+      window.setTimeout(() => router.push(href), 260);
+      window.setTimeout(() => setIsWiping(false), 640);
     },
     [accent, router],
   );
@@ -154,12 +155,13 @@ export function Header({
 
   useEffect(() => {
     const counters = document.querySelectorAll<HTMLElement>("[data-count]");
-
-    counters.forEach((counter) => {
-      const target = Number(counter.dataset.count || 0);
-      const suffix = counter.dataset.suffix || "";
-      counter.textContent = `${target}${suffix}`;
-    });
+    if (counters.length) {
+      counters.forEach((counter) => {
+        const target = Number(counter.dataset.count || 0);
+        const suffix = counter.dataset.suffix || "";
+        counter.textContent = `${target}${suffix}`;
+      });
+    }
 
     const revealObserver = new IntersectionObserver(
       (entries) => {

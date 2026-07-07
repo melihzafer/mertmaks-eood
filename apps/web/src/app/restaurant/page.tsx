@@ -61,11 +61,13 @@ export default async function RestaurantPage() {
           />
         )}
         <div className="container">
-          <div className="eyebrow" style={{ color: "#F7F5F2" }}>
+          <div className="eyebrow" style={{ color: "var(--surface)" }}>
             {restaurantPage.heroIndex}
           </div>
-          <h1 style={{ color: "#F7F5F2" }}>{restaurantPage.title}</h1>
-          <p style={{ color: "#F7F5F2" }}>{restaurantPage.description}</p>
+          <h1 style={{ color: "var(--surface)" }}>{restaurantPage.title}</h1>
+          <p style={{ color: "var(--muted-on-dark)" }}>
+            {restaurantPage.description}
+          </p>
           {actionLinks.length > 0 && (
             <div className="cluster">
               {actionLinks.map((link, index) => (

@@ -31,7 +31,7 @@ type FeedbackStyle = CSSProperties & {
   "--theme-accent"?: string;
 };
 
-const WIDGET_SHOW_DELAY_MS = 1500;
+const WIDGET_SHOW_DELAY_MS = 3000;
 const SUCCESS_DISPLAY_MS = 2000;
 const RESET_DELAY_MS = 300;
 
