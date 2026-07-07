@@ -1,0 +1,210 @@
+{
+  "products": [
+    {
+      "id": "supermarket-fresh-produce",
+      "store": "supermarket",
+      "title": "Сезонни плодове и зеленчуци",
+      "description": "Свежи продукти за ежедневното пазаруване, с избор според сезона.",
+      "category": "Хранителни стоки",
+      "offerLabel": "ежедневно",
+      "keywords": ["плодове", "зеленчуци", "свежо", "сезонно"],
+      "featured": true,
+      "visible": true,
+      "imageUrl": "/images/products/fruits_veg.png"
+    },
+    {
+      "id": "supermarket-dairy-basics",
+      "store": "supermarket",
+      "title": "Мляко, сирена и кашкавал",
+      "description": "Основни млечни продукти за дома, зареждани редовно.",
+      "category": "Млечни продукти",
+      "offerLabel": "семейна кошница",
+      "keywords": ["мляко", "сирене", "кашкавал", "млечни"],
+      "featured": true,
+      "visible": true,
+      "imageUrl": "/images/products/dairy.png"
+    },
+    {
+      "id": "supermarket-drinks",
+      "store": "supermarket",
+      "title": "Напитки за дома и гости",
+      "description": "Безалкохолни напитки, вода, кафе и познати марки за всеки ден.",
+      "category": "Напитки",
+      "offerLabel": "седмичен избор",
+      "keywords": ["напитки", "вода", "кафе", "безалкохолни"],
+      "featured": true,
+      "visible": true,
+      "imageUrl": "/images/products/beverages.png"
+    },
+    {
+      "id": "industrial-kitchenware",
+      "store": "industrial",
+      "title": "Посуда за кухнята",
+      "description": "Чаши, чинии, прибори и дребни неща, които често трябват у дома.",
+      "category": "Кухня и посуда",
+      "offerLabel": "за дома",
+      "keywords": ["посуда", "чаши", "чинии", "прибори"],
+      "featured": true,
+      "visible": true,
+      "imageUrl": "/images/products/kitchenware.png"
+    },
+    {
+      "id": "industrial-home-textile",
+      "store": "industrial",
+      "title": "Текстил за дома",
+      "description": "Кърпи, спално бельо и домашен текстил за ежедневна употреба.",
+      "category": "Текстил",
+      "offerLabel": "практично",
+      "keywords": ["кърпи", "бельо", "текстил", "дом"],
+      "featured": true,
+      "visible": true,
+      "imageUrl": "/images/products/textiles.png"
+    },
+    {
+      "id": "industrial-cosmetics",
+      "store": "industrial",
+      "title": "Козметика и хигиена",
+      "description": "Продукти за лична грижа, хигиена и малки покупки за банята.",
+      "category": "Козметика",
+      "offerLabel": "ежедневно",
+      "keywords": ["козметика", "хигиена", "парфюмерия", "баня"],
+      "featured": true,
+      "visible": true,
+      "imageUrl": "/images/products/cosmetics.png"
+    },
+    {
+      "id": "construction-paints",
+      "store": "construction",
+      "title": "Бои, грундове и лакове",
+      "description": "Материали за освежаване на стая, фасада, двор или работилница.",
+      "category": "Боядисване",
+      "offerLabel": "сезонно",
+      "keywords": ["боя", "грунд", "лак", "валяк", "четка"],
+      "featured": true,
+      "visible": true,
+      "imageUrl": "/images/products/paints.png"
+    },
+    {
+      "id": "construction-dry-mixes",
+      "store": "construction",
+      "title": "Цимент и сухи смеси",
+      "description": "Основни материали за ремонт, лепене, шпакловане и замазки.",
+      "category": "Строителни материали",
+      "offerLabel": "на място",
+      "keywords": ["цимент", "смеси", "лепило", "шпакловка"],
+      "featured": true,
+      "visible": true,
+      "imageUrl": "/images/products/mixes.png"
+    },
+    {
+      "id": "construction-tools",
+      "store": "construction",
+      "title": "Ръчни и електроинструменти",
+      "description": "Инструменти и консумативи за дребен ремонт и работа на обект.",
+      "category": "Инструменти",
+      "offerLabel": "за майстори",
+      "keywords": ["инструменти", "бормашина", "консумативи", "ремонт"],
+      "featured": true,
+      "visible": true,
+      "imageUrl": "/images/products/tools.png"
+    },
+    {
+      "id": "restaurant-lunch-menu",
+      "store": "restaurant",
+      "title": "Обедно меню",
+      "description": "Готвени ястия според деня, подходящи за хапване на място или за вкъщи.",
+      "category": "Топла кухня",
+      "offerLabel": "всеки ден",
+      "keywords": ["обяд", "меню", "готвено", "за вкъщи"],
+      "featured": true,
+      "visible": true,
+      "imageUrl": "/images/products/lunch.png"
+    },
+    {
+      "id": "restaurant-grill",
+      "store": "restaurant",
+      "title": "Скара и гарнитури",
+      "description": "Топъл избор за бърз обяд, вечеря или поръчка за компания.",
+      "category": "Скара",
+      "offerLabel": "топло",
+      "keywords": ["скара", "гарнитура", "месо", "вечеря"],
+      "featured": true,
+      "visible": true,
+      "imageUrl": "/images/products/grill.png"
+    },
+    {
+      "id": "restaurant-catering",
+      "store": "restaurant",
+      "title": "Поръчки за събития",
+      "description": "Храна за семейни събирания и местни поводи, уточнена предварително.",
+      "category": "Кетъринг",
+      "offerLabel": "по заявка",
+      "keywords": ["кетъринг", "събитие", "поръчка", "семейство"],
+      "featured": true,
+      "visible": true,
+      "imageUrl": "/images/products/catering.png"
+    }
+  ],
+  "faqs": [
+    {
+      "id": "faq-hours",
+      "question": "Какво е работното време?",
+      "answer": "Всяка страница на обект показва актуалното работно време за седмицата. Ако има промяна около празници, най-сигурно е да се обадите предварително.",
+      "category": "Работно време",
+      "keywords": ["часове", "работно време", "отворено", "празници"],
+      "link": "/contact",
+      "order": 1,
+      "visible": true
+    },
+    {
+      "id": "faq-phone",
+      "question": "Мога ли да се обадя преди посещение?",
+      "answer": "Да. Телефонът е видим в страницата на всеки обект и в секцията с контакти.",
+      "category": "Контакти",
+      "keywords": ["телефон", "обаждане", "контакт", "въпрос"],
+      "link": "/contact",
+      "order": 2,
+      "visible": true
+    },
+    {
+      "id": "faq-promotions",
+      "question": "Къде се виждат текущите промоции?",
+      "answer": "Активните промоции и препоръчаните продукти са показани на страницата на съответния магазин. Част от тях се виждат и на началната страница.",
+      "category": "Промоции",
+      "keywords": ["промоции", "оферти", "намаления", "продукти"],
+      "link": "/",
+      "order": 3,
+      "visible": true
+    },
+    {
+      "id": "faq-share",
+      "question": "Мога ли да споделя промоция като снимка?",
+      "answer": "Да. От бутона за споделяне можете да направите брошура, да промените текста и цвета, после да я изтеглите или споделите от телефона.",
+      "category": "Споделяне",
+      "keywords": ["споделяне", "брошура", "снимка", "изтегляне"],
+      "link": "/",
+      "order": 4,
+      "visible": true
+    },
+    {
+      "id": "faq-construction-delivery",
+      "question": "Има ли доставка за строителни материали?",
+      "answer": "За строителния магазин доставката се уточнява според поръчката, адреса и наличността. Обадете се или попитайте на място.",
+      "category": "Строителство",
+      "keywords": ["доставка", "строителство", "материали", "транспорт"],
+      "link": "/construction",
+      "order": 5,
+      "visible": true
+    },
+    {
+      "id": "faq-payment",
+      "question": "Може ли плащане с карта?",
+      "answer": "В обектите се обслужват ежедневни покупки и плащането с карта е предвидено там, където терминалът е наличен. При по-голяма поръчка попитайте предварително.",
+      "category": "Плащане",
+      "keywords": ["карта", "плащане", "терминал", "пари"],
+      "link": "/contact",
+      "order": 6,
+      "visible": true
+    }
+  ]
+}

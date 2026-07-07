@@ -1,0 +1,75 @@
+{
+  "name": "Мертмакс ЕООД - Търговски Верига",
+  "short_name": "Мертмакс",
+  "description": "Модерна търговска верига с магазини за хранителни стоки, строителни материали и индустриални продукти в България",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#E53E3E",
+  "orientation": "portrait-primary",
+  "categories": ["shopping", "lifestyle", "food"],
+  "lang": "bg",
+  "dir": "ltr",
+  "icons": [
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshot-mobile.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Начален екран на Мертмакс"
+    },
+    {
+      "src": "/screenshot-desktop.png",
+      "sizes": "1920x1080",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Мертмакс на десктоп"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Хранителни стоки",
+      "short_name": "Супермаркет",
+      "description": "Хранителни стоки и продукти за дома",
+      "url": "/supermarket",
+      "icons": [{ "src": "/icons/icon-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Индустриални продукти",
+      "short_name": "Индустриални",
+      "description": "Индустриални и специализирани продукти",
+      "url": "/industrial",
+      "icons": [{ "src": "/icons/icon-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Строителни материали",
+      "short_name": "Строителство",
+      "description": "Строителни материали и инструменти",
+      "url": "/construction",
+      "icons": [{ "src": "/icons/icon-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Контакти",
+      "short_name": "Контакти",
+      "description": "Нашите магазини и контакти",
+      "url": "/contact",
+      "icons": [{ "src": "/icons/icon-192x192.png", "sizes": "192x192" }]
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false
+}

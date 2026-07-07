@@ -3,13 +3,21 @@ node_modules
 # Next.js build output
 .next
 out
+dist
+.sanity
+*.tsbuildinfo
 
 # Compiled CSS from SCSS
 src/styles/utilities/compiled.css
+apps/web/src/styles/utilities/compiled.css
 
 # Environment variables
 .env.local
 .env*.local
+
+# Playwright
+playwright-report
+test-results
 
 # IDE
 .vscode/*
