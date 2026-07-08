@@ -17,7 +17,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 | Task | Command |
 | --- | --- |
-| Dev server (Turbopack) | `npm run dev` — runs `compile:scss` first, then `next dev --turbo` on port 3000 |
+| Dev server (webpack) | `npm run dev` — runs `compile:scss` first, then `next dev --webpack` on port 3000. Do NOT switch back to `--turbo`: Turbopack's PostCSS worker pool fork-bombs on this machine (hundreds of node.exe → OOM crash). Build uses `--webpack` for the same reason. |
 | Production build | `npm run build` — runs `compile:scss` first, then `next build` (output: `standalone`) |
 | Start production | `npm run start` |
 | Lint | `npm run lint` (note: `eslint.ignoreDuringBuilds: true` in `next.config.ts`, so lint is NOT enforced at build) |
