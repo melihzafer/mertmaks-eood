@@ -17,6 +17,9 @@ const weekdays = [
   ["sunday", "Неделя"],
 ];
 
+const storeFieldDescription =
+  "Определя на кой обект принадлежи и съответно на коя страница ще се покаже: /supermarket, /construction, /industrial или /restaurant.";
+
 const requiredString = (Rule: StringRule) => Rule.required();
 const optionalTime = (Rule: StringRule) =>
   Rule.regex(/^([01]\d|2[0-3]):[0-5]\d$/, {
@@ -187,6 +190,8 @@ export const statItem = defineType({
 export const siteSettings = defineType({
   name: "siteSettings",
   title: "Настройки на сайта",
+  description:
+    "Глобални настройки, използвани сайтуайд: лого/име на бранда, слоган, текст във футъра и SEO по подразбиране.",
   type: "document",
   fields: [
     defineField({ name: "brandName", title: "Име на бранда", type: "string" }),
@@ -203,6 +208,8 @@ export const siteSettings = defineType({
 export const navigationItem = defineType({
   name: "navigationItem",
   title: "Навигация",
+  description:
+    "Един линк в менюто на сайта. Полето 'Място' определя дали се показва в основното меню, мобилното меню, менюто на магазините, футъра или търсенето.",
   type: "document",
   fields: [
     defineField({ name: "label", title: "Етикет", type: "string", validation: requiredString }),
@@ -231,6 +238,8 @@ export const navigationItem = defineType({
 export const store = defineType({
   name: "store",
   title: "Обект",
+  description:
+    "Физически обект на MERTMAX — адрес, часове, контакти и координати. Захранва страниците /supermarket, /construction, /industrial и /restaurant, картата за контакти и филтрите за категории/продукти/промоции.",
   type: "document",
   fields: [
     defineField({ name: "name", title: "Име", type: "string", validation: requiredString }),
@@ -258,6 +267,8 @@ export const store = defineType({
 export const category = defineType({
   name: "category",
   title: "Категория",
+  description:
+    "Групира продукти в рамките на един обект. Показва се като секция/филтър в страницата на съответния обект.",
   type: "document",
   fields: [
     defineField({ name: "title", title: "Име", type: "string", validation: requiredString }),
@@ -267,6 +278,7 @@ export const category = defineType({
       title: "Обект",
       type: "reference",
       to: [{ type: "store" }],
+      description: storeFieldDescription,
     }),
     defineField({ name: "description", title: "Описание", type: "text", rows: 3 }),
     defineField({ name: "keywords", title: "Ключови думи", type: "array", of: [{ type: "string" }] }),
@@ -278,6 +290,8 @@ export const category = defineType({
 export const product = defineType({
   name: "product",
   title: "Продукт / услуга",
+  description:
+    "Продукт или услуга — показва се в страницата на обекта (/supermarket, /construction, /industrial), в търсачката на сайта и в генерираните брошури.",
   type: "document",
   fields: [
     defineField({ name: "title", title: "Име", type: "string", validation: requiredString }),
@@ -288,6 +302,7 @@ export const product = defineType({
       title: "Обект",
       type: "reference",
       to: [{ type: "store" }],
+      description: storeFieldDescription,
       validation: (Rule) => Rule.required(),
     }),
     defineField({ name: "category", title: "Категория", type: "reference", to: [{ type: "category" }] }),
@@ -311,12 +326,15 @@ export const product = defineType({
     }),
     defineField({ name: "featured", title: "Препоръчан", type: "boolean", initialValue: false }),
     defineField({ name: "visible", title: "Видим", type: "boolean", initialValue: true }),
+    defineField({ name: "isAvailable", title: "Наличен", type: "boolean", initialValue: true }),
   ],
 });
 
 export const promotion = defineType({
   name: "promotion",
   title: "Промоция",
+  description:
+    "Промоционална оферта — показва се в секцията с промоции на страницата на обекта и, ако е 'На начална страница', на началния екран. Вижте групирано по обект в 'Промоции по обект'.",
   type: "document",
   fields: [
     defineField({ name: "title", title: "Заглавие", type: "string", validation: requiredString }),
@@ -341,6 +359,7 @@ export const promotion = defineType({
       title: "Обект",
       type: "reference",
       to: [{ type: "store" }],
+      description: storeFieldDescription,
       validation: (Rule) => Rule.required(),
     }),
     defineField({ name: "category", title: "Категория", type: "reference", to: [{ type: "category" }] }),
@@ -430,6 +449,7 @@ export const promotion = defineType({
 export const homePage = defineType({
   name: "homePage",
   title: "Начална страница",
+  description: "Съдържанието на началния екран на сайта (/): hero текст, статистики, карти на обектите и промоции.",
   type: "document",
   fields: [
     defineField({ name: "heroEyebrow", title: "Hero малък текст", type: "string" }),
@@ -450,9 +470,17 @@ export const homePage = defineType({
 export const divisionPage = defineType({
   name: "divisionPage",
   title: "Страница на обект",
+  description:
+    "Текстовото съдържание (hero, карти, акценти) на страницата на един обект — /supermarket, /construction или /industrial, според избраното поле 'Обект'.",
   type: "document",
   fields: [
-    defineField({ name: "store", title: "Обект", type: "reference", to: [{ type: "store" }] }),
+    defineField({
+      name: "store",
+      title: "Обект",
+      type: "reference",
+      to: [{ type: "store" }],
+      description: storeFieldDescription,
+    }),
     defineField({ name: "heroIndex", title: "Hero индекс", type: "string" }),
     defineField({ name: "title", title: "Заглавие", type: "string", validation: requiredString }),
     defineField({ name: "description", title: "Описание", type: "text", rows: 4 }),
@@ -467,6 +495,7 @@ export const divisionPage = defineType({
 export const contactPage = defineType({
   name: "contactPage",
   title: "Контакти",
+  description: "Съдържанието на страница /contact: hero текст, теми за формата за контакт и текст над картата.",
   type: "document",
   fields: [
     defineField({ name: "heroEyebrow", title: "Hero малък текст", type: "string" }),
@@ -483,6 +512,7 @@ export const contactPage = defineType({
 export const restaurantPage = defineType({
   name: "restaurantPage",
   title: "Ресторант",
+  description: "Съдържанието на страница /restaurant за ресторант Делиорман: контакти, лого, галерия и акценти.",
   type: "document",
   fields: [
     defineField({ name: "title", title: "Заглавие", type: "string" }),
@@ -505,6 +535,7 @@ export const restaurantPage = defineType({
 export const faq = defineType({
   name: "faq",
   title: "FAQ",
+  description: "Въпрос и отговор — показва се на страница /faq и в резултатите от търсенето в сайта.",
   type: "document",
   fields: [
     defineField({ name: "question", title: "Въпрос", type: "string", validation: requiredString }),
@@ -520,6 +551,7 @@ export const faq = defineType({
 export const storeArticle = defineType({
   name: "storeArticle",
   title: "Статия / новина",
+  description: "Статия/новина, показвана в блог секцията на страницата на съответния обект.",
   type: "document",
   fields: [
     defineField({ name: "title", title: "Заглавие", type: "string", validation: requiredString }),
@@ -536,6 +568,7 @@ export const storeArticle = defineType({
       title: "Обект",
       type: "reference",
       to: [{ type: "store" }],
+      description: storeFieldDescription,
       validation: (Rule) => Rule.required(),
     }),
     defineField({ name: "image", title: "Снимка", type: "imageWithAlt" }),
@@ -550,6 +583,8 @@ export const storeArticle = defineType({
 export const newsletterSubscriber = defineType({
   name: "newsletterSubscriber",
   title: "Абонат за бюлетин",
+  description:
+    "Автоматично създаден запис при абониране за бюлетин от сайта — входящи данни за преглед, не редактируемо съдържание на сайта.",
   type: "document",
   fields: [
     defineField({ name: "email", title: "Имейл", type: "string", validation: requiredString }),
@@ -579,6 +614,8 @@ export const newsletterSubscriber = defineType({
 export const contactSubmission = defineType({
   name: "contactSubmission",
   title: "Контактно съобщение",
+  description:
+    "Автоматично създаден запис от контактната форма на сайта — входящо съобщение от посетител, не редактируемо съдържание на сайта.",
   type: "document",
   fields: [
     defineField({ name: "name", title: "Име", type: "string", validation: requiredString }),
@@ -613,6 +650,8 @@ export const contactSubmission = defineType({
 export const feedbackSubmission = defineType({
   name: "feedbackSubmission",
   title: "Обратна връзка",
+  description:
+    "Автоматично създаден запис от формата за обратна връзка на сайта — входящ отзив от посетител, не редактируемо съдържание на сайта.",
   type: "document",
   fields: [
     defineField({ name: "rating", title: "Оценка", type: "number", validation: (Rule) => Rule.required().min(1).max(5) }),
@@ -658,6 +697,45 @@ export const feedbackSubmission = defineType({
   },
 });
 
+export const menuCategory = defineType({
+  name: "menuCategory",
+  title: "Категория от меню",
+  description: "Групира ястия в менюто на ресторанта (напр. Салати, Скара, Десерти).",
+  type: "document",
+  fields: [
+    defineField({ name: "title", title: "Име", type: "string", validation: requiredString }),
+    defineField({ name: "slug", title: "Slug", type: "slug", options: { source: "title" } }),
+    defineField({ name: "description", title: "Описание", type: "text", rows: 3 }),
+    defineField({ name: "order", title: "Подредба", type: "number", initialValue: 0 }),
+  ],
+});
+
+export const menuItem = defineType({
+  name: "menuItem",
+  title: "Ястие / Артикул от меню",
+  description: "Ястие или питие в менюто на ресторанта.",
+  type: "document",
+  fields: [
+    defineField({ name: "title", title: "Име", type: "string", validation: requiredString }),
+    defineField({ name: "slug", title: "Slug", type: "slug", options: { source: "title" } }),
+    defineField({
+      name: "menuCategory",
+      title: "Категория от меню",
+      type: "reference",
+      to: [{ type: "menuCategory" }],
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({ name: "image", title: "Снимка", type: "imageWithAlt" }),
+    defineField({ name: "description", title: "Описание", type: "text", rows: 3 }),
+    defineField({ name: "price", title: "Цена", type: "string", description: "Пример: 5.50 лв." }),
+    defineField({ name: "weight", title: "Грамаж / Обем", type: "string", description: "Пример: 350 г или 500 мл" }),
+    defineField({ name: "allergens", title: "Алергени", type: "array", of: [{ type: "string" }] }),
+    defineField({ name: "isPopular", title: "Популярно", type: "boolean", initialValue: false }),
+    defineField({ name: "isAvailable", title: "Налично", type: "boolean", initialValue: true }),
+    defineField({ name: "order", title: "Подредба", type: "number", initialValue: 0 }),
+  ],
+});
+
 export const schemaTypes = [
   link,
   seo,
@@ -682,4 +760,6 @@ export const schemaTypes = [
   newsletterSubscriber,
   contactSubmission,
   feedbackSubmission,
+  menuCategory,
+  menuItem,
 ];

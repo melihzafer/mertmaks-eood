@@ -8,6 +8,7 @@ import { getRestaurantPageModel } from "@/lib/cms/restaurant";
 import { getStoreCommerceModel } from "@/lib/cms/store-commerce";
 import SingleStoreMapClient from "@/components/features/SingleStoreMapClient";
 import { buildMetadata, localBusinessJsonLd } from "@/lib/seo";
+import { getStoreStatus } from "@/lib/stores";
 
 type CardColorStyle = CSSProperties & {
   "--theme-accent"?: string;
@@ -83,6 +84,44 @@ export default async function RestaurantPage() {
               ))}
             </div>
           )}
+        </div>
+      </section>
+
+      {/* Quick Info Cards */}
+      <section className="py-6 bg-white border-b border-neutral-200/60 shadow-sm relative z-10 text-neutral-800">
+        <div className="container max-w-6xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="p-4 bg-neutral-50 rounded-2xl border border-neutral-200/50 flex flex-col justify-between">
+            <span className="text-[10px] uppercase font-bold text-neutral-400">Статус</span>
+            <span className="text-sm font-extrabold text-neutral-800 mt-2 truncate flex items-center gap-1.5">
+              <span className={`w-2 h-2 rounded-full ${commerce?.store ? getStoreStatus(commerce.store).isOpen ? 'bg-emerald-500' : 'bg-red-500' : 'bg-neutral-300'}`} />
+              {commerce?.store ? getStoreStatus(commerce.store).message : 'Проверка на статус'}
+            </span>
+          </div>
+
+          <div className="p-4 bg-neutral-50 rounded-2xl border border-neutral-200/50 flex flex-col justify-between">
+            <span className="text-[10px] uppercase font-bold text-neutral-400">Адрес в Самуил</span>
+            <span className="text-sm font-extrabold text-neutral-800 mt-2 truncate">
+              {restaurantStore.address ?? 'с. Самуил'}
+            </span>
+          </div>
+
+          <div className="p-4 bg-neutral-50 rounded-2xl border border-neutral-200/50 flex flex-col justify-between">
+            <span className="text-[10px] uppercase font-bold text-neutral-400">Резервации</span>
+            {restaurantStore.phone ? (
+              <a href={`tel:${restaurantStore.phone}`} className="text-sm font-extrabold text-red-600 mt-2 hover:underline truncate">
+                {restaurantStore.phone}
+              </a>
+            ) : (
+              <span className="text-sm font-extrabold text-neutral-800 mt-2 truncate">+359 89 476 6273</span>
+            )}
+          </div>
+
+          <div className="p-4 bg-neutral-50 rounded-2xl border border-neutral-200/50 flex flex-col justify-between">
+            <span className="text-[10px] uppercase font-bold text-neutral-400">Работно време</span>
+            <span className="text-sm font-extrabold text-neutral-800 mt-2 truncate">
+              Пон-Нед: 8:00 - 20:00
+            </span>
+          </div>
         </div>
       </section>
 

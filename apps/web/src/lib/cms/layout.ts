@@ -50,6 +50,7 @@ interface SanityNavigationItem {
 
 const staticMainLinks: LayoutLink[] = [
   { href: "/", label: "Начало" },
+  { href: "/promocii", label: "Промоции" },
   { href: "/about", label: "За нас" },
   { href: "/contact", label: "Контакти" },
 ];

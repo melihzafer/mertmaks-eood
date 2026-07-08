@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { HomePageClient } from "./HomePageClient";
 import { getHomePageModel } from "@/lib/cms/home";
 import { buildMetadata } from "@/lib/seo";
+import { getStores } from "@/lib/stores";
 
 export async function generateMetadata(): Promise<Metadata> {
   const homePage = await getHomePageModel();
@@ -16,7 +17,10 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function HomePage() {
-  const homePage = await getHomePageModel();
+  const [homePage, stores] = await Promise.all([
+    getHomePageModel(),
+    Promise.resolve(getStores()),
+  ]);
 
-  return <HomePageClient homePage={homePage} />;
+  return <HomePageClient homePage={homePage} stores={stores} />;
 }

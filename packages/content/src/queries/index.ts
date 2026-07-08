@@ -193,6 +193,65 @@ export const featuredPromotionsQuery = `*[
   }
 }`;
 
+export const allPromotionsQuery = `*[
+  _type == "promotion" &&
+  active == true &&
+  (!defined(validFrom) || validFrom <= $today) &&
+  (!defined(validTo) || validTo >= $today)
+] | order(order asc, validTo asc){
+  _id,
+  title,
+  description,
+  label,
+  discount,
+  promoType,
+  oldPrice,
+  newPrice,
+  showPrice,
+  validFrom,
+  validTo,
+  terms,
+  image,
+  shareTitle,
+  shareDescription,
+  shareImage,
+  brochureAccent,
+  store->{
+    _id,
+    name,
+    slug,
+    type,
+    accent,
+    phone,
+    email,
+    hours
+  },
+  category->{title, slug},
+  products[]->{
+    _id,
+    title,
+    slug,
+    description,
+    offerLabel,
+    image,
+    shareTitle,
+    shareDescription,
+    shareImage,
+    brochureAccent,
+    category->{title, slug},
+    store->{
+      _id,
+      name,
+      slug,
+      type,
+      phone,
+      email,
+      hours,
+      accent
+    }
+  }
+}`;
+
 export const faqQuery = `*[_type == "faq" && visible == true] | order(order asc, _createdAt asc){
   _id,
   question,

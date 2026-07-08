@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import type { CSSProperties, FormEvent, MouseEvent as ReactMouseEvent } from "react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { ChevronDown, Menu, Search, X } from "lucide-react";
+import { ChevronDown, Menu, Search, X, Phone } from "lucide-react";
 import Fuse from "fuse.js";
 import {
   mobileLinks as staticMobileLinks,
@@ -17,6 +17,7 @@ import type { LayoutLink } from "@/lib/cms/layout";
 import type { SearchItem } from "@/lib/cms/search";
 import { getRouteAccent } from "@/lib/route-accent";
 import { Logo } from "@/components/layout/Logo";
+import { contactInfo } from "@/data/company-data";
 
 type AccentStyle = CSSProperties & {
   "--theme-accent"?: string;
@@ -321,6 +322,16 @@ export function Header({
           </nav>
 
           <div className="cluster">
+            {contactInfo.phone.main && (
+              <a
+                href={`tel:${contactInfo.phone.main}`}
+                className="btn btn-sm hide-on-mobile flex items-center gap-1.5"
+                style={{ padding: "8px 16px", fontSize: "0.85rem", textTransform: "none", letterSpacing: "normal", background: "var(--theme-accent)", color: "white" }}
+              >
+                <Phone className="h-4 w-4" />
+                <span>{contactInfo.phone.display}</span>
+              </a>
+            )}
             <button
               className="icon-btn desktop-search"
               type="button"
@@ -476,6 +487,19 @@ export function Header({
           )}
         </form>
       </div>
+
+      {contactInfo.phone.main && (
+        <div className="md:hidden fixed bottom-6 right-6 z-40">
+          <a
+            href={`tel:${contactInfo.phone.main}`}
+            className="flex items-center justify-center w-14 h-14 bg-red-600 hover:bg-red-700 text-white rounded-full shadow-xl transition-all duration-300 transform active:scale-95"
+            aria-label="Обади се"
+            style={{ backgroundColor: "var(--theme-accent, #E53E3E)" }}
+          >
+            <Phone className="h-6 w-6" />
+          </a>
+        </div>
+      )}
     </>
   );
 }
