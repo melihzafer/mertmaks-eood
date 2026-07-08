@@ -673,6 +673,10 @@ section[id] {
   flex-wrap: wrap;
 }
 
+.offer-tabs {
+  margin-bottom: 24px;
+}
+
 .filter {
   border: 1px solid var(--ui-border);
   background: var(--surface);

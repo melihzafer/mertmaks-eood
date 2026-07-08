@@ -15,12 +15,16 @@
     "import:static": "node scripts/import-static-content.mjs",
     "seed:promotions": "npx tsx scripts/seed-promotions.ts"
   },
+  "dependencies": {
+    "@sanity/icons": "^3.7.4"
+  },
   "peerDependencies": {
     "sanity": "^5.25.1"
   },
   "devDependencies": {
     "@sanity/client": "^7.22.0",
     "@types/node": "^22.10.5",
+    "@types/react": "^19.0.7",
     "typescript": "^5.8.3"
   }
 }
